@@ -25,7 +25,7 @@ module.exports = {
 			white: '#ffffff',
 			red: '#DE2F39',
 			peach: {
-				default: '#F8F1F2',
+				DEFAULT: '#F8F1F2',
 			},
 			black: '#111111',
 			grey: {
@@ -59,6 +59,7 @@ module.exports = {
 				'1': '1px',
 				'5': '5px',
 				'6': '6px',
+				'12': '12px',
 			},
 			borderRadius: {
 				'4xl':  '2rem',
@@ -84,10 +85,15 @@ module.exports = {
 			},
 			boxShadow: {
 				'md': '0 4px 10px rgba(109, 109, 109, 0.1)',
+				'mild': '0px 18px 25px -3px rgba(0, 0, 0, 0.05)',
 				'card': '0px 2px 25px 9px rgba(0, 0, 0, 0.2)',
 				'modal': '0px 2px 25px 9px rgba(0, 0, 0, 0.2)',
 				'btn': '0px 2px 6px rgba(130, 39, 0, 0.16)',
 			},
+			spacing: {
+				'1/6': '16.66%',
+				'5/6': '83.33%',
+			}
 		},
 	},
 	plugins: [],
