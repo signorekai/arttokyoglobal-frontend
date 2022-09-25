@@ -1,9 +1,10 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Carousel from "../components/Carousel.astro";
-import CarouselCard from "../components/CarouselCard.astro";
-import Card from "../components/Token.astro";
 import ProjectStatus from "../components/ProjectStatus.astro";
+import Carousel from "../components/Carousel.astro";
+import Token from "../components/Token.astro";
+import CarouselCard from "../components/CarouselCard.astro";
+import Collection from "../components/Collection.astro";
 
 import ethLogo from "../images/eth-logo.png";
 
@@ -92,11 +93,74 @@ const featuredCollections = [
     ],
   },
 ];
+
+const collections = [
+  {
+    title: "Abstracy Odyssey",
+    status: "CurrentlyMinting",
+    coverImg:
+      "https://images.unsplash.com/photo-1533208087231-c3618eab623c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1485&q=80",
+    artist: {
+      name: "Rachael Goto",
+    },
+    mintPrice: 0.4,
+  },
+  {
+    title: "Clash of Kings",
+    status: "Paused",
+    coverImg:
+      "https://images.unsplash.com/photo-1558244661-d248897f7bc4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80",
+    artist: {
+      name: "Elizabeth Li",
+    },
+    mintPrice: 0.7,
+  },
+  {
+    title: "Storm of Swords",
+    status: "CurrentlyMinting",
+    coverImg:
+      "https://images.unsplash.com/photo-1580610447943-1bfbef5efe07?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+    artist: {
+      name: "Liu Bei",
+    },
+    mintPrice: 0.2,
+  },
+  {
+    title: "Feast for Crows",
+    status: "CurrentlyMinting",
+    coverImg:
+      "https://images.unsplash.com/photo-1552250575-e508473b090f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80",
+    artist: {
+      name: "Mark Gomez",
+    },
+    mintPrice: 0.2,
+  },
+  {
+    title: "Dance With Dragons",
+    status: "CurrentlyMinting",
+    coverImg:
+      "https://images.unsplash.com/photo-1533158326339-7f3cf2404354?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=768&q=80",
+    artist: {
+      name: "George R",
+    },
+    mintPrice: 0.4,
+  },
+  {
+    title: "Winds of Winter",
+    status: "CurrentlyMinting",
+    coverImg:
+      "https://images.unsplash.com/photo-1547560896-7615fab7b8b3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1359&q=80",
+    artist: {
+      name: "#1xb0e2",
+    },
+    mintPrice: 0.1,
+  },
+];
 ---
 
 <Layout title="Art Tokyo Global">
   <svg
-    class="w-screen fixed z-0 pointer-events-none"
+    class="w-full absolute m-0 z-0 pointer-events-none"
     height="758"
     viewBox="0 0 1512 758"
     fill="none"
@@ -144,7 +208,7 @@ const featuredCollections = [
       <div
         class="lg:col-start-2 col-span-4 lg:col-span-5 flex justify-center items-center"
       >
-        <Card
+        <Token
           className="w-screen-3/4 lg:w-auto lg:max-h-screen-1/3 lg:max-h-screen-2/3 lg:h-140"
           img="/token-1.jpg"
           aspectRatio="430 / 573"
@@ -192,11 +256,11 @@ const featuredCollections = [
           </div>
         </div>
       </div>
-      <Carousel className="pb-10 lg:pb-20">
+      <Carousel className="pb-10 lg:pb-20" cellAlign="center">
         {
           featuredCollections[0].tokens.map((token) => (
             <CarouselCard>
-              <Card
+              <Token
                 img={token.src}
                 aspectRatio={`${token.width} / ${token.height}`}
                 title={token.title}
@@ -206,7 +270,46 @@ const featuredCollections = [
         }
       </Carousel>
     </section>
-    <section></section>
+    <section class="relative m-4 md:m-12">
+      <div
+        class="z-0 pointer-events-none container container--xl absolute top-0 left-1/2 -translate-x-1/2 w-full h-4/5 rounded-4xl"
+      >
+      </div>
+      <div class="container relative z-10">
+        <div
+          class="pt-4 md:pt-8 px-4 flex flex-col md:flex-row justify-center md:justify-between"
+        >
+          <a
+            href="/collections"
+            class="btn btn--black btn--standard inline-flex lg:ml-4 px-7 py-2"
+            ><h4>View all collections</h4>
+          </a>
+        </div>
+        <Carousel
+          className="hidden lg:block lg:pt-2"
+          activeCellWidth="100%"
+          cellAlign="left"
+          wrapAround={false}
+        >
+          {
+            collections.map((collection) => (
+              <Collection collection={collection} />
+            ))
+          }
+        </Carousel>
+        <Carousel
+          className="pt-2 lg:hidden"
+          activeCellWidth="100%"
+          wrapAround={false}
+        >
+          {
+            collections.map((collection) => (
+              <Collection collection={collection} />
+            ))
+          }
+        </Carousel>
+      </div>
+    </section>
   </main>
 </Layout>
 
