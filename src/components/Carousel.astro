@@ -3,21 +3,43 @@ export interface Props {
   className?: string;
   wrapAround?: boolean;
   prevNextButtons?: boolean;
+  cellAlign?: "left" | "center" | "right";
+  activeCellWidth?: string;
 }
 
 import "flickity/dist/flickity.min.css";
 
 const {
   className = "",
+  cellAlign = "center",
   wrapAround = true,
   prevNextButtons = true,
+  activeCellWidth = "75%",
 } = Astro.props;
 ---
 
 <div
   class={`w-full h-full text-white flex items-center justify-center ${className}`}
 >
-  <div class="w-full grid grid-cols-1" x-data="carousel()" x-init="init()">
+  <div
+    class="w-full grid grid-cols-1"
+    x-data={`{
+      active: 0,
+      init() {
+        var carousel = new Flickity(this.$refs.carousel, {
+          wrapAround: ${wrapAround},
+          prevNextButtons: ${prevNextButtons},
+          cellAlign: "${cellAlign}",
+          arrowShape:
+            'M39.7407 50L62 18.0197L53.4492 12L27 50L53.4492 88L62 81.9803L39.7407 50Z',
+          groupCells: "${activeCellWidth}",
+          pageDots: false,
+        });
+        carousel.on('change', (i) => (this.active = i));
+      },
+    }`}
+    x-init={`init()`}
+  >
     <div class="carousel col-start-1 row-start-1" x-ref="carousel">
       <slot />
     </div>
@@ -48,23 +70,4 @@ const {
 <script>
   import Flickity from "flickity";
   window.Flickity = Flickity;
-</script>
-
-<script define:vars={{ wrapAround, prevNextButtons }}>
-  document.addEventListener("alpine:init", () => {
-    Alpine.data("carousel", () => ({
-      active: 0,
-      init() {
-        var flkty = new Flickity(this.$refs.carousel, {
-          arrowShape:
-            "M39.7407 50L62 18.0197L53.4492 12L27 50L53.4492 88L62 81.9803L39.7407 50Z",
-          wrapAround,
-          groupCells: "75%",
-          prevNextButtons,
-          pageDots: false,
-        });
-        flkty.on("change", (i) => (this.active = i));
-      },
-    }));
-  });
 </script>
