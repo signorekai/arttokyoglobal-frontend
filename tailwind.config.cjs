@@ -24,6 +24,9 @@ module.exports = {
 			current: 'currentColor',
 			white: '#ffffff',
 			red: '#DE2F39',
+			peach: {
+				default: '#F8F1F2',
+			},
 			black: '#111111',
 			grey: {
 				light: '#f9f9f9',
