@@ -1,11 +1,12 @@
 ---
 export interface Props {
   className?: string;
+  wrapAround?: boolean;
 }
 
 import "flickity/dist/flickity.min.css";
 
-const { className = "" } = Astro.props;
+const { className = "", wrapAround = true } = Astro.props;
 ---
 
 <div
@@ -34,6 +35,10 @@ const { className = "" } = Astro.props;
   }
 </style>
 
+<script define:vars={{ wrapAround }}>
+  window.wrapAround = wrapAround;
+</script>
+
 <script>
   import Flickity from "flickity";
   document.addEventListener("alpine:init", () => {
@@ -41,7 +46,7 @@ const { className = "" } = Astro.props;
       active: 0,
       init() {
         var flkty = new Flickity(this.$refs.carousel, {
-          wrapAround: true,
+          wrapAround,
           groupCells: "75%",
           prevNextButtons: false,
           pageDots: false,
