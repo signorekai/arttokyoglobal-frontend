@@ -15,6 +15,6 @@ const properties = {
 const { status } = Astro.props;
 ---
 
-<div class={`pt-1 pb-0 px-5 ${properties[status].class}`}>
-  <h5>{properties[status].title}</h5>
+<div class={`mt-1 py-2 px-5 ${properties[status].class}`}>
+  <h5 class="leading-none">{properties[status].title}</h5>
 </div>
