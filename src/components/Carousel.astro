@@ -46,24 +46,20 @@ const {
   </div>
 </div>
 
-<style is:global>
-  .flickity-slider {
-    @apply flex items-center;
-  }
-
-  .flickity-cell:not(.is-selected) {
-    @apply opacity-40;
-  }
-
-  .flickity-button.flickity-prev-next-button {
-    @apply rounded-xl;
-    @apply focus:shadow-none;
-  }
-</style>
-
 <style>
-  .carousel-item {
-    @apply w-2/3 md:w-1/4 px-2;
+  .carousel {
+    :global(.flickity-slider) {
+      @apply flex items-center;
+    }
+
+    :global(.flickity-cell:not(.is-selected)) {
+      @apply opacity-40;
+    }
+
+    :global(.flickity-button.flickity-prev-next-button) {
+      @apply rounded-xl;
+      @apply focus:shadow-none;
+    }
   }
 </style>
 
