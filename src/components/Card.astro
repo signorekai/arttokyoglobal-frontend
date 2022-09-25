@@ -1,0 +1,20 @@
+---
+export interface Props {
+  img: string;
+  profilePhoto?: string;
+}
+
+const { img, profilePhoto = "" } = Astro.props;
+---
+
+<div class="rounded-4xl bg-white shadow-mild border-12">
+  <div
+    class="relative aspect-square w-full bg-center bg-contain rounded-2xl"
+    style={`background-image: url(${img})`}
+  >
+    <!-- <template x-if="profilePhoto">
+      <img src={profilePhoto} alt="" class="w-1/4" />
+    </template> -->
+  </div>
+  <slot />
+</div>
