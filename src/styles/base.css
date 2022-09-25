@@ -9,7 +9,7 @@
   }
 
   h4 {
-    @apply font-futura-pt font-bold text-base tracking-wider uppercase;
+    @apply font-futura-pt font-extrabold text-base tracking-wider uppercase;
   }
 
   h5 {

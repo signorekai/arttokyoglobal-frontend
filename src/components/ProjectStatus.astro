@@ -1,0 +1,20 @@
+---
+export interface Props {
+  status?: "CurrentlyMinting" | "Paused" | "FinishedMinting";
+}
+
+const properties = {
+  CurrentlyMinting: {
+    title: "Currently Minting",
+    class: "bg-grey-dark text-white",
+  },
+  Paused: { title: "Minting Paused", class: "" },
+  FinishedMinting: { title: "Minting Completed", class: "" },
+};
+
+const { status } = Astro.props;
+---
+
+<div class={`pt-1 pb-0 px-5 ${properties[status].class}`}>
+  <h5>{properties[status].title}</h5>
+</div>
