@@ -2,11 +2,16 @@
 export interface Props {
   className?: string;
   wrapAround?: boolean;
+  prevNextButtons?: boolean;
 }
 
 import "flickity/dist/flickity.min.css";
 
-const { className = "", wrapAround = true } = Astro.props;
+const {
+  className = "",
+  wrapAround = true,
+  prevNextButtons = true,
+} = Astro.props;
 ---
 
 <div
@@ -27,6 +32,11 @@ const { className = "", wrapAround = true } = Astro.props;
   .flickity-cell:not(.is-selected) {
     @apply opacity-40;
   }
+
+  .flickity-button.flickity-prev-next-button {
+    @apply rounded-xl;
+    @apply focus:shadow-none;
+  }
 </style>
 
 <style>
@@ -35,20 +45,22 @@ const { className = "", wrapAround = true } = Astro.props;
   }
 </style>
 
-<script define:vars={{ wrapAround }}>
-  window.wrapAround = wrapAround;
-</script>
-
 <script>
   import Flickity from "flickity";
+  window.Flickity = Flickity;
+</script>
+
+<script define:vars={{ wrapAround, prevNextButtons }}>
   document.addEventListener("alpine:init", () => {
     Alpine.data("carousel", () => ({
       active: 0,
       init() {
         var flkty = new Flickity(this.$refs.carousel, {
+          arrowShape:
+            "M39.7407 50L62 18.0197L53.4492 12L27 50L53.4492 88L62 81.9803L39.7407 50Z",
           wrapAround,
           groupCells: "75%",
-          prevNextButtons: false,
+          prevNextButtons,
           pageDots: false,
         });
         flkty.on("change", (i) => (this.active = i));
