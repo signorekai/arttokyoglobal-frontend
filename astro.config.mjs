@@ -1,9 +1,15 @@
 import { defineConfig } from 'astro/config';
-import alpinejs from "@astrojs/alpinejs";
+import alpine from "@astrojs/alpinejs";
+import nesting from 'tailwindcss/nesting'
 
 import tailwind from "@astrojs/tailwind";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [alpinejs(), tailwind()]
+  integrations: [alpine(), tailwind({
+    plugins: [nesting],
+    config: {
+      applyBaseStyles: false
+    }
+  })]
 });

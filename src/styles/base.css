@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  h1 {
+    @apply font-roc-grotesk font-extrabold text-5xl;
+    @apply text-black uppercase;
+  }
+
+  h4 {
+    @apply font-futura-pt font-bold text-base tracking-wider uppercase;
+  }
+
+  h5 {
+    @apply font-roc-grotesk font-extrabold text-sm leading-5 tracking-wide uppercase;
+  }
+
+  h5.alt {
+    @apply tracking-widest font-medium opacity-80;
+  }
+}
+
+@layer components {
+
+  .container {
+    @apply mx-auto max-w-screen-lg w-full;
+  }
+
+  .container-grid {
+    @apply px-4 lg:px-0 md:grid md:grid-cols-8 lg:grid-cols-12 lg:gap-x-2.5;
+  }
+
+  .btn {
+    @apply bg-red hover:bg-white transition-colors;
+    @apply flex flex-row rounded-lg shadow-btn;
+    @apply text-white hover:text-red;
+  }
+
+  .btn--standard {
+    @apply flex flex-row justify-center items-center px-4;
+  }
+
+  .btn--black {
+    @apply bg-black hover:text-black;
+  }
+
+  .modal {
+    @apply fixed z-50 top-0 left-0;
+    @apply w-full h-full p-7 flex justify-end overflow-hidden;   
+  }
+
+  .modal-bg {
+    @apply w-full h-full absolute top-0 left-0 bg-grey-dark/50 z-40;
+  }
+}
+
+@layer utilities {
+}
+
+body {
+  @apply bg-grey-light antialiased;
+}

@@ -1,0 +1,65 @@
+---
+export interface Props {
+  className?: string;
+}
+
+import "flickity/dist/flickity.min.css";
+
+const { className = "" } = Astro.props;
+---
+
+<div
+  class={`w-full h-full text-white flex items-center justify-center ${className}`}
+>
+  <div class="w-full grid grid-cols-1" x-data="carousel()" x-init="init()">
+    <div class="carousel col-start-1 row-start-1" x-ref="carousel">
+      <slot />
+    </div>
+  </div>
+</div>
+
+<style is:global>
+  .flickity-slider {
+    @apply flex items-center;
+  }
+
+  .flickity-cell:not(.is-selected) {
+    @apply opacity-40;
+  }
+</style>
+
+<style>
+  .carousel-item {
+    @apply w-2/3 md:w-1/4 px-2;
+  }
+</style>
+
+<script>
+  import Flickity from "flickity";
+  document.addEventListener("alpine:init", () => {
+    Alpine.data("carousel", () => ({
+      active: 0,
+      init() {
+        var flkty = new Flickity(this.$refs.carousel, {
+          wrapAround: true,
+          groupCells: "75%",
+          prevNextButtons: false,
+          pageDots: false,
+        });
+        flkty.on("change", (i) => (this.active = i));
+      },
+    }));
+  });
+  // function carousel() {
+  //   return {
+  //     active: 0,
+  //     init() {
+  //       console.log("hi");
+  //       var flkty = new Flickity(this.$refs.carousel, {
+  //         wrapAround: true,
+  //       });
+  //       flkty.on("change", (i) => (this.active = i));
+  //     },
+  //   };
+  // }
+</script>
