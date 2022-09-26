@@ -331,11 +331,10 @@ const collections = [
       </div>
       <Carousel className="pb-10 lg:pb-20" data={featuredCollections[0].tokens}>
         <div slot="template" class="carousel-item w-2/3 lg:w-1/4">
-          <div
-            class="rounded-4xl border-6 border-white bg-cover bg-center shadow-card"
-            :style="`background-image: url(${item.src}); aspect-ratio: ${item.width} / ${item.height}`"
-          >
-          </div>
+          <Card
+            backgroundImage="${item.src}"
+            aspectRatio="${item.width} / ${item.height}"
+          />
         </div>
       </Carousel>
     </section>
