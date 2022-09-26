@@ -4,6 +4,7 @@ export interface Props {
 }
 
 const { title } = Astro.props;
+import Footer from "../components/Footer.astro";
 import "../styles/base.css";
 import "../styles/fontawesome.css";
 ---
@@ -24,7 +25,7 @@ import "../styles/fontawesome.css";
   <body
     x-data="{ showMenu: false }"
     @keydown.escape="showMenu = false"
-    :class="showMenu && 'overflow-hidden'"
+    x-bind:class="showMenu && 'overflow-hidden'"
   >
     <header class="header" x-bind:class="showMenu && 'blur-sm'">
       <a class="max-w-screen-2/3 -mb-2" href="/">
@@ -129,6 +130,7 @@ import "../styles/fontawesome.css";
     </div>
     <div class="content" x-bind:class="showMenu && 'blur-sm'">
       <slot />
+      <Footer />
     </div>
     <style>
       .header {
