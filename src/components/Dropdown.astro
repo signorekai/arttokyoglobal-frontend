@@ -12,7 +12,7 @@ const { id, className = "", label, selects } = Astro.props;
 ---
 
 <div
-  class="relative z-50"
+  class="relative z-50 max-h-8 md:w-auto md:max-h-max"
   :class="open ? 'pt-0 md:mt-[-0.3rem]' : 'pt-2'"
   x-data={`dropdown('${JSON.stringify(selects)}')`}
 >
@@ -26,7 +26,7 @@ const { id, className = "", label, selects } = Astro.props;
     @click="open = !open"
     x-show="currentlySelected.length > 0 && open === false"
   >
-    <h5 class="ml-3 leading-none inline-block" x-text="currentlySelected"></h5>
+    <h5 class="ml-2 leading-none inline-block" x-text="currentlySelected"></h5>
     <svg
       class="inline-block group-hover:scale-y-80 group-hover:scale-x-125 transition-transform"
       width="17"

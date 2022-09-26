@@ -73,6 +73,7 @@ module.exports = {
 			},
 			fontSize: {
 				'body': ['clamp(1rem, 2vw, 1.125rem)', { lineHeight: '1.2'}],
+				'sm': ['clamp(0.75rem, 2vw, 0.875rem)', { lineHeight: '1.2'}],
 				'5xl': ['clamp(2rem, 6vw, 3rem)', { lineHeight: '0.9'}]
 			},
 			fontFamily: {

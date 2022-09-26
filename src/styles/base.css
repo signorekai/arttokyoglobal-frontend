@@ -17,7 +17,7 @@
   }
 
   h5 {
-    @apply font-roc-grotesk font-extrabold text-sm leading-5 tracking-wide uppercase;
+    @apply font-roc-grotesk font-extrabold text-sm tracking-wide uppercase;
   }
 
   h5.alt {
@@ -54,11 +54,11 @@
   }
 
   .btn--standard {
-    @apply flex flex-row justify-center items-center px-4;
+    @apply flex flex-row justify-center items-center px-4 py-2;
   }
 
   .btn--black {
-    @apply bg-black hover:text-black;
+    @apply bg-black hover:text-white hover:bg-red;
   }
 
   .modal {
