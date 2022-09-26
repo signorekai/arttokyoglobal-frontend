@@ -99,7 +99,10 @@ module.exports = {
 			},
 			letterSpacing: {
 				xl: '0.2em',
-			}
+			},
+			transitionProperty: {
+				'spacing': 'margin, padding'
+			} 
 		},
 	},
 	plugins: [],
