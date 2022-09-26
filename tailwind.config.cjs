@@ -59,6 +59,7 @@ module.exports = {
 				'1': '1px',
 				'5': '5px',
 				'6': '6px',
+				'10': '10px',
 				'12': '12px',
 			},
 			borderRadius: {
@@ -93,6 +94,10 @@ module.exports = {
 			spacing: {
 				'1/6': '16.66%',
 				'5/6': '83.33%',
+				'22': '5.5rem',
+			},
+			letterSpacing: {
+				xl: '0.2em',
 			}
 		},
 	},
