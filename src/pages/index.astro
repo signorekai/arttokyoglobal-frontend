@@ -6,20 +6,16 @@ import Dropdown from "../components/Dropdown.astro";
 
 import ethLogo from "../images/eth-logo.png";
 
-import Collection from "../components/ClientCollection.astro";
+import Collections from "../components/ClientCollection.astro";
 import Carousel from "../components/ClientCarousel.astro";
 import Footer from "../components/Footer.astro";
 import Card from "../components/ClientCard.astro";
 
-const featuredCollections = [
+import collections, { Collection } from "../data/collections";
+
+const featuredCollections: Collection[] = [
   {
-    title: "Abstract Odyssey",
-    status: "CurrentlyMinting",
-    artist: {
-      name: "Rachael Goto",
-    },
-    mintPrice: 0.4,
-    totalTokens: 20,
+    ...collections[Math.floor(Math.random() * collections.length)],
     tokens: [
       {
         title: "Token 1",
@@ -96,141 +92,6 @@ const featuredCollections = [
     ],
   },
 ];
-
-const collections = [
-  {
-    title: "Abstract Odyssey",
-    status: "CurrentlyMinting",
-    slug: "abstract-odyssey-1",
-    coverImg:
-      "https://images.unsplash.com/photo-1533208087231-c3618eab623c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1485&q=80",
-    artist: {
-      name: "Rachael Goto",
-    },
-    mintPrice: 0.4,
-  },
-  {
-    title: "Clash of Kings",
-    status: "MintingPaused",
-    slug: "abstract-odyssey-2",
-    coverImg:
-      "https://images.unsplash.com/photo-1558244661-d248897f7bc4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80",
-    artist: {
-      name: "Elizabeth Li",
-    },
-    mintPrice: 0.12,
-  },
-  {
-    title: "Storm of Swords",
-    status: "CurrentlyMinting",
-    slug: "abstract-odyssey-3",
-    coverImg:
-      "https://images.unsplash.com/photo-1580610447943-1bfbef5efe07?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
-    artist: {
-      name: "Liu Bei",
-    },
-    mintPrice: 0.2,
-  },
-  {
-    title: "Feast for Crows",
-    status: "CurrentlyMinting",
-    slug: "abstract-odyssey-4",
-    coverImg:
-      "https://images.unsplash.com/photo-1552250575-e508473b090f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80",
-    artist: {
-      name: "Mark Gomez",
-    },
-    mintPrice: 0.2,
-  },
-  {
-    title: "Dance With Dragons",
-    status: "CurrentlyMinting",
-    slug: "abstract-odyssey-5",
-    coverImg:
-      "https://images.unsplash.com/photo-1533158326339-7f3cf2404354?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=768&q=80",
-    artist: {
-      name: "George R",
-    },
-    mintPrice: 0.4,
-  },
-  {
-    title: "Winds of Winter",
-    status: "CurrentlyMinting",
-    slug: "abstract-odyssey-6",
-    coverImg:
-      "https://images.unsplash.com/photo-1547560896-7615fab7b8b3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1359&q=80",
-    artist: {
-      name: "#1xb0e2",
-    },
-    mintPrice: 0.1,
-  },
-  {
-    title: "Feast for Crows",
-    status: "CurrentlyMinting",
-    slug: "abstract-odyssey-7",
-    coverImg:
-      "https://images.unsplash.com/photo-1552250575-e508473b090f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80",
-    artist: {
-      name: "Mark Gomez",
-    },
-    mintPrice: 0.2,
-  },
-  {
-    title: "Dance With Dragons",
-    status: "FinishedMinting",
-    slug: "abstract-odyssey-8",
-    coverImg:
-      "https://images.unsplash.com/photo-1533158326339-7f3cf2404354?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=768&q=80",
-    artist: {
-      name: "George R",
-    },
-    mintPrice: 0.4,
-  },
-  {
-    title: "Winds of Winter",
-    status: "CurrentlyMinting",
-    slug: "abstract-odyssey-9",
-    coverImg:
-      "https://images.unsplash.com/photo-1547560896-7615fab7b8b3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1359&q=80",
-    artist: {
-      name: "#1xb0e2",
-    },
-    mintPrice: 0.1,
-  },
-  {
-    title: "Feast for Crows",
-    status: "MintingPaused",
-    slug: "abstract-odyssey-10",
-    coverImg:
-      "https://images.unsplash.com/photo-1552250575-e508473b090f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80",
-    artist: {
-      name: "Mark Gomez",
-    },
-    mintPrice: 0.2,
-  },
-  {
-    title: "Dance With Dragons",
-    status: "MintingPaused",
-    slug: "abstract-odyssey-11",
-    coverImg:
-      "https://images.unsplash.com/photo-1533158326339-7f3cf2404354?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=768&q=80",
-    artist: {
-      name: "George R",
-    },
-    mintPrice: 0.4,
-  },
-  {
-    title: "Winds of Winter",
-    status: "FinishedMinting",
-    slug: "abstract-odyssey-12",
-    coverImg:
-      "https://images.unsplash.com/photo-1547560896-7615fab7b8b3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1359&q=80",
-    artist: {
-      name: "#1xb0e2",
-    },
-    mintPrice: 0.1,
-  },
-];
 ---
 
 <Layout title="Art Tokyo Global">
@@ -284,9 +145,10 @@ const collections = [
         class="lg:col-start-2 col-span-4 lg:col-span-5 flex justify-center items-center"
       >
         <Token
+          title={featuredCollections[0].tokens[3].title}
           className="w-screen-3/4 lg:w-auto lg:max-h-screen-1/3 lg:max-h-screen-2/3 lg:h-140"
-          img="/token-1.jpg"
-          aspectRatio="430 / 573"
+          img={featuredCollections[0].tokens[3].src}
+          aspectRatio={`${featuredCollections[0].tokens[3].width} / ${featuredCollections[0].tokens[3].height}`}
         />
       </div>
       <div
@@ -307,15 +169,19 @@ const collections = [
     <section class="w-full bg-grey-darker text-white snap-start">
       <div class="px-10 pt-10 pb-0 md:pb-4 lg:pb-10">
         <h5 class="alt text-center md:text-right">Featured collection</h5>
-        <h1 class="text-center md:text-right text-white mt-2">
-          {featuredCollections[0].title}
-        </h1>
+        <a href={`/collections/${featuredCollections[0].slug}`}>
+          <h1 class="text-center md:text-right text-white mt-2">
+            {featuredCollections[0].title}
+          </h1>
+        </a>
         <div
           class="flex flex-col md:flex-row gap-y-0.5 items-center md:justify-end mt-1"
         >
           <ProjectStatus status={featuredCollections[0].status} />
           <h4 class="inline-block md:pl-5 pt-1 md:pt-0">
-            By {featuredCollections[0].artist.name}
+            By <a href={`/artists/${featuredCollections[0].artist.slug}`}
+              >{featuredCollections[0].artist.name}
+            </a>
           </h4>
           <div class="flex flex-row items-center">
             <h4 class="inline-block md:pl-5 font-normal">
@@ -391,8 +257,8 @@ const collections = [
           wrapAround={false}
         >
           <div slot="template" class="carousel-item w-2/3 md:w-1/3 lg:w-1/4">
-            <a :href="`/collections/${item.slug}`">
-              <Collection />
+            <a x-bind:href="`/collections/${item.slug}`">
+              <Collections />
             </a>
           </div>
         </Carousel>
