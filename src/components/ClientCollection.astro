@@ -1,0 +1,30 @@
+---
+import ethLogo from "../images/eth-logo.png";
+---
+
+<a :href="`/collections/${item.slug}`">
+  <div
+    class="group rounded-4xl overflow-hidden bg-white border-white shadow-mild border-12 hover:md:border-10 transition-all hover:pb-1"
+  >
+    <div class="overflow-hidden aspect-square w-full rounded-2xl">
+      <div
+        class="relative group-hover:scale-110 transition-transform w-full h-full bg-center bg-contain"
+        :style="`background-image: url(${item.coverImg})`"
+      >
+      </div>
+    </div>
+    <div class="collection-card-meta">
+      <div class="flex-1">
+        <h2 class="text-red" x-text="item.title"></h2>
+        <h6 class="uppercase text-grey-dark" x-text="`By ${item.artist.name}`">
+        </h6>
+      </div>
+      <h4
+        class="inline-flex flex-row items-center justify-center pl-0 lg:pl-3 text-black"
+      >
+        <img src={ethLogo} width="20" alt="" />
+        <span class="px-1" x-text="item.mintPrice"></span>
+      </h4>
+    </div>
+  </div>
+</a>

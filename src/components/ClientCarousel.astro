@@ -45,7 +45,7 @@ const {
     }
   })`}
   @alpine:initialized.document="create()"
-  class={`w-full h-full text-white flex items-center justify-center ${className}`}
+  class={`w-full h-full text-white block items-center justify-center ${className}`}
 >
   <div
     class={`carousel col-start-1 row-start-1 ${
@@ -53,7 +53,7 @@ const {
     }`}
     x-ref="carousel"
   >
-    <template x-for="collection in items">
+    <template x-for="item in items">
       <slot name="template" />
     </template>
   </div>
@@ -63,53 +63,56 @@ const {
   import filter from "lodash/filter";
 
   document.addEventListener("alpine:init", () => {
-    Alpine.data("clientCarousel", (opts) => ({
-      active: 0,
-      ...opts,
-      init() {
-        this.items = this.data;
-        if (Object.keys(this.filters).length > 0) {
-          const defaultFilter = this.filters[Object.keys(this.filters)[0]];
+    Alpine.data("clientCarousel", (opts) => {
+      const options = { ...opts };
+      if (Object.keys(options.filters).length > 0) {
+        const defaultFilter = Object.values(options.filters)[0];
+        options.items = filter(options.data, [
+          defaultFilter.field,
+          defaultFilter.value,
+        ]);
+      } else {
+        options.items = options.data;
+      }
+      return {
+        active: 0,
+        ...options,
+        init() {
+          if (Object.keys(this.filters).length > 0) {
+            document.addEventListener(this.listenTo, ({ detail }) => {
+              const { filterEvent } = detail;
+              const height = this.$refs.carousel.clientHeight;
+              this.$root.style.height = `${height}px`;
+              this.$refs.carousel.style.opacity = 0;
+              this.$data.carousel.destroy();
 
-          this.items = filter(this.data, [
-            defaultFilter.field,
-            defaultFilter.value,
-          ]);
+              const filteredItems = filter(this.$data.data, [
+                this.filters[filterEvent].field,
+                this.filters[filterEvent].value,
+              ]);
 
-          document.addEventListener(this.listenTo, ({ detail }) => {
-            const { filterEvent } = detail;
-            const height = this.$refs.carousel.clientHeight;
-            this.$root.style.height = `${height}px`;
-            this.$refs.carousel.style.opacity = 0;
-            this.carousel.destroy();
-
-            const filteredItems = filter(this.data, [
-              this.filters[filterEvent].field,
-              this.filters[filterEvent].value,
-            ]);
-
-            this.items = filteredItems;
-            setTimeout(() => {
-              this.active = 0;
-              this.create();
-              this.$root.style.height = "auto";
-              this.$refs.carousel.style.opacity = 1;
-            }, 100);
+              this.$data.items = filteredItems;
+              setTimeout(() => {
+                this.$data.active = 0;
+                this.create();
+                this.$root.style.height = "auto";
+                this.$refs.carousel.style.opacity = 1;
+              }, 100);
+            });
+          }
+        },
+        create() {
+          console.log(this.$data.items);
+          this.$data.carousel = new Flickity(this.$refs.carousel, {
+            ...this.carouselOptions,
+            cellSelector: ".carousel-item",
+            arrowShape:
+              "M39.7407 50L62 18.0197L53.4492 12L27 50L53.4492 88L62 81.9803L39.7407 50Z",
+            pageDots: false,
           });
-        } else {
-          this.items = this.data;
-        }
-      },
-      create() {
-        this.carousel = new Flickity(this.$refs.carousel, {
-          ...this.carouselOptions,
-          cellSelector: ".carousel-item",
-          arrowShape:
-            "M39.7407 50L62 18.0197L53.4492 12L27 50L53.4492 88L62 81.9803L39.7407 50Z",
-          pageDots: false,
-        });
-        this.carousel.on("change", (i) => (this.active = i));
-      },
-    }));
+          this.$data.carousel.on("change", (i) => (this.active = i));
+        },
+      };
+    });
   });
 </script>
