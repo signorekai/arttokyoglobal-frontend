@@ -1,8 +1,8 @@
 ---
-import { CollectionStatus } from "../data/collections";
+import type { CollectionStatus } from "../data/collections";
 
 export interface Props {
-  status?: CollectionStatus;
+  status: CollectionStatus;
 }
 
 const properties: {
@@ -13,10 +13,10 @@ const properties: {
 } = {
   CurrentlyMinting: {
     title: "Currently Minting",
-    class: "bg-grey-dark text-white",
+    class: "bg-red text-white",
   },
-  MintingPaused: { title: "Minting Paused", class: "" },
-  FinishedMinting: { title: "Minting Completed", class: "" },
+  MintingPaused: { title: "Minting Paused", class: "bg-grey-mid text-white" },
+  FinishedMinting: { title: "Minting Completed", class: "bg-peach text-black" },
 };
 
 const { status } = Astro.props;
