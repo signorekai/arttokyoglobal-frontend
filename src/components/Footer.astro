@@ -1,0 +1,61 @@
+---
+import footerLogo from "../images/logo-small.png";
+---
+
+<footer>
+  <div
+    class="container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 justify-between gap-x-2.5 py-15 md:pb-8 px-4"
+  >
+    <div class="col-span-1 md:col-span-1 lg:col-span-2 lg:inline">
+      <a href="/">
+        <img
+          src={footerLogo}
+          class="w-15 mx-auto md:mx-0 md:w-20 lg:w-28 aspect-square"
+          alt=""
+          class=""
+        />
+      </a>
+    </div>
+    <div
+      class="col-span-1 order-2 lg:order-1 md:col-span-2 lg:col-start-8 text-center md:text-right lg:text-left"
+    >
+      <h5 class="mt-4 lg:mt-0">Follow Us</h5>
+      <ul class="">
+        <li>
+          <a href="">
+            <h6 class="uppercase tracking-widest">Discord</h6>
+          </a>
+        </li>
+        <li>
+          <a href="">
+            <h6 class="uppercase tracking-widest">Twitter</h6>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div
+      class="col-span-1 order-1 lg:order-2 lg:col-span-3 lg:col-start-10 mt-8 md:mt-0"
+    >
+      <ul
+        x-data="{items: [
+          {label: 'Collections', href: '/collections'}, 
+          {label: 'Artists', href: '/artists'},
+          {label: 'FAQ', href: '/faq'},
+          {label: 'Privacy Policy', href: '/privacy-policy'},
+          {label: 'Terms of Use', href: '/terms-of-use'}
+        ]}"
+      >
+        <template x-for="item in items">
+          <li>
+            <a
+              class="text-center md:text-right hover:text-red transition-colors"
+              :href="item.href"
+            >
+              <h5 x-text="item.label"></h5>
+            </a>
+          </li>
+        </template>
+      </ul>
+    </div>
+  </div>
+</footer>
