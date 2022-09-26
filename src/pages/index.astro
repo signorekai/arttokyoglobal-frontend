@@ -97,8 +97,9 @@ const featuredCollections = [
 
 const collections = [
   {
-    title: "Abstracy Odyssey",
+    title: "Abstract Odyssey",
     status: "CurrentlyMinting",
+    slug: "abstract-odyssey",
     coverImg:
       "https://images.unsplash.com/photo-1533208087231-c3618eab623c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1485&q=80",
     artist: {
@@ -109,6 +110,7 @@ const collections = [
   {
     title: "Clash of Kings",
     status: "Paused",
+    slug: "abstract-odyssey",
     coverImg:
       "https://images.unsplash.com/photo-1558244661-d248897f7bc4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80",
     artist: {
@@ -119,6 +121,7 @@ const collections = [
   {
     title: "Storm of Swords",
     status: "CurrentlyMinting",
+    slug: "abstract-odyssey",
     coverImg:
       "https://images.unsplash.com/photo-1580610447943-1bfbef5efe07?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
     artist: {
@@ -129,6 +132,7 @@ const collections = [
   {
     title: "Feast for Crows",
     status: "CurrentlyMinting",
+    slug: "abstract-odyssey",
     coverImg:
       "https://images.unsplash.com/photo-1552250575-e508473b090f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80",
     artist: {
@@ -139,6 +143,7 @@ const collections = [
   {
     title: "Dance With Dragons",
     status: "CurrentlyMinting",
+    slug: "abstract-odyssey",
     coverImg:
       "https://images.unsplash.com/photo-1533158326339-7f3cf2404354?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=768&q=80",
     artist: {
@@ -149,6 +154,7 @@ const collections = [
   {
     title: "Winds of Winter",
     status: "CurrentlyMinting",
+    slug: "abstract-odyssey",
     coverImg:
       "https://images.unsplash.com/photo-1547560896-7615fab7b8b3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1359&q=80",
     artist: {
@@ -159,6 +165,7 @@ const collections = [
   {
     title: "Feast for Crows",
     status: "CurrentlyMinting",
+    slug: "abstract-odyssey",
     coverImg:
       "https://images.unsplash.com/photo-1552250575-e508473b090f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80",
     artist: {
@@ -169,6 +176,7 @@ const collections = [
   {
     title: "Dance With Dragons",
     status: "CurrentlyMinting",
+    slug: "abstract-odyssey",
     coverImg:
       "https://images.unsplash.com/photo-1533158326339-7f3cf2404354?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=768&q=80",
     artist: {
@@ -179,6 +187,7 @@ const collections = [
   {
     title: "Winds of Winter",
     status: "CurrentlyMinting",
+    slug: "abstract-odyssey",
     coverImg:
       "https://images.unsplash.com/photo-1547560896-7615fab7b8b3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1359&q=80",
     artist: {
@@ -189,6 +198,7 @@ const collections = [
   {
     title: "Feast for Crows",
     status: "Paused",
+    slug: "abstract-odyssey",
     coverImg:
       "https://images.unsplash.com/photo-1552250575-e508473b090f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80",
     artist: {
@@ -199,6 +209,7 @@ const collections = [
   {
     title: "Dance With Dragons",
     status: "Paused",
+    slug: "abstract-odyssey",
     coverImg:
       "https://images.unsplash.com/photo-1533158326339-7f3cf2404354?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=768&q=80",
     artist: {
@@ -209,6 +220,7 @@ const collections = [
   {
     title: "Winds of Winter",
     status: "FinishedMinting",
+    slug: "abstract-odyssey",
     coverImg:
       "https://images.unsplash.com/photo-1547560896-7615fab7b8b3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1359&q=80",
     artist: {
@@ -337,15 +349,24 @@ const collections = [
       >
       </div>
       <div class="container relative z-10">
-        <div
-          class="pt-4 md:pt-8 px-4 flex flex-col md:flex-row justify-center md:justify-between"
-        >
-          <a
-            href="/collections"
-            class="btn btn--black btn--standard inline-flex px-7 py-2"
-            ><h4>View all collections</h4>
-          </a>
-          <Dropdown label="Browse" />
+        <div class="pt-4 md:pt-8">
+          <div
+            class="px-4 lg:max-h-10 flex flex-col md:flex-row justify-center items-start md:justify-between"
+          >
+            <a
+              href="/collections"
+              class="btn btn--black btn--standard inline-flex px-7 py-2"
+              ><h4>View all collections</h4>
+            </a>
+            <Dropdown
+              label="Browse"
+              selects={[
+                { label: "Currently Minting" },
+                { label: "Minting Completed" },
+                { label: "Minting Paused" },
+              ]}
+            />
+          </div>
         </div>
         <Carousel
           buttonPosition={"outside"}
