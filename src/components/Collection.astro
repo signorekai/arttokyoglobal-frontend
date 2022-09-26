@@ -25,9 +25,11 @@ const { collection } = Astro.props;
         <h2 class="text-red">{collection.title}</h2>
         <h6 class="uppercase text-grey-dark">By {collection.artist.name}</h6>
       </div>
-      <h4 class="inline-flex flex-row pl-0 lg:pl-3 text-black">
+      <h4
+        class="inline-flex flex-row items-center justify-center pl-0 lg:pl-3 text-black"
+      >
         <img src={ethLogo} width="20" alt="" />
-        <span class="pl-1">{collection.mintPrice}</span>
+        <span class="px-1">{collection.mintPrice}</span>
       </h4>
     </div>
   </Card>
