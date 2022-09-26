@@ -1,0 +1,115 @@
+---
+export interface Props {
+  data: object[];
+  filters?: {
+    [key: string]: {
+      field: string;
+      value: string;
+    };
+  };
+  listenTo?: string;
+  className?: string;
+  wrapAround?: boolean;
+  prevNextButtons?: boolean;
+  cellAlign?: "left" | "center" | "right";
+  activeCellWidth?: string;
+  buttonPosition?: "inside" | "outside";
+}
+
+import "flickity/dist/flickity.min.css";
+
+const {
+  data,
+  listenTo = "",
+  className = "",
+  cellAlign = "center",
+  wrapAround = true,
+  filters,
+  prevNextButtons = true,
+  activeCellWidth = "75%",
+  buttonPosition = "inside",
+} = Astro.props;
+---
+
+<div
+  x-cloak
+  x-data={`clientCarousel({
+    data: ${JSON.stringify(data)},
+    listenTo: "${listenTo}",
+    filters: ${filters ? JSON.stringify(filters) : JSON.stringify({})},
+    carouselOptions: {
+      cellAlign: "${cellAlign}",
+      wrapAround: ${wrapAround},
+      prevNextButtons: ${prevNextButtons},
+      groupCells: "${activeCellWidth}",
+    }
+  })`}
+  @alpine:initialized.document="create()"
+  class={`w-full h-full text-white flex items-center justify-center ${className}`}
+>
+  <div
+    class={`carousel col-start-1 row-start-1 ${
+      buttonPosition === "outside" && "carousel--btn-outside"
+    }`}
+    x-ref="carousel"
+  >
+    <template x-for="collection in items">
+      <slot name="template" />
+    </template>
+  </div>
+</div>
+<script>
+  import Flickity from "flickity";
+  import filter from "lodash/filter";
+
+  document.addEventListener("alpine:init", () => {
+    Alpine.data("clientCarousel", (opts) => ({
+      active: 0,
+      ...opts,
+      init() {
+        this.items = this.data;
+        if (Object.keys(this.filters).length > 0) {
+          const defaultFilter = this.filters[Object.keys(this.filters)[0]];
+
+          this.items = filter(this.data, [
+            defaultFilter.field,
+            defaultFilter.value,
+          ]);
+
+          document.addEventListener(this.listenTo, ({ detail }) => {
+            const { filterEvent } = detail;
+            const height = this.$refs.carousel.clientHeight;
+            this.$root.style.height = `${height}px`;
+            this.$refs.carousel.style.opacity = 0;
+            this.carousel.destroy();
+
+            const filteredItems = filter(this.data, [
+              this.filters[filterEvent].field,
+              this.filters[filterEvent].value,
+            ]);
+
+            this.items = filteredItems;
+            setTimeout(() => {
+              this.active = 0;
+              this.create();
+              this.$root.style.height = "auto";
+              this.$refs.carousel.style.opacity = 1;
+            }, 100);
+          });
+        } else {
+          this.items = this.data;
+        }
+      },
+      create() {
+        this.carousel = new Flickity(this.$refs.carousel, {
+          ...this.carouselOptions,
+          cellSelector: ".carousel-item",
+          arrowShape:
+            "M39.7407 50L62 18.0197L53.4492 12L27 50L53.4492 88L62 81.9803L39.7407 50Z",
+          pageDots: false,
+        });
+        this.carousel.on("change", (i) => (this.active = i));
+      },
+    }));
+  });
+</script>
