@@ -102,7 +102,6 @@ const {
           }
         },
         create() {
-          console.log(this.$data.items);
           this.$data.carousel = new Flickity(this.$refs.carousel, {
             ...this.carouselOptions,
             cellSelector: ".carousel-item",
