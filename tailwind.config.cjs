@@ -94,6 +94,7 @@ module.exports = {
 			spacing: {
 				'1/6': '16.66%',
 				'5/6': '83.33%',
+				'15': '3.75rem',
 				'22': '5.5rem',
 			},
 			letterSpacing: {
