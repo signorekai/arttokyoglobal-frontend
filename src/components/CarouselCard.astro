@@ -8,8 +8,3 @@ const { className = "w-2/3 lg:w-1/4" } = Astro.props;
 <div class={`carousel-item ${className}`}>
   <slot />
 </div>
-<style>
-  .carousel-item {
-    @apply my-3 p-3 hover:p-0 transition-all;
-  }
-</style>
