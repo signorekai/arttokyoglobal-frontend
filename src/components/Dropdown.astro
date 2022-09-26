@@ -2,17 +2,18 @@
 export interface Props {
   className?: string;
   label: string;
+  id: string;
   selects: {
     label: string;
   }[];
 }
 
-const { className = "", label, selects } = Astro.props;
+const { id, className = "", label, selects } = Astro.props;
 ---
 
 <div
   class="relative z-50"
-  :class="open ? 'pt-0' : 'pt-3'"
+  :class="open ? 'pt-0 mt-[-0.3rem]' : 'pt-2'"
   x-data={`dropdown('${JSON.stringify(selects)}')`}
 >
   <span
@@ -41,7 +42,7 @@ const { className = "", label, selects } = Astro.props;
     <template x-for="option in selects">
       <button
         class="option"
-        @click="currentlySelected = option.label; open = false"
+        @click={`currentlySelected = option.label; open = false; $dispatch('${id}', {filterEvent: option.event})`}
         x-text="option.label"></button>
     </template>
   </div>
@@ -69,7 +70,7 @@ const { className = "", label, selects } = Astro.props;
   }
 </style>
 
-<script>
+<script define:vars={{ id }}>
   document.addEventListener("alpine:init", () => {
     Alpine.data("dropdown", (selects) => ({
       open: false,
