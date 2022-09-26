@@ -8,6 +8,7 @@ import Collection from "../components/Collection.astro";
 import Dropdown from "../components/Dropdown.astro";
 
 import ethLogo from "../images/eth-logo.png";
+import ClientCarousel from "../components/ClientCarousel.astro";
 
 const featuredCollections = [
   {
@@ -99,7 +100,7 @@ const collections = [
   {
     title: "Abstract Odyssey",
     status: "CurrentlyMinting",
-    slug: "abstract-odyssey",
+    slug: "abstract-odyssey-1",
     coverImg:
       "https://images.unsplash.com/photo-1533208087231-c3618eab623c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1485&q=80",
     artist: {
@@ -109,8 +110,8 @@ const collections = [
   },
   {
     title: "Clash of Kings",
-    status: "Paused",
-    slug: "abstract-odyssey",
+    status: "MintingPaused",
+    slug: "abstract-odyssey-2",
     coverImg:
       "https://images.unsplash.com/photo-1558244661-d248897f7bc4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80",
     artist: {
@@ -121,7 +122,7 @@ const collections = [
   {
     title: "Storm of Swords",
     status: "CurrentlyMinting",
-    slug: "abstract-odyssey",
+    slug: "abstract-odyssey-3",
     coverImg:
       "https://images.unsplash.com/photo-1580610447943-1bfbef5efe07?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
     artist: {
@@ -132,7 +133,7 @@ const collections = [
   {
     title: "Feast for Crows",
     status: "CurrentlyMinting",
-    slug: "abstract-odyssey",
+    slug: "abstract-odyssey-4",
     coverImg:
       "https://images.unsplash.com/photo-1552250575-e508473b090f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80",
     artist: {
@@ -143,7 +144,7 @@ const collections = [
   {
     title: "Dance With Dragons",
     status: "CurrentlyMinting",
-    slug: "abstract-odyssey",
+    slug: "abstract-odyssey-5",
     coverImg:
       "https://images.unsplash.com/photo-1533158326339-7f3cf2404354?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=768&q=80",
     artist: {
@@ -154,7 +155,7 @@ const collections = [
   {
     title: "Winds of Winter",
     status: "CurrentlyMinting",
-    slug: "abstract-odyssey",
+    slug: "abstract-odyssey-6",
     coverImg:
       "https://images.unsplash.com/photo-1547560896-7615fab7b8b3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1359&q=80",
     artist: {
@@ -165,7 +166,7 @@ const collections = [
   {
     title: "Feast for Crows",
     status: "CurrentlyMinting",
-    slug: "abstract-odyssey",
+    slug: "abstract-odyssey-7",
     coverImg:
       "https://images.unsplash.com/photo-1552250575-e508473b090f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80",
     artist: {
@@ -175,8 +176,8 @@ const collections = [
   },
   {
     title: "Dance With Dragons",
-    status: "CurrentlyMinting",
-    slug: "abstract-odyssey",
+    status: "FinishedMinting",
+    slug: "abstract-odyssey-8",
     coverImg:
       "https://images.unsplash.com/photo-1533158326339-7f3cf2404354?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=768&q=80",
     artist: {
@@ -187,7 +188,7 @@ const collections = [
   {
     title: "Winds of Winter",
     status: "CurrentlyMinting",
-    slug: "abstract-odyssey",
+    slug: "abstract-odyssey-9",
     coverImg:
       "https://images.unsplash.com/photo-1547560896-7615fab7b8b3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1359&q=80",
     artist: {
@@ -197,8 +198,8 @@ const collections = [
   },
   {
     title: "Feast for Crows",
-    status: "Paused",
-    slug: "abstract-odyssey",
+    status: "MintingPaused",
+    slug: "abstract-odyssey-10",
     coverImg:
       "https://images.unsplash.com/photo-1552250575-e508473b090f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80",
     artist: {
@@ -208,8 +209,8 @@ const collections = [
   },
   {
     title: "Dance With Dragons",
-    status: "Paused",
-    slug: "abstract-odyssey",
+    status: "MintingPaused",
+    slug: "abstract-odyssey-11",
     coverImg:
       "https://images.unsplash.com/photo-1533158326339-7f3cf2404354?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=768&q=80",
     artist: {
@@ -220,7 +221,7 @@ const collections = [
   {
     title: "Winds of Winter",
     status: "FinishedMinting",
-    slug: "abstract-odyssey",
+    slug: "abstract-odyssey-12",
     coverImg:
       "https://images.unsplash.com/photo-1547560896-7615fab7b8b3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1359&q=80",
     artist: {
@@ -345,13 +346,13 @@ const collections = [
     </section>
     <section class="relative m-0 md:m-12">
       <div
-        class="z-0 pointer-events-none container container--xl absolute top-0 left-1/2 -translate-x-1/2 w-4/5 md:w-full h-4/5 rounded-4xl"
+        class="z-0 pointer-events-none container container--xl absolute top-0 left-1/2 -translate-x-1/2 mt-4 md:mt-0 w-[calc(100vw_-_2rem)] h-4/5 rounded-4xl"
       >
       </div>
       <div class="container relative z-10">
         <div class="pt-4 md:pt-8">
           <div
-            class="px-4 lg:max-h-10 flex flex-col md:flex-row justify-center items-start md:justify-between"
+            class="px-4 md:max-h-10 flex flex-col md:flex-row justify-center items-center md:items-start md:justify-between"
           >
             <a
               href="/collections"
@@ -360,39 +361,85 @@ const collections = [
             </a>
             <Dropdown
               label="Browse"
+              id="allCollections"
               selects={[
-                { label: "Currently Minting" },
-                { label: "Minting Completed" },
-                { label: "Minting Paused" },
+                { label: "Currently Minting", event: "CurrentlyMinting" },
+                { label: "Minting Completed", event: "FinishedMinting" },
+                { label: "Minting Paused", event: "MintingPaused" },
               ]}
             />
           </div>
         </div>
-        <Carousel
-          buttonPosition={"outside"}
-          className="hidden lg:block lg:pt-2"
-          activeCellWidth="100%"
-          cellAlign="left"
-          wrapAround={false}
-        >
-          {
-            collections.map((collection) => (
-              <Collection collection={collection} />
-            ))
-          }
-        </Carousel>
-        <Carousel
-          className="pt-2 lg:hidden"
-          activeCellWidth="100%"
-          wrapAround={false}
-        >
-          {
-            collections.map((collection) => (
-              <Collection collection={collection} />
-            ))
-          }
-        </Carousel>
       </div>
+
+      <div class="container">
+        <ClientCarousel
+          listenTo="allCollections"
+          filters={{
+            CurrentlyMinting: {
+              field: "status",
+              value: "CurrentlyMinting",
+            },
+            FinishedMinting: {
+              field: "status",
+              value: "FinishedMinting",
+            },
+            MintingPaused: {
+              field: "status",
+              value: "MintingPaused",
+            },
+          }}
+          data={collections}
+          buttonPosition={"outside"}
+          className="!block lg:pt-2"
+          activeCellWidth="100%"
+          cellAlign="center"
+          wrapAround={false}
+        >
+          <div slot="template" class="carousel-item w-2/3 md:w-1/3 lg:w-1/4">
+            <a :href="`/collections/${collection.slug}`">
+              <div
+                class="group rounded-4xl overflow-hidden bg-white border-white shadow-mild border-12 hover:border-10 transition-all hover:pb-1"
+              >
+                <div class="overflow-hidden aspect-square w-full rounded-2xl">
+                  <div
+                    class="relative group-hover:scale-110 transition-transform w-full h-full bg-center bg-contain"
+                    :style="`background-image: url(${collection.coverImg})`"
+                  >
+                  </div>
+                </div>
+                <div class="collection-card-meta">
+                  <div class="flex-1">
+                    <h2 class="text-red" x-text="collection.title"></h2>
+                    <h6
+                      class="uppercase text-grey-dark"
+                      x-text="`By ${collection.artist.name}`"
+                    >
+                    </h6>
+                  </div>
+                  <h4
+                    class="inline-flex flex-row items-center justify-center pl-0 lg:pl-3 text-black"
+                  >
+                    <img src={ethLogo} width="20" alt="" />
+                    <span class="px-1" x-text="collection.mintPrice"></span>
+                  </h4>
+                </div>
+              </div>
+            </a>
+          </div>
+        </ClientCarousel>
+      </div>
+      <!-- <Carousel
+        className="pt-2 lg:hidden"
+        activeCellWidth="100%"
+        wrapAround={false}
+      >
+        {
+          collections.map((collection) => (
+            <Collection collection={collection} />
+          ))
+        }
+      </Carousel> -->
     </section>
   </main>
 </Layout>
