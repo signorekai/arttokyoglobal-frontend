@@ -14,7 +14,7 @@ const { id, className = "", label, selects } = Astro.props;
 
 <div
   class="relative z-50 max-h-8 md:w-auto md:max-h-max"
-  :class="open ? 'pt-0 md:mt-[-0.3rem]' : 'pt-2'"
+  x-bind:class="open ? 'pt-0 md:mt-[-0.3rem]' : 'pt-2'"
   x-data={`dropdown('${JSON.stringify(selects)}')`}
 >
   <span
@@ -24,7 +24,7 @@ const { id, className = "", label, selects } = Astro.props;
   </span>
   <button
     class="button group"
-    @click="open = !open"
+    x-on:click="open = !open"
     x-show="currentlySelected.length > 0 && open === false"
   >
     <h5 class="ml-2 leading-none inline-block" x-text="currentlySelected"></h5>
@@ -43,7 +43,7 @@ const { id, className = "", label, selects } = Astro.props;
     <template x-for="option in selects">
       <button
         class="option"
-        @click={`currentlySelected = option.label; open = false; $dispatch('${id}', {filterEvent: option.event})`}
+        x-on:click={`currentlySelected = option.label; open = false; $dispatch('${id}', {filterEvent: option.event})`}
         x-text="option.label"></button>
     </template>
   </div>
@@ -72,8 +72,9 @@ const { id, className = "", label, selects } = Astro.props;
 </style>
 
 <script>
+  import Alpine from "alpinejs";
   document.addEventListener("alpine:init", () => {
-    Alpine.data("dropdown", (selects) => ({
+    Alpine.data("dropdown", (selects: string) => ({
       open: false,
       selects: JSON.parse(selects),
       currentlySelected: "",

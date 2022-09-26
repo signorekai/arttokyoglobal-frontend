@@ -1,8 +1,10 @@
 import artists, { Artist } from "./artists";
 
+export type CollectionStatus = "CurrentlyMinting" | "MintingPaused" | "FinishedMinting";
+
 export interface Collection {
   title: string;
-  status: "CurrentlyMinting" | "MintingPaused" | "FinishedMinting";
+  status: CollectionStatus;
   slug: string;
   coverImg: string;
   artist: Artist;

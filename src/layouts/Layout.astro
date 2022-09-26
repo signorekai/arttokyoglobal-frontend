@@ -26,7 +26,7 @@ import "../styles/fontawesome.css";
     @keydown.escape="showMenu = false"
     :class="showMenu && 'overflow-hidden'"
   >
-    <header class="header" :class="showMenu && 'blur-sm'">
+    <header class="header" x-bind:class="showMenu && 'blur-sm'">
       <a class="max-w-screen-2/3 -mb-2" href="/">
         <img class="" src="/logo.svg" alt="" />
       </a>
@@ -36,7 +36,7 @@ import "../styles/fontawesome.css";
           ><h4>Connect Wallet</h4>
         </button>
         <button
-          @click="showMenu = !showMenu"
+          x-on:click="showMenu = !showMenu"
           class="group btn w-9 h-9 -m-1 md:m-0"
         >
           <svg
@@ -80,7 +80,7 @@ import "../styles/fontawesome.css";
         x-transition:leave-start="opacity-100 translate-y-0 md:translate-x-0"
         x-transition:leave-end="opacity-0 -translate-y-12 md:translate-y-0 md:translate-x-12"
       >
-        <button class="close-btn group" @click="showMenu = !showMenu">
+        <button class="close-btn group" x-on:click="showMenu = !showMenu">
           <svg
             width="28"
             height="28"
@@ -101,7 +101,7 @@ import "../styles/fontawesome.css";
         </button>
         <div class="menu-wrapper mt-32">
           <ul class="gap-y-2 flex flex-col items-end">
-            <li class="menu-item" @click="console.log($el)">
+            <li class="menu-item" x-bind:click="console.log($el)">
               <a href="/collections">Collections</a>
             </li>
             <li class="menu-item"><a href="/artists">Artists</a></li>
@@ -125,9 +125,9 @@ import "../styles/fontawesome.css";
           </div>
         </div>
       </div>
-      <div class="modal-bg" @click="showMenu = !showMenu"></div>
+      <div class="modal-bg" x-on:click="showMenu = !showMenu"></div>
     </div>
-    <div class="content" :class="showMenu && 'blur-sm'">
+    <div class="content" x-bind:class="showMenu && 'blur-sm'">
       <slot />
     </div>
     <style>

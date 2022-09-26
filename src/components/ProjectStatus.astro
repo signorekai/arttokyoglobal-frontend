@@ -1,14 +1,21 @@
 ---
+import { CollectionStatus } from "../data/collections";
+
 export interface Props {
-  status?: "CurrentlyMinting" | "Paused" | "FinishedMinting";
+  status?: CollectionStatus;
 }
 
-const properties = {
+const properties: {
+  [key in CollectionStatus]: {
+    title: string;
+    class: string;
+  };
+} = {
   CurrentlyMinting: {
     title: "Currently Minting",
     class: "bg-grey-dark text-white",
   },
-  Paused: { title: "Minting Paused", class: "" },
+  MintingPaused: { title: "Minting Paused", class: "" },
   FinishedMinting: { title: "Minting Completed", class: "" },
 };
 
