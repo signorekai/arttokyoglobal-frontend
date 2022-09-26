@@ -45,32 +45,6 @@ const {
   </div>
 </div>
 
-<style>
-  .carousel--btn-outside {
-    :global(.flickity-prev-next-button.previous) {
-      @apply lg:-left-22;
-    }
-    :global(.flickity-prev-next-button.next) {
-      @apply lg:-right-22;
-    }
-  }
-
-  .carousel {
-    :global(.flickity-slider) {
-      @apply flex items-center;
-    }
-
-    :global(.flickity-cell:not(.is-selected)) {
-      @apply opacity-40;
-    }
-
-    :global(.flickity-button.flickity-prev-next-button) {
-      @apply rounded-xl bg-white hover:bg-red hover:text-white transition-all;
-      @apply focus:shadow-none;
-    }
-  }
-</style>
-
 <script>
   import Flickity from "flickity";
 
