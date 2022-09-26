@@ -8,6 +8,14 @@
     @apply text-black uppercase;
   }
 
+  a {
+    @apply hover:text-red transition-colors;
+  }
+
+  a h1 {
+    @apply hover:text-red transition-colors;
+  }
+
   h2 {
     @apply font-roc-grotesk text-xl leading-5 font-extrabold uppercase;
   }
