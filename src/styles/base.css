@@ -77,9 +77,9 @@
   }
 
   .carousel-item {
-    @apply my-3 p-3 hover:p-0 transition-all relative;
+    @apply my-3 p-3 hover:lg:p-0 transition-spacing relative;
   }
-
+  
   .carousel--btn-outside {
     .flickity-prev-next-button.previous {
       @apply lg:-left-22;
@@ -99,6 +99,7 @@
     }
 
     .flickity-button.flickity-prev-next-button {
+      @apply hidden md:block;
       @apply rounded-xl bg-white hover:bg-red hover:text-white transition-all;
       @apply focus:shadow-none;
     }
