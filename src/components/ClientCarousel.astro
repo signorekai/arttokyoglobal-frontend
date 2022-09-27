@@ -7,6 +7,7 @@ export interface Props {
       value: string;
     };
   };
+  defaultFilter?: [string, string];
   listenTo?: string;
   className?: string;
   wrapAround?: boolean;
@@ -24,7 +25,7 @@ const {
   className = "",
   cellAlign = "center",
   wrapAround = true,
-  filters,
+  defaultFilter = [],
   prevNextButtons = true,
   activeCellWidth = "75%",
   buttonPosition = "inside",
@@ -36,7 +37,7 @@ const {
   x-data={`clientCarousel({
     data: ${JSON.stringify(data)},
     listenTo: "${listenTo}",
-    filters: ${filters ? JSON.stringify(filters) : JSON.stringify({})},
+    defaultFilter: ${JSON.stringify(defaultFilter)},
     carouselOptions: {
       cellAlign: "${cellAlign}",
       wrapAround: ${wrapAround},
@@ -53,53 +54,45 @@ const {
     }`}
     x-ref="carousel"
   >
-    <template x-for="item in items">
+    <template x-for="item in filtered">
       <slot name="template" />
     </template>
   </div>
 </div>
 <script>
   import Flickity from "flickity";
-  import filter from "lodash/filter";
+  import _filter from "lodash/filter";
 
   document.addEventListener("alpine:init", () => {
     Alpine.data("clientCarousel", (opts) => {
       const options = { ...opts };
-      if (Object.keys(options.filters).length > 0) {
-        const defaultFilter = Object.values(options.filters)[0];
-        options.items = filter(options.data, [
-          defaultFilter.field,
-          defaultFilter.value,
-        ]);
+      console.log(options.defaultFilter);
+      if (options.defaultFilter.length === 2) {
+        options.filtered = _filter(options.data, options.defaultFilter);
       } else {
-        options.items = options.data;
+        options.filtered = options.data;
       }
       return {
         active: 0,
         ...options,
         init() {
-          if (Object.keys(this.filters).length > 0) {
-            document.addEventListener(this.listenTo, ({ detail }) => {
-              const { filterEvent } = detail;
-              const height = this.$refs.carousel.clientHeight;
-              this.$root.style.height = `${height}px`;
-              this.$refs.carousel.style.opacity = 0;
-              this.$data.carousel.destroy();
+          document.addEventListener(this.listenTo, ({ detail }) => {
+            const { filters, sortings } = detail;
+            const height = this.$refs.carousel.clientHeight;
+            this.$root.style.height = `${height}px`;
+            this.$refs.carousel.style.opacity = 0;
+            this.$data.carousel.destroy();
 
-              const filteredItems = filter(this.$data.data, [
-                this.filters[filterEvent].field,
-                this.filters[filterEvent].value,
-              ]);
+            const filtered = _filter(this.$data.data, ...filters);
+            this.$data.filtered = filtered;
 
-              this.$data.items = filteredItems;
-              setTimeout(() => {
-                this.$data.active = 0;
-                this.create();
-                this.$root.style.height = "auto";
-                this.$refs.carousel.style.opacity = 1;
-              }, 100);
-            });
-          }
+            setTimeout(() => {
+              this.$data.active = 0;
+              this.create();
+              this.$root.style.height = "auto";
+              this.$refs.carousel.style.opacity = 1;
+            }, 100);
+          });
         },
         create() {
           this.$data.carousel = new Flickity(this.$refs.carousel, {
