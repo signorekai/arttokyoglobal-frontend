@@ -38,13 +38,8 @@
 }
 
 @layer components {
-
   .container {
-    @apply mx-auto max-w-screen-lg w-full;
-  }
-
-  .container--xl {
-    @apply max-w-[1400px] px-2 bg-peach;
+    @apply mx-auto max-w-screen-lg w-full relative ;
   }
 
   .container-grid {
@@ -62,7 +57,11 @@
   }
 
   .btn--standard {
-    @apply flex flex-row justify-center items-center px-4 py-2;
+    @apply justify-center items-center px-4 py-2;
+  }
+
+  .btn--grey {
+    @apply bg-grey-mild text-grey-dark;
   }
 
   .btn--black {
@@ -79,13 +78,23 @@
   }
 
   .collection-card-meta {
-    @apply flex flex-col lg:flex-row w-full mx-1 mt-4 mb-2;
+    @apply flex flex-col lg:flex-row w-full mt-4 mb-2;
     @apply justify-between items-start lg:items-center;
     @apply gap-y-1;
   }
 
   .carousel-item {
     @apply my-3 p-3 hover:lg:p-0 transition-spacing relative;
+  }
+
+  .carousel--btn-flush {
+    .flickity-prev-next-button.previous {
+      @apply left-0;
+    }
+    
+    .flickity-prev-next-button.next {
+      @apply right-0;
+    }
   }
   
   .carousel--btn-outside {
@@ -97,9 +106,22 @@
     }
   }
 
+  .dropdown-wrapper {
+    @apply flex flex-col gap-y-1 justify-center items-center;
+    @apply md:flex-row md:max-h-10 md:items-start md:justify-between;
+  }
+
+  .button-wrapper {
+    @apply flex flex-row items-center;
+  }
+
   .carousel {
     .flickity-slider {
       @apply flex items-center;
+    }
+
+    .flickity-cell.is-selected {
+      @apply p-0 lg:p-3 hover:p-0;
     }
 
     .flickity-cell:not(.is-selected) {
@@ -107,11 +129,23 @@
     }
 
     .flickity-button.flickity-prev-next-button {
-      @apply hidden md:block;
+      @apply hidden md:block disabled:opacity-0;
       @apply rounded-xl bg-white hover:bg-red hover:text-white transition-all;
       @apply focus:shadow-none;
     }
   }
+
+  .has-bg:before {
+    content: " ";
+    @apply container w-[calc(100vw_-_2rem)] h-4/5;
+    @apply absolute block top-[-6%] left-1/2 -translate-x-1/2 rounded-4xl;
+    @apply z-0 pointer-events-none px-2 mt-4 md:mt-0 bg-peach;
+  }
+
+  .has-bg--large:before {
+    @apply max-w-[1280px];
+  }
+
 }
 
 @layer utilities {
