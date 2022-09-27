@@ -193,30 +193,44 @@ import "../styles/fontawesome.css";
 
 <script>
   import _filter from "lodash/filter";
+  import _orderBy from "lodash/orderBy";
 
   document.addEventListener("alpine:init", () => {
     Alpine.data("filterables", (opts) => {
       const { data, listenTo = [], id } = opts;
-      const store = { filtered: [], data, id };
+      const store = { filtered: [], data, id, filters: [], sorting: [] };
 
       return {
         ...store,
         init() {
           listenTo.map((evt) => {
             document.addEventListener(evt, ({ detail }) => {
-              const { filters, sortings } = detail;
-
-              // @todo add sorting
+              const { filters, sorting } = detail;
               if (filters) {
-                this.$root.style.minHeight = `${this.$refs.container.clientHeight}`;
-                this.$refs.container.style.opacity = 0;
-                const filtered = _filter(this.$data.data, ...filters);
-                setTimeout(() => {
-                  this.$data.filtered = filtered;
-                  this.$root.style.minHeight = "auto";
-                  this.$refs.container.style.opacity = 1;
-                }, 300);
+                this.$data.filters = filters;
               }
+
+              if (sorting) {
+                this.$data.sorting = sorting;
+              }
+
+              this.$root.style.minHeight = `${this.$refs.container.clientHeight}`;
+              this.$refs.container.style.opacity = 0;
+              let processed = _filter(this.$data.data, ...this.$data.filters);
+
+              if (this.$data.sorting.length === 2) {
+                processed = _orderBy(
+                  processed,
+                  this.$data.sorting[0],
+                  this.$data.sorting[1]
+                );
+              }
+
+              setTimeout(() => {
+                this.$data.filtered = processed;
+                this.$root.style.minHeight = "auto";
+                this.$refs.container.style.opacity = 1;
+              }, 300);
             });
           });
           this.$dispatch(`${id}:init`);

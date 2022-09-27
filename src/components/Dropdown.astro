@@ -8,6 +8,7 @@ export interface Props {
   selects: {
     label: string;
     filters?: [string, string][];
+    sorting?: [string[], ["asc" | "desc"]];
   }[];
 }
 
@@ -64,7 +65,7 @@ const {
     <template x-for="option in selects">
       <button
         class="option"
-        x-on:click={`if (currentlySelected !== option.label ) { currentlySelected = option.label; console.log(option.filters); $dispatch('${id}', {filters: option.filters}) }; open = false; `}
+        x-on:click={`if (currentlySelected !== option.label ) { currentlySelected = option.label; $dispatch('${id}', {filters: option.filters, sorting: option.sorting}) }; open = false; `}
         x-text="option.label"></button>
     </template>
   </div>
@@ -103,7 +104,10 @@ const {
       currentlySelected: "",
       init() {
         document.addEventListener(`${listenTo}:init`, () => {
-          this.$dispatch(id, { filters: this.$data.selects[0].filters });
+          this.$dispatch(id, {
+            filters: this.$data.selects[0].filters,
+            sorting: this.$data.selects[0].sorting,
+          });
         });
         this.$data.currentlySelected = this.$data.selects[0].label;
       },

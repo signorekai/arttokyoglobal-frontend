@@ -139,16 +139,16 @@ const featuredCollections: Collection[] = [
       <div class="container bg-peach rounded-4xl px-6 py-4 md:px-11 md:py-8">
         <div class="dropdown-wrapper z-40">
           <div class="flex flex-col lg:flex-row items-start">
-            <button class="btn btn--standard btn--grey scale-75 md:scale-100">
+            <!-- <button class="btn btn--standard btn--grey scale-75 md:scale-100">
               <h4 class="normal-case">Filters</h4>
-            </button>
+            </button> -->
             <Dropdown
-              className="inline-block ml-6 hidden lg:block"
+              className="block"
               label="Sort By"
               id="sortBy"
               selects={[
-                { label: "A-Z", event: "A-Z" },
-                { label: "Z-A", event: "Z-A" },
+                { label: "A-Z", sorting: [["title"], ["asc"]] },
+                { label: "Z-A", sorting: [["title"], ["desc"]] },
               ]}
             />
           </div>
@@ -177,7 +177,7 @@ const featuredCollections: Collection[] = [
           <div
             x-data={`filterables({
             id: "allCollections",
-            listenTo: ["filterBy"],
+            listenTo: ["filterBy", "sortBy"],
             data: ${JSON.stringify(collections)},
           })`}
           >
@@ -185,12 +185,12 @@ const featuredCollections: Collection[] = [
               class="transition-opacity flex flex-col mt-8 gap-y-8 lg:gap-y-16"
               x-ref="container"
             >
-              <template x-for="collection in filtered">
+              <template x-for="collection in filtered" :key="collection.slug">
                 <div
                   x-data="{ show: false }"
                   class="md:grid grid-cols-10 transition-all"
                   :class="show === false ? 'opacity-0 translate-y-2' : 'opacity-100 translate-y-0'"
-                  x-intersect.threshold.50="show = true"
+                  x-intersect.threshold.30="show = true"
                 >
                   <div class="col-span-4">
                     <img
