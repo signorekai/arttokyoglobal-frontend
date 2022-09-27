@@ -30,9 +30,10 @@ const collections: Collection[] = [
     artist: artists[Math.floor(Math.random() * artists.length)],
     mintPrice: 0.4,
     totalTokens: 20,
+    description: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisi porta lorem mollis aliquam ut porttitor leo a. Suspendisse in est ante in nibh mauris cursus mattis molestie. Est lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque. Varius quam quisque id diam vel quam elementum pulvinar.</p><p>Varius sit amet mattis vulputate enim nulla. Posuere sollicitudin aliquam ultrices sagittis. Feugiat nisl pretium fusce id velit ut. Interdum posuere lorem ipsum dolor sit. Aliquam sem fringilla ut morbi tincidunt augue interdum velit.</p>"
   },
   {
-    title: "Clash of Kings",
+    title: "Clash of Paused",
     status: "MintingPaused",
     slug: "abstract-odyssey-2",
     coverImg:
@@ -40,9 +41,10 @@ const collections: Collection[] = [
     artist: artists[Math.floor(Math.random() * artists.length)],
     mintPrice: 0.12,
     totalTokens: 20,
+    description: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisi porta lorem mollis aliquam ut porttitor leo a. Suspendisse in est ante in nibh mauris cursus mattis molestie. Est lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque. Varius quam quisque id diam vel quam elementum pulvinar.</p><p>Varius sit amet mattis vulputate enim nulla. Posuere sollicitudin aliquam ultrices sagittis. Feugiat nisl pretium fusce id velit ut. Interdum posuere lorem ipsum dolor sit. Aliquam sem fringilla ut morbi tincidunt augue interdum velit.</p>"
   },
   {
-    title: "Storm of Swords",
+    title: "Storm of Finished",
     status: "FinishedMinting",
     slug: "abstract-odyssey-3",
     coverImg:
@@ -50,6 +52,7 @@ const collections: Collection[] = [
     artist: artists[Math.floor(Math.random() * artists.length)],
     mintPrice: 0.2,
     totalTokens: 20,
+    description: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisi porta lorem mollis aliquam ut porttitor leo a. Suspendisse in est ante in nibh mauris cursus mattis molestie. Est lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque. Varius quam quisque id diam vel quam elementum pulvinar.</p><p>Varius sit amet mattis vulputate enim nulla. Posuere sollicitudin aliquam ultrices sagittis. Feugiat nisl pretium fusce id velit ut. Interdum posuere lorem ipsum dolor sit. Aliquam sem fringilla ut morbi tincidunt augue interdum velit.</p>"
   },
   {
     title: "Feast for Crows",
@@ -60,6 +63,7 @@ const collections: Collection[] = [
     artist: artists[Math.floor(Math.random() * artists.length)],
     mintPrice: 0.2,
     totalTokens: 20,
+    description: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisi porta lorem mollis aliquam ut porttitor leo a. Suspendisse in est ante in nibh mauris cursus mattis molestie. Est lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque. Varius quam quisque id diam vel quam elementum pulvinar.</p><p>Varius sit amet mattis vulputate enim nulla. Posuere sollicitudin aliquam ultrices sagittis. Feugiat nisl pretium fusce id velit ut. Interdum posuere lorem ipsum dolor sit. Aliquam sem fringilla ut morbi tincidunt augue interdum velit.</p>"
   },
   {
     title: "Dance With Dragons",
@@ -70,6 +74,7 @@ const collections: Collection[] = [
     artist: artists[Math.floor(Math.random() * artists.length)],
     mintPrice: 0.4,
     totalTokens: 20,
+    description: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisi porta lorem mollis aliquam ut porttitor leo a. Suspendisse in est ante in nibh mauris cursus mattis molestie. Est lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque. Varius quam quisque id diam vel quam elementum pulvinar.</p><p>Varius sit amet mattis vulputate enim nulla. Posuere sollicitudin aliquam ultrices sagittis. Feugiat nisl pretium fusce id velit ut. Interdum posuere lorem ipsum dolor sit. Aliquam sem fringilla ut morbi tincidunt augue interdum velit.</p>"
   },
   {
     title: "Winds of Winter",
@@ -80,6 +85,7 @@ const collections: Collection[] = [
     artist: artists[Math.floor(Math.random() * artists.length)],
     mintPrice: 0.1,
     totalTokens: 20,
+    description: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisi porta lorem mollis aliquam ut porttitor leo a. Suspendisse in est ante in nibh mauris cursus mattis molestie. Est lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque. Varius quam quisque id diam vel quam elementum pulvinar.</p><p>Varius sit amet mattis vulputate enim nulla. Posuere sollicitudin aliquam ultrices sagittis. Feugiat nisl pretium fusce id velit ut. Interdum posuere lorem ipsum dolor sit. Aliquam sem fringilla ut morbi tincidunt augue interdum velit.</p>"
   },
   {
     title: "Feast for Crows",
@@ -90,9 +96,10 @@ const collections: Collection[] = [
     artist: artists[Math.floor(Math.random() * artists.length)],
     mintPrice: 0.2,
     totalTokens: 20,
+    description: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisi porta lorem mollis aliquam ut porttitor leo a. Suspendisse in est ante in nibh mauris cursus mattis molestie. Est lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque. Varius quam quisque id diam vel quam elementum pulvinar.</p><p>Varius sit amet mattis vulputate enim nulla. Posuere sollicitudin aliquam ultrices sagittis. Feugiat nisl pretium fusce id velit ut. Interdum posuere lorem ipsum dolor sit. Aliquam sem fringilla ut morbi tincidunt augue interdum velit.</p>"
   },
   {
-    title: "Dance With Dragons",
+    title: "Dance With Finished",
     status: "FinishedMinting",
     slug: "abstract-odyssey-8",
     coverImg:
@@ -100,6 +107,7 @@ const collections: Collection[] = [
     artist: artists[Math.floor(Math.random() * artists.length)],
     mintPrice: 0.4,
     totalTokens: 20,
+    description: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisi porta lorem mollis aliquam ut porttitor leo a. Suspendisse in est ante in nibh mauris cursus mattis molestie. Est lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque. Varius quam quisque id diam vel quam elementum pulvinar.</p><p>Varius sit amet mattis vulputate enim nulla. Posuere sollicitudin aliquam ultrices sagittis. Feugiat nisl pretium fusce id velit ut. Interdum posuere lorem ipsum dolor sit. Aliquam sem fringilla ut morbi tincidunt augue interdum velit.</p>"
   },
   {
     title: "Winds of Winter",
@@ -110,9 +118,10 @@ const collections: Collection[] = [
     artist: artists[Math.floor(Math.random() * artists.length)],
     mintPrice: 0.1,
     totalTokens: 20,
+    description: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisi porta lorem mollis aliquam ut porttitor leo a. Suspendisse in est ante in nibh mauris cursus mattis molestie. Est lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque. Varius quam quisque id diam vel quam elementum pulvinar.</p><p>Varius sit amet mattis vulputate enim nulla. Posuere sollicitudin aliquam ultrices sagittis. Feugiat nisl pretium fusce id velit ut. Interdum posuere lorem ipsum dolor sit. Aliquam sem fringilla ut morbi tincidunt augue interdum velit.</p>"
   },
   {
-    title: "Feast for Crows",
+    title: "Feast for Paused",
     status: "MintingPaused",
     slug: "abstract-odyssey-10",
     coverImg:
@@ -120,9 +129,10 @@ const collections: Collection[] = [
     artist: artists[Math.floor(Math.random() * artists.length)],
     mintPrice: 0.2,
     totalTokens: 20,
+    description: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisi porta lorem mollis aliquam ut porttitor leo a. Suspendisse in est ante in nibh mauris cursus mattis molestie. Est lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque. Varius quam quisque id diam vel quam elementum pulvinar.</p><p>Varius sit amet mattis vulputate enim nulla. Posuere sollicitudin aliquam ultrices sagittis. Feugiat nisl pretium fusce id velit ut. Interdum posuere lorem ipsum dolor sit. Aliquam sem fringilla ut morbi tincidunt augue interdum velit.</p>"
   },
   {
-    title: "Dance With Dragons",
+    title: "Dance With Paused",
     status: "MintingPaused",
     slug: "abstract-odyssey-11",
     coverImg:
@@ -130,6 +140,7 @@ const collections: Collection[] = [
     artist: artists[Math.floor(Math.random() * artists.length)],
     mintPrice: 0.4,
     totalTokens: 20,
+    description: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisi porta lorem mollis aliquam ut porttitor leo a. Suspendisse in est ante in nibh mauris cursus mattis molestie. Est lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque. Varius quam quisque id diam vel quam elementum pulvinar.</p><p>Varius sit amet mattis vulputate enim nulla. Posuere sollicitudin aliquam ultrices sagittis. Feugiat nisl pretium fusce id velit ut. Interdum posuere lorem ipsum dolor sit. Aliquam sem fringilla ut morbi tincidunt augue interdum velit.</p>"
   },
   {
     title: "Winds of Winter",
@@ -140,12 +151,12 @@ const collections: Collection[] = [
     artist: artists[Math.floor(Math.random() * artists.length)],
     mintPrice: 0.1,
     totalTokens: 20,
+    description: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisi porta lorem mollis aliquam ut porttitor leo a. Suspendisse in est ante in nibh mauris cursus mattis molestie. Est lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque. Varius quam quisque id diam vel quam elementum pulvinar.</p><p>Varius sit amet mattis vulputate enim nulla. Posuere sollicitudin aliquam ultrices sagittis. Feugiat nisl pretium fusce id velit ut. Interdum posuere lorem ipsum dolor sit. Aliquam sem fringilla ut morbi tincidunt augue interdum velit.</p>"
   }
 ]
 
 for (const key of Object.keys(collections)) {
   collections[key].tokens = tokens;
-  collections[key].description = "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisi porta lorem mollis aliquam ut porttitor leo a. Suspendisse in est ante in nibh mauris cursus mattis molestie. Est lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque. Varius quam quisque id diam vel quam elementum pulvinar.</p><p>Varius sit amet mattis vulputate enim nulla. Posuere sollicitudin aliquam ultrices sagittis. Feugiat nisl pretium fusce id velit ut. Interdum posuere lorem ipsum dolor sit. Aliquam sem fringilla ut morbi tincidunt augue interdum velit.</p>"
 }
 
 export default collections;
