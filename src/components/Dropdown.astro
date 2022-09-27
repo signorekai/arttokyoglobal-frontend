@@ -15,11 +15,11 @@ const { id, className = "", label, selects, align = "right" } = Astro.props;
 
 <div
   x-cloak
-  class={`relative z-50 pt-2 max-h-8 md:w-auto md:max-h-max ${className}`}
+  class={`relative z-50 md:pt-2 max-h-8 md:w-auto md:max-h-max ${className}`}
   x-data={`dropdown('${JSON.stringify(selects)}')`}
 >
   <span
-    class="font-trade-gothic font-normal text-sm leading-4 tracking-xl uppercase"
+    class="hidden md:inline font-trade-gothic font-normal text-sm leading-4 tracking-xl uppercase"
   >
     {label}
   </span>
