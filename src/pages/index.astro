@@ -6,10 +6,10 @@ import Token from "../components/Token.astro";
 import Dropdown from "../components/Dropdown.astro";
 import Collections from "../components/ClientCollection.astro";
 import Carousel from "../components/ClientCarousel.astro";
-import Footer from "../components/Footer.astro";
 import Card from "../components/ClientCard.astro";
 
-import collections, { Collection } from "../data/collections";
+import collections from "../data/collections";
+import type { Collection } from "../data/collections";
 
 const featuredCollections: Collection[] = [
   {
@@ -193,7 +193,11 @@ const featuredCollections: Collection[] = [
           </div>
         </div>
       </div>
-      <Carousel className="pb-10 lg:pb-20" data={featuredCollections[0].tokens}>
+      <Carousel
+        className="pb-10 lg:pb-20"
+        data={featuredCollections[0].tokens}
+        activeCellWidth="80%"
+      >
         <div slot="template" class="carousel-item w-2/3 lg:w-1/4">
           <Card
             backgroundImage="${item.src}"
@@ -202,31 +206,23 @@ const featuredCollections: Collection[] = [
         </div>
       </Carousel>
     </section>
-    <section class="relative m-0 md:mt-12">
-      <div
-        class="z-0 pointer-events-none container container--xl absolute top-0 left-1/2 -translate-x-1/2 mt-4 md:mt-0 w-[calc(100vw_-_2rem)] h-4/5 rounded-4xl"
-      >
-      </div>
-      <div class="container relative z-10">
-        <div class="pt-4 md:pt-8">
-          <div
-            class="mt-8 md:mt-0 px-4 md:max-h-10 flex flex-col gap-y-1 md:flex-row justify-center items-center md:items-start md:justify-between"
-          >
-            <a
-              href="/collections"
-              class="btn btn--black btn--standard inline-flex"
-              ><h4>View all collections</h4>
-            </a>
-            <Dropdown
-              label="Browse"
-              id="allCollections"
-              selects={[
-                { label: "Currently Minting", event: "CurrentlyMinting" },
-                { label: "Minting Completed", event: "FinishedMinting" },
-                { label: "Minting Paused", event: "MintingPaused" },
-              ]}
-            />
-          </div>
+    <section class="relative m-0 md:mt-16 has-bg has-bg--large">
+      <div class="container">
+        <div class="mt-8 md:mt-4 px-4 md:px-8 dropdown-wrapper">
+          <a
+            href="/collections"
+            class="btn btn--black btn--standard inline-flex"
+            ><h4>View all collections</h4>
+          </a>
+          <Dropdown
+            label="Browse"
+            id="allCollections"
+            selects={[
+              { label: "Currently Minting", event: "CurrentlyMinting" },
+              { label: "Minting Completed", event: "FinishedMinting" },
+              { label: "Minting Paused", event: "MintingPaused" },
+            ]}
+          />
         </div>
       </div>
 
@@ -249,7 +245,7 @@ const featuredCollections: Collection[] = [
           }}
           data={collections}
           buttonPosition={"outside"}
-          className="lg:pt-2"
+          className="carousel--btn-flush lg:pt-2 md:px-8 lg:px-0"
           activeCellWidth="100%"
           cellAlign="center"
           wrapAround={false}
