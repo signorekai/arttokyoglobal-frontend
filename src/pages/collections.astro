@@ -157,32 +157,29 @@ const featuredCollections: Collection[] = [
             className="inline-block lg:ml-6"
             label="Browse"
             id="sortBy"
+            listenTo="allCollections"
             selects={[
-              { label: "Currently Minting", event: "CurrentlyMinting" },
-              { label: "Minting Completed", event: "FinishedMinting" },
-              { label: "Minting Paused", event: "MintingPaused" },
+              {
+                label: "Currently Minting",
+                filters: [["status", "CurrentlyMinting"]],
+              },
+              {
+                label: "Minting Completed",
+                filters: [["status", "FinishedMinting"]],
+              },
+              {
+                label: "Minting Paused",
+                filters: [["status", "MintingPaused"]],
+              },
             ]}
           />
         </div>
         <div class="content-wrapper">
           <div
             x-data={`filterables({
-            listenTo: "sortBy",
+            id: "allCollections",
+            listenTo: ["sortBy"],
             data: ${JSON.stringify(collections)},
-            filters: ${JSON.stringify({
-              CurrentlyMinting: {
-                field: "status",
-                value: "CurrentlyMinting",
-              },
-              FinishedMinting: {
-                field: "status",
-                value: "FinishedMinting",
-              },
-              MintingPaused: {
-                field: "status",
-                value: "MintingPaused",
-              },
-            })}
           })`}
           >
             <div

@@ -196,36 +196,30 @@ import "../styles/fontawesome.css";
 
   document.addEventListener("alpine:init", () => {
     Alpine.data("filterables", (opts) => {
-      const { filters, data, listenTo } = opts;
-      const defaultFilter = opts.defaultFilter || Object.values(filters)[0];
-      const store = { filtered: [], data, filters };
+      const { data, listenTo = [], id } = opts;
+      const store = { filtered: [], data, id };
 
-      store.filtered = _filter(data, [
-        defaultFilter.field,
-        defaultFilter.value,
-      ]);
       return {
         ...store,
         init() {
-          document.addEventListener(listenTo, ({ detail }) => {
-            const { filterEvent } = detail;
-            if (this.$data.filters[filterEvent]) {
-              this.$root.style.minHeight = `${this.$refs.container.clientHeight}`;
-              this.$refs.container.style.opacity = 0;
+          listenTo.map((evt) => {
+            document.addEventListener(evt, ({ detail }) => {
+              const { filters, sortings } = detail;
 
-              const newFilter = this.$data.filters[filterEvent];
-              const filtered = _filter(this.$data.data, [
-                newFilter.field,
-                newFilter.value,
-              ]);
-
-              setTimeout(() => {
-                this.$data.filtered = filtered;
-                this.$root.style.minHeight = "auto";
-                this.$refs.container.style.opacity = 1;
-              }, 300);
-            }
+              // @todo add sorting
+              if (filters) {
+                this.$root.style.minHeight = `${this.$refs.container.clientHeight}`;
+                this.$refs.container.style.opacity = 0;
+                const filtered = _filter(this.$data.data, ...filters);
+                setTimeout(() => {
+                  this.$data.filtered = filtered;
+                  this.$root.style.minHeight = "auto";
+                  this.$refs.container.style.opacity = 1;
+                }, 300);
+              }
+            });
           });
+          this.$dispatch(`${id}:init`);
         },
       };
     });

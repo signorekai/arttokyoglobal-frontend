@@ -4,13 +4,21 @@ export interface Props {
   label: string;
   id: string;
   align?: "right" | "left";
+  listenTo: string;
   selects: {
     label: string;
-    event: string;
+    filters?: [string, string][];
   }[];
 }
 
-const { id, className = "", label, selects, align = "right" } = Astro.props;
+const {
+  id,
+  className = "",
+  label,
+  selects,
+  align = "right",
+  listenTo,
+} = Astro.props;
 ---
 
 <div
@@ -56,7 +64,7 @@ const { id, className = "", label, selects, align = "right" } = Astro.props;
     <template x-for="option in selects">
       <button
         class="option"
-        x-on:click={`if (currentlySelected !== option.label ) { currentlySelected = option.label; $dispatch('${id}', {filterEvent: option.event}) }; open = false; `}
+        x-on:click={`if (currentlySelected !== option.label ) { currentlySelected = option.label; console.log(option.filters); $dispatch('${id}', {filters: option.filters}) }; open = false; `}
         x-text="option.label"></button>
     </template>
   </div>
@@ -87,14 +95,16 @@ const { id, className = "", label, selects, align = "right" } = Astro.props;
   }
 </style>
 
-<script>
-  import Alpine from "alpinejs";
+<script define:vars={{ listenTo, id }}>
   document.addEventListener("alpine:init", () => {
-    Alpine.data("dropdown", (selects: string) => ({
+    Alpine.data("dropdown", (selects) => ({
       open: false,
       selects: JSON.parse(selects),
       currentlySelected: "",
       init() {
+        document.addEventListener(`${listenTo}:init`, () => {
+          this.$dispatch(id, { filters: this.$data.selects[0].filters });
+        });
         this.$data.currentlySelected = this.$data.selects[0].label;
       },
     }));
