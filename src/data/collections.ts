@@ -1,4 +1,5 @@
 import artists, { Artist } from "./artists";
+import tokens from "./tokens";
 
 export type CollectionStatus = "CurrentlyMinting" | "MintingPaused" | "FinishedMinting";
 
@@ -10,6 +11,7 @@ export interface Collection {
   artist: Artist;
   mintPrice: number;
   totalTokens: number;
+  description: string;
   tokens?: {
     title: string;
     src: string;
@@ -140,5 +142,10 @@ const collections: Collection[] = [
     totalTokens: 20,
   }
 ]
+
+for (const key of Object.keys(collections)) {
+  collections[key].tokens = tokens;
+  collections[key].description = "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisi porta lorem mollis aliquam ut porttitor leo a. Suspendisse in est ante in nibh mauris cursus mattis molestie. Est lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque. Varius quam quisque id diam vel quam elementum pulvinar.</p><p>Varius sit amet mattis vulputate enim nulla. Posuere sollicitudin aliquam ultrices sagittis. Feugiat nisl pretium fusce id velit ut. Interdum posuere lorem ipsum dolor sit. Aliquam sem fringilla ut morbi tincidunt augue interdum velit.</p>"
+}
 
 export default collections;
