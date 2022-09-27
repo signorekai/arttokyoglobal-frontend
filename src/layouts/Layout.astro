@@ -190,3 +190,37 @@ import "../styles/fontawesome.css";
     </style>
   </body>
 </html>
+
+<script>
+  import _filter from "lodash/filter";
+  document.addEventListener("alpine:init", () => {
+    Alpine.data("filterables", (opts) => {
+      const { filters, data, listenTo } = opts;
+      const defaultFilter = opts.defaultFilter || Object.values(filters)[0];
+      const store = { filtered: [], data, filters };
+
+      store.filtered = _filter(data, [
+        defaultFilter.field,
+        defaultFilter.value,
+      ]);
+      return {
+        ...store,
+        init() {
+          document.addEventListener(listenTo, ({ detail }) => {
+            const { filterEvent } = detail;
+            if (this.$data.filters[filterEvent]) {
+              const newFilter = this.$data.filters[filterEvent];
+
+              const filtered = _filter(this.$data.data, [
+                newFilter.field,
+                newFilter.value,
+              ]);
+
+              this.$data.filtered = filtered;
+            }
+          });
+        },
+      };
+    });
+  });
+</script>
