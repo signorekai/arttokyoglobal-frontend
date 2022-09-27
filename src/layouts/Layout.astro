@@ -193,6 +193,7 @@ import "../styles/fontawesome.css";
 
 <script>
   import _filter from "lodash/filter";
+
   document.addEventListener("alpine:init", () => {
     Alpine.data("filterables", (opts) => {
       const { filters, data, listenTo } = opts;
@@ -209,14 +210,20 @@ import "../styles/fontawesome.css";
           document.addEventListener(listenTo, ({ detail }) => {
             const { filterEvent } = detail;
             if (this.$data.filters[filterEvent]) {
-              const newFilter = this.$data.filters[filterEvent];
+              this.$root.style.minHeight = `${this.$refs.container.clientHeight}`;
+              this.$refs.container.style.opacity = 0;
 
+              const newFilter = this.$data.filters[filterEvent];
               const filtered = _filter(this.$data.data, [
                 newFilter.field,
                 newFilter.value,
               ]);
 
-              this.$data.filtered = filtered;
+              setTimeout(() => {
+                this.$data.filtered = filtered;
+                this.$root.style.minHeight = "auto";
+                this.$refs.container.style.opacity = 1;
+              }, 300);
             }
           });
         },
