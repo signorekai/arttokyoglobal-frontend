@@ -3,13 +3,14 @@ export interface Props {
   className?: string;
   label: string;
   id: string;
+  align?: "right" | "left";
   selects: {
     label: string;
     event: string;
   }[];
 }
 
-const { id, className = "", label, selects } = Astro.props;
+const { id, className = "", label, selects, align = "right" } = Astro.props;
 ---
 
 <div
@@ -50,7 +51,7 @@ const { id, className = "", label, selects } = Astro.props;
     x-transition:leave-start="opacity-100 translate-y-00"
     x-transition:leave-end="opacity-0 -translate-y-12 "
     x-on:click.outside="open = false"
-    class="select"
+    class={`select ${align === "right" ? "-right-4" : "-left-4"}`}
   >
     <template x-for="option in selects">
       <button
@@ -63,11 +64,13 @@ const { id, className = "", label, selects } = Astro.props;
 
 <style>
   .select {
-    @apply absolute -right-4 top-[120%];
+    @apply w-max;
+    @apply absolute top-[120%];
     @apply ml-3 py-2 px-5 rounded-3xl bg-white shadow-btn inline-flex flex-col z-40;
   }
 
   .option {
+    @apply w-max;
     @apply [&:nth-child(2)]:border-0;
     @apply font-roc-grotesk text-sm uppercase tracking-widest font-bold text-black/25;
     @apply py-2 w-full text-right border-t-grey-light;
