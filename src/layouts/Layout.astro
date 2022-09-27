@@ -80,6 +80,7 @@ import "../styles/fontawesome.css";
         x-transition:leave="transition-all ease-in duration-200"
         x-transition:leave-start="opacity-100 translate-y-0 md:translate-x-0"
         x-transition:leave-end="opacity-0 -translate-y-12 md:translate-y-0 md:translate-x-12"
+        x-on:click.outside="showMenu = false"
       >
         <button class="close-btn group" x-on:click="showMenu = !showMenu">
           <svg
@@ -126,7 +127,6 @@ import "../styles/fontawesome.css";
           </div>
         </div>
       </div>
-      <div class="modal-bg" x-on:click="showMenu = !showMenu"></div>
     </div>
     <div class="content" x-bind:class="showMenu && 'blur-sm'">
       <slot />
