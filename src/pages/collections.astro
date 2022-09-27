@@ -156,7 +156,7 @@ const featuredCollections: Collection[] = [
           <Dropdown
             className="inline-block lg:ml-6"
             label="Browse"
-            id="sortBy"
+            id="filterBy"
             listenTo="allCollections"
             selects={[
               {
@@ -178,7 +178,7 @@ const featuredCollections: Collection[] = [
           <div
             x-data={`filterables({
             id: "allCollections",
-            listenTo: ["sortBy"],
+            listenTo: ["filterBy"],
             data: ${JSON.stringify(collections)},
           })`}
           >
