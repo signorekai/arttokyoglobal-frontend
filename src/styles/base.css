@@ -77,10 +77,27 @@
     @apply w-full h-full absolute top-0 left-0 bg-grey-dark/50 z-40;
   }
 
-  .collection-card-meta {
-    @apply flex flex-col lg:flex-row w-full mt-4 mb-2;
+  .card {
+    @apply rounded-4xl overflow-hidden bg-white border-white shadow-mild border-12 hover:md:border-10;
+    @apply transition-all;
+
+    .card__img-wrapper {
+      @apply overflow-hidden aspect-square w-full rounded-2xl
+    }
+
+    .card__img {
+      @apply relative transition-transform w-full h-full bg-center bg-cover;
+    }
+  }
+
+  .card__meta {
+    @apply w-full mt-4 mb-2;
     @apply justify-between items-start lg:items-center;
     @apply gap-y-1;
+  }
+
+  .card__meta--2-col {
+    @apply flex flex-col lg:flex-row
   }
 
   .carousel-item {
