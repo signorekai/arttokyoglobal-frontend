@@ -1,0 +1,71 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Dropdown from "../components/Dropdown.astro";
+import artists from "../data/artists";
+---
+
+<Layout title="Artists">
+  <main>
+    <section class="relative m-0 md:mt-16 has-bg has-bg--large">
+      <div
+        class="container"
+        x-data={`filterables({ 
+        id: "allArtists",
+        listenTo: ["sortBy"],
+        data: ${JSON.stringify(artists)},
+      })`}
+      >
+        <div
+          class="mt-4 pt-4 md:pt-0 px-4 md:px-8 dropdown-wrapper flex-row z-40"
+        >
+          <Dropdown
+            className="block"
+            label="Sort By"
+            id="sortBy"
+            listenTo="allArtists"
+            selects={[
+              { label: "A-Z", sorting: [["name"], ["asc"]] },
+              { label: "Z-A", sorting: [["name"], ["desc"]] },
+            ]}
+          />
+          <h3 class="pt-2">Artists</h3>
+        </div>
+        <div
+          class="grid grid-cols-1 px-8 lg:px-0 md:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-3 mt-4"
+          x-ref="container"
+          x-bind="container"
+        >
+          <template x-for="artist in filtered" :key="artist.slug">
+            <a
+              class="col-span-1 group hover:scale-105 transition-transform"
+              :href="`/artists/${artist.slug}`"
+            >
+              <div class="card hover:md:border-12">
+                <div class="card__img-wrapper">
+                  <div
+                    class="group-hover:scale-110 card__img"
+                    x-bind:style="`background-image: url(${artist.coverImg})`"
+                  >
+                  </div>
+                </div>
+                <div class="card__meta text-center relative transition-all">
+                  <img
+                    :src="artist.profilePhoto"
+                    alt=""
+                    class="absolute group-hover:grayscale aspect-square w-16 rounded-xl left-1/2 -translate-x-1/2 top-0 -translate-y-2/3"
+                  />
+                  <h2 x-text="artist.name" class="pt-8"></h2>
+                  <h6
+                    class="mx-auto max-w-4/5 group-hover:text-black/50"
+                    x-text="artist.bio"
+                  >
+                  </h6>
+                </div>
+              </div>
+            </a>
+          </template>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
