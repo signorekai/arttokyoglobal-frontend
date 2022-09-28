@@ -1,0 +1,18 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import artists from "../../data/artists";
+import _find from "lodash/find";
+
+const { slug } = Astro.params;
+const artist = _find(artists, ["slug", slug]);
+---
+
+<Layout title={artist.name}>
+  <main>
+    <div
+      class="w-full h-96 bg-cover bg-center"
+      style={`background-image: url(${artist.coverImg})`}
+    >
+    </div>
+  </main>
+</Layout>
