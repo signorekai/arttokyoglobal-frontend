@@ -1,18 +1,72 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import artists from "../../data/artists";
+import artists, { allArtists } from "../../data/artists";
 import _find from "lodash/find";
 
 const { slug } = Astro.params;
 const artist = _find(artists, ["slug", slug]);
+
+const allPaths = artists.map((artist) => ({
+  params: {
+    slug: artist.slug,
+  },
+}));
+
+artist.intro = `<p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisi
+            porta lorem mollis aliquam ut porttitor leo a. Suspendisse in est
+            ante in nibh mauris cursus mattis molestie. Est lorem ipsum dolor
+            sit amet consectetur adipiscing elit pellentesque. Varius quam
+            quisque id diam vel quam elementum pulvinar.
+          </p>
+          <p>
+            Varius sit amet mattis vulputate enim nulla. Posuere sollicitudin
+            aliquam ultrices sagittis. Feugiat nisl pretium fusce id velit ut.
+            Interdum posuere lorem ipsum dolor sit. Aliquam sem fringilla ut
+            morbi tincidunt augue interdum velit.
+          </p>`;
+
+export function getStaticPaths() {
+  return allArtists;
+}
 ---
 
 <Layout title={artist.name}>
   <main>
     <div
-      class="w-full h-96 bg-cover bg-center"
+      class="w-full aspect-video max-h-screen-2/3 bg-cover bg-center"
       style={`background-image: url(${artist.coverImg})`}
     >
+    </div>
+    <div class="container container-grid">
+      <div
+        class="relative col-start-1 col-span-1 md:col-span-8 lg:col-start-4 lg:col-span-8 flex flex-col lg:flex-row items-center lg:justify-end"
+      >
+        <div
+          class="order-2 lg:order-1 p-4 pb-4 lg:p-6 lg:pr-0 w-full lg:w-1/2 lg:mr-[37%] text-center lg:text-right"
+        >
+          <h2 class="inline">{artist.name}</h2>
+          <div
+            class="text-body font-trade-gothic md:w-4/5 lg:w-auto md:mx-auto"
+          >
+            {artist.bio}
+          </div>
+        </div>
+        <img
+          src={artist.profilePhoto}
+          class="w-32 md:w-64 aspect-square order-1 -mt-16 md:-mt-24 lg:mt-0 lg:order-2 lg:absolute right-0 bottom-0 rounded-xl"
+          alt=""
+        />
+      </div>
+      <div
+        class="col-start-1 md:col-start-2 lg:col-start-2 col-span-1 md:col-end-8 lg:col-end-12 py-4 pt-0 lg:pt-4"
+      >
+        <div
+          class="w-full order-3 text-center lg:text-right"
+          set:html={artist.intro}
+        >
+        </div>
+      </div>
     </div>
   </main>
 </Layout>
