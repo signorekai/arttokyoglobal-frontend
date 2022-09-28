@@ -2,8 +2,10 @@
 import ethLogo from "../images/eth-logo.png";
 ---
 
-<a x-bind:href="`/collections/${item.slug}`">
-  <div class="group card hover:lg:pb-1">
+<a x-bind:href="`/collections/${item.slug}`"> </a><div
+  class="group card hover:lg:pb-1"
+>
+  <a x-bind:href="`/collections/${item.slug}`">
     <div class="card__img-wrapper">
       <div
         class="group-hover:scale-110 card__img"
@@ -11,18 +13,24 @@ import ethLogo from "../images/eth-logo.png";
       >
       </div>
     </div>
-    <div class="card__meta card__meta--2-col">
-      <div class="flex-1">
+  </a>
+  <div class="card__meta card__meta--2-col">
+    <div class="flex-1">
+      <a x-bind:href="`/collections/${item.slug}`">
         <h2 class="text-red" x-text="item.title"></h2>
-        <h6 class="uppercase text-grey-dark" x-text="`By ${item.artist.name}`">
-        </h6>
-      </div>
-      <h4
-        class="inline-flex flex-row items-center justify-center pl-0 lg:pl-3 text-black"
+      </a>
+      <a
+        :href="`/artists/${item.artist.slug}`"
+        class="hover:text-black text-grey-dark"
       >
-        <img src={ethLogo} width="20" alt="" />
-        <span class="px-1" x-text="item.mintPrice"></span>
-      </h4>
+        <h6 class="uppercase" x-text="`By ${item.artist.name}`"></h6>
+      </a>
     </div>
+    <h4
+      class="inline-flex flex-row items-center justify-center pl-0 lg:pl-3 text-black"
+    >
+      <img src={ethLogo} width="20" alt="" />
+      <span class="px-1" x-text="item.mintPrice"></span>
+    </h4>
   </div>
-</a>
+</div>
