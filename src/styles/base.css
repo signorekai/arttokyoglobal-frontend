@@ -20,6 +20,10 @@
     @apply font-roc-grotesk text-xl leading-5 font-extrabold uppercase;
   }
 
+  h3 {
+    @apply font-roc-grotesk font-extrabold text-lg tracking-widest uppercase text-black;
+  }
+
   h4 {
     @apply font-futura-pt font-extrabold text-base leading-5 tracking-wider uppercase;
   }
