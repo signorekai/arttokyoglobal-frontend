@@ -161,7 +161,7 @@
     content: " ";
     @apply container w-[calc(100vw_-_2rem)] h-4/5;
     @apply absolute block -top-10 left-1/2 -translate-x-1/2 rounded-4xl;
-    @apply z-0 pointer-events-none px-2 mt-4 md:mt-0 bg-peach;
+    @apply z-0 pointer-events-none px-2 mt-4 bg-peach;
   }
 
   .has-bg--large:before {
