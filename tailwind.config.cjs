@@ -48,11 +48,6 @@ module.exports = {
 				150: '37.5rem',
 				...heights,
 			},
-			maxWidth: {
-				'screen-2/3': '67vw',
-				'screen-3/4': '75vw',
-				'screen-9/10': '90vw',
-			},
 			maxHeight: {
 				...heights,
 			},
@@ -74,7 +69,7 @@ module.exports = {
 			},
 			fontSize: {
 				'body': ['clamp(1rem, 2vw, 1.125rem)', { lineHeight: '1.2'}],
-				'sm': ['clamp(0.75rem, 2vw, 0.875rem)', { lineHeight: '1.2'}],
+				'sm': ['clamp(0.825rem, 2vw, 0.9rem)', { lineHeight: '1.2'}],
 				'5xl': ['clamp(2rem, 6vw, 3rem)', { lineHeight: '0.9'}]
 			},
 			fontFamily: {
@@ -83,8 +78,11 @@ module.exports = {
         "trade-gothic": ['trade-gothic-next', ...defaultTheme.fontFamily.sans],
       },
 			maxWidth: {
-				"screen-1/2": "50%",
-				"screen-2/3": "67%",
+				'screen-1/2': '50vw',
+				'screen-2/3': '67vw',
+				'screen-3/4': '75vw',
+				'screen-9/10': '90vw',
+				'4/5': '80%',
 			},
 			boxShadow: {
 				'md': '0 4px 10px rgba(109, 109, 109, 0.1)',
