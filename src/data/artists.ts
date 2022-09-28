@@ -46,7 +46,7 @@ const artists: Artist[] = [
     name: '#1xb0e2',
     slug: '1xb0e2',
     coverImg: 'https://images.unsplash.com/photo-1662350062239-1a8816651f78?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80',
-    profilePhoto: 'https://source.unsplash.com/500x500?portrait',
+    profilePhoto: 'https://images.unsplash.com/photo-1596983528250-560ea6bb1859?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=500&ixid=MnwxfDB8MXxyYW5kb218MHx8bWluZWNyYWZ0fHx8fHx8MTY2NDM1ODIzOQ&ixlib=rb-1.2.1&q=80&w=500',
     bio: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut blanditiis consequuntur nihil ad placeat, unde omnis reiciendis debitis!"
   },
   {
