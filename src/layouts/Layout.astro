@@ -198,10 +198,15 @@ import "../styles/fontawesome.css";
   document.addEventListener("alpine:init", () => {
     Alpine.data("filterables", (opts) => {
       const { data, listenTo = [], id } = opts;
-      const store = { filtered: [], data, id, filters: [], sorting: [] };
+      const store = { filtered: data, data, id, filters: [], sorting: [] };
 
       return {
         ...store,
+        container: {
+          ["@alpine:initialized.document"]() {
+            this.$dispatch(`${id}:init`);
+          },
+        },
         init() {
           listenTo.map((evt) => {
             document.addEventListener(evt, ({ detail }) => {
@@ -233,7 +238,6 @@ import "../styles/fontawesome.css";
               }, 300);
             });
           });
-          this.$dispatch(`${id}:init`);
         },
       };
     });
