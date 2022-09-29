@@ -93,7 +93,7 @@ const artists: Artist[] = [
   },
 ]
 
-export const allArtists = artists.map((artist) => ({
+export const artistSlugs = artists.map((artist) => ({
   params: {
     slug: artist.slug,
   },
