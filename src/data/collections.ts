@@ -170,4 +170,5 @@ for (const key of Object.keys(collections)) {
   collections[key].tokens = tokens;
 }
 
+export const collectionSlugs = collections.map(collection => ({ params: { slug: collection.slug}}))
 export default collections;
