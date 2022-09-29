@@ -6,7 +6,7 @@ import artists from "../data/artists";
 
 <Layout title="Artists">
   <main>
-    <section class="relative m-0 md:mt-16 has-bg has-bg--large">
+    <section class="relative m-0 md:mt-16 has-bg has-bg--large has-bg--inline">
       <div
         class="container"
         x-data={`filterables({ 
@@ -15,7 +15,7 @@ import artists from "../data/artists";
         data: ${JSON.stringify(artists)},
       })`}
       >
-        <div class="pt-4 md:pt-0 px-4 md:px-8 dropdown-wrapper flex-row z-40">
+        <div class="pt-4 md:pt-0 px-8 md:px-8 dropdown-wrapper flex-row z-40">
           <Dropdown
             className="block"
             label="Sort By"
