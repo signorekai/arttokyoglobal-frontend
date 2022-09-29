@@ -173,6 +173,10 @@
     @apply max-w-[1280px];
   }
 
+  .has-bg--inline {
+    @apply before:-top-1 lg:before:-top-10 before:h-full;
+  }
+
 }
 
 @layer utilities {
