@@ -1,22 +1,40 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import artists, { allArtists } from "../../data/artists";
+import collections from "../../data/collections";
 import _find from "lodash/find";
+import Dropdown from "../../components/Dropdown.astro";
 
 const { slug } = Astro.params;
 const artist = _find(artists, ["slug", slug]);
 
-const allPaths = artists.map((artist) => ({
-  params: {
-    slug: artist.slug,
-  },
-}));
+artist.collections = [];
+
+// random collection generation
+const count = 5;
+
+const getRandomCollection = (currentCollection) => {
+  const x = Math.floor(Math.random() * collections.length);
+  if (_find(currentCollection, ["slug", collections[x].slug]) === undefined) {
+    const collection = { ...collections[x] };
+    delete collection.artist;
+    return collection;
+  } else {
+    console.log(collections[x].slug, "dup");
+    return getRandomCollection(currentCollection);
+  }
+};
+
+for (let x = 0; x < count; x++) {
+  artist.collections.push(getRandomCollection(artist.collections));
+}
+console.log("-----------");
 
 artist.intro = `<p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisi
-            porta lorem mollis aliquam ut porttitor leo a. Suspendisse in est
-            ante in nibh mauris cursus mattis molestie. Est lorem ipsum dolor
-            sit amet consectetur adipiscing elit pellentesque. Varius quam
+  eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisi
+  porta lorem mollis aliquam ut porttitor leo a. Suspendisse in est
+  ante in nibh mauris cursus mattis molestie. Est lorem ipsum dolor
+  sit amet consectetur adipiscing elit pellentesque. Varius quam
             quisque id diam vel quam elementum pulvinar.
           </p>
           <p>
@@ -24,8 +42,13 @@ artist.intro = `<p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
             aliquam ultrices sagittis. Feugiat nisl pretium fusce id velit ut.
             Interdum posuere lorem ipsum dolor sit. Aliquam sem fringilla ut
             morbi tincidunt augue interdum velit.
-          </p>`;
+            </p>`;
 
+const allPaths = artists.map((artist) => ({
+  params: {
+    slug: artist.slug,
+  },
+}));
 export function getStaticPaths() {
   return allArtists;
 }
@@ -68,5 +91,83 @@ export function getStaticPaths() {
         </div>
       </div>
     </div>
+    <section class="relative m-0 md:mt-8 has-bg has-bg--large has-bg--inline">
+      <div
+        class="container px-4 lg:px-10"
+        x-data={`filterables({id: "artist", listenTo: ['sortBy'], data: ${JSON.stringify(
+          artist.collections
+        )}})`}
+      >
+        <div
+          class="pt-8 lg:pt-0 px-4 md:px-8 lg:px-0 dropdown-wrapper flex-row z-40"
+        >
+          <Dropdown
+            className="block"
+            label="Sort By"
+            id="sortBy"
+            listenTo="artist"
+            selects={[
+              { label: "A-Z", sorting: [["title"], ["asc"]] },
+              { label: "Z-A", sorting: [["title"], ["desc"]] },
+            ]}
+          />
+          <h3 class="pt-2">Collections</h3>
+        </div>
+        <div
+          class="transition-opacity flex flex-col mt-8 md:mt-12 lg:mt-8 gap-y-8 lg:gap-y-16"
+          x-ref="container"
+          x-bind="container"
+        >
+          <template x-for="collection in filtered" :key="collection.slug">
+            <div
+              x-data="{ show: false }"
+              x-intersect.threshold.30="show = true"
+              class="md:grid grid-cols-10 transition-all mx-6 md:mx-8 lg:mx-0"
+              :class="show === false ? 'opacity-0 translate-y-2' : 'opacity-100 translate-y-0'"
+            >
+              <div class="col-span-4">
+                <img
+                  class="aspect-square w-full"
+                  alt="collection.title"
+                  :src="collection.coverImg"
+                />
+              </div>
+              <div
+                class="mt-6 md:mt-0 col-span-6 flex flex-col items-end text-right justify-center"
+              >
+                <a
+                  :href="`/collections/${collection.slug}`"
+                  class="text-right w-full lg:max-w-[75%]"
+                >
+                  <h1 x-text="collection.title"></h1>
+                </a>
+                <div class="group">
+                  <div class="flex flex-row my-2 items-center">
+                    <div>
+                      <h4 class="font-normal group-hover:text-black">
+                        <strong x-text="collection.tokens.length"></strong>
+                        of <strong x-text="collection.totalTokens"></strong>
+                        minted
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="collection-description md:ml-10"
+                  x-html="collection.description"
+                >
+                </div>
+              </div>
+            </div>
+          </template>
+        </div>
+      </div>
+    </section>
   </main>
 </Layout>
+<script>
+  import Alpine from "alpinejs";
+  import intersect from "@alpinejs/intersect";
+
+  Alpine.plugin(intersect);
+</script>
