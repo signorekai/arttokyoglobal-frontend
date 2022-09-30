@@ -192,6 +192,10 @@ import "../styles/fontawesome.css";
 </html>
 
 <script>
+  import Alpine from "alpinejs";
+  import intersect from "@alpinejs/intersect";
+
+  Alpine.plugin(intersect);
   import _filter from "lodash/filter";
   import _orderBy from "lodash/orderBy";
 
@@ -241,5 +245,14 @@ import "../styles/fontawesome.css";
         },
       };
     });
+
+    Alpine.data("fadeUp", () => ({
+      show: false,
+    }));
+
+    Alpine.bind("fadeUp", () => ({
+      "x-intersect.once": "show = true",
+      ":class": "show && 'fade-up--enter'",
+    }));
   });
 </script>
