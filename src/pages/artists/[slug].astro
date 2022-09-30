@@ -63,16 +63,22 @@ export function getStaticPaths() {
         <div
           class="order-2 lg:order-1 p-4 pb-4 lg:p-6 lg:pr-0 w-full lg:w-1/2 lg:mr-[37%] text-center lg:text-right"
         >
-          <h2 class="inline">{artist.name}</h2>
+          <h2 x-data="fadeUp" x-bind="fadeUp" class="fade-up--2">
+            {artist.name}
+          </h2>
           <div
-            class="text-body font-trade-gothic md:w-4/5 lg:w-auto md:mx-auto"
+            x-data="fadeUp"
+            x-bind="fadeUp"
+            class="fade-up--2 text-body font-trade-gothic md:w-4/5 lg:w-auto md:mx-auto"
           >
             {artist.bio}
           </div>
         </div>
         <img
+          x-data="fadeUp"
+          x-bind="fadeUp"
           src={artist.profilePhoto}
-          class="w-32 md:w-64 aspect-square order-1 -mt-16 md:-mt-24 lg:mt-0 lg:order-2 lg:absolute right-0 bottom-0 rounded-xl"
+          class="fade-up--2 w-32 md:w-64 aspect-square order-1 -mt-16 md:-mt-24 lg:mt-0 lg:order-2 lg:absolute right-0 bottom-0 rounded-xl"
           alt=""
         />
       </div>
@@ -80,7 +86,9 @@ export function getStaticPaths() {
         class="col-start-1 md:col-start-2 lg:col-start-2 col-span-1 md:col-end-8 lg:col-end-12 py-4 pt-0 lg:pt-4"
       >
         <div
-          class="w-full order-3 text-center lg:text-right"
+          x-data="fadeUp"
+          x-bind="fadeUp"
+          class="fade-up--4 w-full order-3 text-center lg:text-right"
           set:html={artist.intro}
         >
         </div>
@@ -123,7 +131,7 @@ export function getStaticPaths() {
               <div class="col-span-4">
                 <a
                   :href="`/collections/${collection.slug}`"
-                  class="hover:grayscale transition-all"
+                  class="transition-all"
                 >
                   <img
                     class="aspect-square w-full"

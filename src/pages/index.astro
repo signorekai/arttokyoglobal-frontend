@@ -8,6 +8,7 @@ import CollectionTemplate from "../components/ClientCollection.astro";
 import Carousel from "../components/ClientCarousel.astro";
 import Card from "../components/ClientCard.astro";
 
+import tokens from "../data/tokens";
 import collections from "../data/collections";
 import type { Collection } from "../data/collections";
 
@@ -90,6 +91,11 @@ const featuredCollections: Collection[] = [
     ],
   },
 ];
+
+const tallestFeaturedToken = _maxBy(
+  featuredCollections[0].tokens,
+  (token) => token.height / token.width
+);
 ---
 
 <Layout title="Home">
@@ -143,8 +149,11 @@ const featuredCollections: Collection[] = [
         class="lg:col-start-2 col-span-4 lg:col-span-5 flex justify-center items-center"
       >
         <Token
+          x-data="{ show: false }"
+          x-intersect.once="show = true"
+          x-bind:class="show && 'card-animation--enter'"
           title={featuredCollections[0].tokens[3].title}
-          className="w-screen-3/4 lg:w-auto lg:max-h-screen-1/3 lg:max-h-screen-2/3 lg:h-140"
+          className="w-screen-3/4 lg:w-auto lg:max-h-screen-1/3 lg:max-h-screen-2/3 lg:h-140 translate-y-12 card-animation--before"
           img={featuredCollections[0].tokens[3].src}
           aspectRatio={`${featuredCollections[0].tokens[3].width} / ${featuredCollections[0].tokens[3].height}`}
         />
@@ -200,6 +209,7 @@ const featuredCollections: Collection[] = [
       >
         <div slot="template" class="carousel-item w-2/3 lg:w-1/4">
           <Card
+            link="/tokens/${item.slug}"
             backgroundImage="${item.src}"
             aspectRatio="${item.width} / ${item.height}"
           />
@@ -255,6 +265,9 @@ const featuredCollections: Collection[] = [
   </main>
 </Layout>
 
-<style>
+<script>
+  import Alpine from "alpinejs";
+  import intersect from "@alpinejs/intersect";
 
-</style>
+  Alpine.plugin(intersect);
+</script>

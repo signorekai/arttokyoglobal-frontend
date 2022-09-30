@@ -20,7 +20,11 @@ export function getStaticPaths() {
 ---
 
 <Layout title={collection.title}>
-  <div class="container container-grid mt-24 items-center">
+  <div
+    class="container container-grid mt-24 items-center fade-up"
+    x-data="fadeUp"
+    x-bind="fadeUp"
+  >
     <div class="col-start-2 col-span-6 lg:col-end-7">
       <img
         class="aspect-square w-full"
@@ -65,7 +69,11 @@ export function getStaticPaths() {
       </div>
     </div>
   </div>
-  <section class="relative m-0 md:mt-4 lg:mt-12 p-4 lg:p-0">
+  <section
+    x-data="fadeUp"
+    x-bind="fadeUp"
+    class="relative m-0 md:mt-4 lg:mt-12 p-4 lg:p-0 fade-up"
+  >
     <div class="container bg-peach rounded-4xl px-6 py-4 md:px-11 md:py-8">
       <div class="dropdown-wrapper z-40">
         <div class="flex flex-col lg:flex-row items-start">
