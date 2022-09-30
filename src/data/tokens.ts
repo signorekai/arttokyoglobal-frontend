@@ -1,4 +1,6 @@
-const tokens = [
+import slugify from '@sindresorhus/slugify';
+
+let tokens = [
   {
     title: "Token 1",
     src: "/token-1.jpg",
@@ -72,5 +74,10 @@ const tokens = [
     height: 2629,
   },
 ]
+
+tokens = tokens.map(token => ({
+  ...token,
+  slug: slugify(token.title)
+}))
 
 export default tokens;
