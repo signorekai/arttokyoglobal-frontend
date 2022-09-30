@@ -6,7 +6,9 @@ import artists from "../data/artists";
 
 <Layout title="Artists">
   <main>
-    <section class="relative m-0 md:mt-16 has-bg has-bg--large has-bg--inline">
+    <section
+      class="relative m-0 md:mt-16 has-bg has-bg--large has-bg--inline min-h-screen"
+    >
       <div
         class="container"
         x-data={`filterables({ 
@@ -29,13 +31,13 @@ import artists from "../data/artists";
           <h3 class="pt-2">Artists</h3>
         </div>
         <div
-          class="grid grid-cols-1 px-8 lg:px-0 md:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-3 mt-4"
+          class="grid grid-cols-1 px-8 lg:px-0 md:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-5 mt-4"
           x-ref="container"
           x-bind="container"
         >
           <template x-for="artist in filtered" :key="artist.slug">
             <a
-              class="col-span-1 group hover:scale-105 transition-transform"
+              class="col-span-1 group hover:scale-105"
               :href="`/artists/${artist.slug}`"
             >
               <div class="card hover:md:border-12">

@@ -2,13 +2,19 @@
 export interface Props {
   aspectRatio: string;
   backgroundImage: string;
+  link: string;
 }
 
-const { aspectRatio, backgroundImage } = Astro.props;
+const { aspectRatio, backgroundImage, link = "" } = Astro.props;
+
+const Wrapper = link.length > 0 ? "a" : Fragment;
+console.log(link);
 ---
 
-<div
-  class="rounded-4xl border-6 border-white bg-cover bg-center shadow-card"
-  x-bind:style={`\`background-image: url(${backgroundImage}); aspect-ratio: ${aspectRatio}\``}
->
-</div>
+<Wrapper :href={`\`${link}\``}>
+  <div
+    class="rounded-4xl border-6 border-white bg-cover bg-center shadow-card"
+    x-bind:style={`\`background-image: url(${backgroundImage}); aspect-ratio: ${aspectRatio}\``}
+  >
+  </div>
+</Wrapper>
