@@ -177,11 +177,42 @@
     @apply before:-top-1 lg:before:-top-10 before:h-full;
   }
 
+  .fade-up {
+    @apply opacity-0 translate-y-12 delay-300 transition-all duration-500 ease-out;
+  }
 }
 
 @layer utilities {
   .collection-description {
     @apply text-body font-trade-gothic text-black/75;
+  }
+
+  .card-animation--before { 
+    @apply opacity-0 transition-all delay-500 duration-500 ease-out origin-bottom;
+  }
+
+  .card-animation--enter {
+    @apply translate-y-0 opacity-100 scale-100;
+  }
+
+  .fade-up--2 {
+    @apply fade-up delay-[400ms];
+  }
+
+  .fade-up--3 {
+    @apply fade-up delay-500;
+  }
+
+  .fade-up--4 {
+    @apply fade-up delay-[600ms];
+  }
+
+  .fade-up--5 {
+    @apply fade-up delay-[700ms];
+  }
+
+  .fade-up--enter {
+    @apply opacity-100 translate-y-0;
   }
 }
 
