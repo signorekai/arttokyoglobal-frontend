@@ -56,11 +56,13 @@ export function getStaticPaths() {
             of <strong>{collection.totalTokens}</strong> minted
           </h4>
         </div>
-        <img
-          src={collection.artist.profilePhoto}
-          alt={collection.artist.name}
-          class="aspect-square h-10 ml-3 rounded-lg grayscale group-hover:grayscale-0 transition-all"
-        />
+        <a href={`/artists/${collection.artist.slug}`}>
+          <img
+            src={collection.artist.profilePhoto}
+            alt={collection.artist.name}
+            class="aspect-square h-10 ml-3 rounded-lg grayscale group-hover:grayscale-0 transition-all"
+          />
+        </a>
       </div>
       <div
         class="collection-description md:ml-10"
