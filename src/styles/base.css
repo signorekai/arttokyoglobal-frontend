@@ -176,7 +176,7 @@
   }
 
   .has-bg--inline {
-    @apply before:-top-1 lg:before:-top-10 before:h-full;
+    @apply before:-top-1 lg:before:-top-10 before:h-[calc(100%_+_4rem)] !mb-10;
   }
 
   .fade-up {
@@ -215,6 +215,31 @@
 
   .fade-up--enter {
     @apply opacity-100 translate-y-0;
+  }
+
+  .features-table {
+    @apply w-full;
+
+    thead {
+      @apply border-b-2 border-black;
+    }
+
+    th {
+      @apply pb-2;
+    }
+
+    td, th {
+      @apply w-1/3;
+    }
+
+    tbody td {
+      @apply py-3 border-b-1 border-black;
+      @apply [&:nth-child(2)]:font-bold [&:nth-child(2)]:italic;
+    }
+
+    tr:last-child td {
+      @apply border-b-0 pb-0;
+    }
   }
 }
 
