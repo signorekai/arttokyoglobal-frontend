@@ -129,6 +129,7 @@ const featuredCollections: Collection[] = [
         >
           <div slot="template" class="carousel-item w-2/3 lg:w-1/4">
             <Card
+              link={`/collections/${featuredCollections[0].slug}/tokens/\${item.slug}`}
               backgroundImage="${item.src}"
               aspectRatio="${item.width} / ${item.height}"
             />
