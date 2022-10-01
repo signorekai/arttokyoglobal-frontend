@@ -66,7 +66,6 @@ const {
   document.addEventListener("alpine:init", () => {
     Alpine.data("clientCarousel", (opts) => {
       const options = { ...opts };
-      console.log(options.defaultFilter);
       if (options.defaultFilter.length === 2) {
         options.filtered = _filter(options.data, options.defaultFilter);
       } else {
