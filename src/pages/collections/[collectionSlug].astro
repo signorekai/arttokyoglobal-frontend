@@ -9,8 +9,8 @@ import tokens from "../../data/tokens";
 
 import _find from "lodash/find";
 
-const { slug } = Astro.params;
-const collection = _find(collections, ["slug", slug]);
+const { collectionSlug } = Astro.params;
+const collection = _find(collections, ["slug", collectionSlug]);
 
 collection.tokens = tokens;
 
@@ -110,6 +110,7 @@ export function getStaticPaths() {
             <template x-for="token in filtered" :key="token.title">
               <div class="carousel-item w-full">
                 <Card
+                  link={`/collections/${collection.slug}/tokens/\${token.slug}`}
                   backgroundImage="${token.src}"
                   aspectRatio="${token.width} / ${token.height}"
                 />

@@ -5,8 +5,8 @@ import collections from "../../data/collections";
 import _find from "lodash/find";
 import Dropdown from "../../components/Dropdown.astro";
 
-const { slug } = Astro.params;
-const artist = _find(artists, ["slug", slug]);
+const { artistSlug } = Astro.params;
+const artist = _find(artists, ["slug", artistSlug]);
 
 artist.collections = [];
 

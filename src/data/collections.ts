@@ -1,3 +1,4 @@
+import slugify from "@sindresorhus/slugify";
 import artists, { Artist } from "./artists";
 import tokens from "./tokens";
 
@@ -88,7 +89,7 @@ const collections: Collection[] = [
     description: "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisi porta lorem mollis aliquam ut porttitor leo a. Suspendisse in est ante in nibh mauris cursus mattis molestie. Est lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque. Varius quam quisque id diam vel quam elementum pulvinar.</p><p>Varius sit amet mattis vulputate enim nulla. Posuere sollicitudin aliquam ultrices sagittis. Feugiat nisl pretium fusce id velit ut. Interdum posuere lorem ipsum dolor sit. Aliquam sem fringilla ut morbi tincidunt augue interdum velit.</p>"
   },
   {
-    title: "Feast for Crows",
+    title: "Cackle of Crows",
     status: "CurrentlyMinting",
     slug: "abstract-odyssey-7",
     coverImg:
@@ -168,7 +169,23 @@ const collections: Collection[] = [
 
 for (const key of Object.keys(collections)) {
   collections[key].tokens = tokens;
+  collections[key].slug = slugify(collections[key].title);
 }
 
-export const collectionSlugs = collections.map(collection => ({ params: { slug: collection.slug}}))
+const collectionSlugs = collections.map(collection => ({ params: { collectionSlug: collection.slug}}))
+
+const collectionSlugsWithTokenSlugs = [];
+collections.forEach(collection => { 
+  collection.tokens.forEach((token) => {
+    collectionSlugsWithTokenSlugs.push({
+      params: {
+        collectionSlug: collection.slug,
+        tokenSlug: token.slug,
+      }
+    })
+  })
+})
+
+export { collectionSlugs, collectionSlugsWithTokenSlugs };
+
 export default collections;

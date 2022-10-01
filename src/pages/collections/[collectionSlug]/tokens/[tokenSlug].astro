@@ -1,0 +1,20 @@
+---
+import Layout from "../../../../layouts/Layout.astro";
+import collections, {
+  collectionSlugsWithTokenSlugs,
+} from "../../../../data/collections";
+
+import _find from "lodash/find";
+
+const { collectionSlug, tokenSlug } = Astro.params;
+const collection = _find(collections, ["slug", collectionSlug]);
+const token = _find(collection.tokens, ["slug", tokenSlug]);
+
+export function getStaticPaths() {
+  return collectionSlugsWithTokenSlugs;
+}
+
+console.log(token);
+---
+
+<Layout title={`${tokenSlug} of ${collection.title}`}>hi</Layout>
