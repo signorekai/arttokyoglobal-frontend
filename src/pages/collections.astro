@@ -197,7 +197,7 @@ const featuredCollections: Collection[] = [
                   <div class="col-span-4">
                     <img
                       class="aspect-square w-full"
-                      alt="collection.title"
+                      :alt="collection.title"
                       :src="collection.coverImg"
                     />
                   </div>
@@ -245,10 +245,3 @@ const featuredCollections: Collection[] = [
     </section>
   </main>
 </Layout>
-
-<script>
-  import Alpine from "alpinejs";
-  import intersect from "@alpinejs/intersect";
-
-  Alpine.plugin(intersect);
-</script>
