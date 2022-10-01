@@ -1,9 +1,14 @@
 ---
+export interface Props {
+  data?: string;
+}
+
+const { data = "collection.status" } = Astro.props;
 ---
 
 <div
   class="mt-1 py-2 px-5"
-  x-data="projectStatus(collection.status)"
+  x-data={`projectStatus(${data})`}
   :class="className"
 >
   <h5 class="leading-none" x-text="title"></h5>
@@ -21,11 +26,11 @@
         },
         MintingPaused: {
           title: "Minting Paused",
-          className: "bg-grey-mid text-white",
+          className: "bg-grey-dark text-white",
         },
         FinishedMinting: {
           title: "Minting Completed",
-          claclassNamess: "bg-peach text-black",
+          className: "bg-grey-mid/25 text-white",
         },
       };
       return properties[status];

@@ -8,20 +8,26 @@ export interface Props {
 const properties: {
   [key in CollectionStatus]: {
     title: string;
-    class: string;
+    className: string;
   };
 } = {
   CurrentlyMinting: {
     title: "Currently Minting",
-    class: "bg-red text-white",
+    className: "bg-red text-white",
   },
-  MintingPaused: { title: "Minting Paused", class: "bg-grey-mid text-white" },
-  FinishedMinting: { title: "Minting Completed", class: "bg-peach text-black" },
+  MintingPaused: {
+    title: "Minting Paused",
+    className: "bg-grey-dark text-white",
+  },
+  FinishedMinting: {
+    title: "Minting Completed",
+    className: "bg-grey-mid/25 text-white",
+  },
 };
 
 const { status } = Astro.props;
 ---
 
-<div class={`mt-1 py-2 px-5 inline-block ${properties[status].class}`}>
+<div class={`mt-1 py-2 px-5 inline-block ${properties[status].className}`}>
   <h5 class="leading-none">{properties[status].title}</h5>
 </div>
