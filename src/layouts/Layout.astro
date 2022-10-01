@@ -144,7 +144,7 @@ import "../styles/fontawesome.css";
       }
 
       .menu-wrapper {
-        @apply mx-10 my-12;
+        @apply mx-10 my-12 h-full flex flex-col justify-end lg:justify-start;
       }
 
       .social-wrapper {
@@ -253,6 +253,18 @@ import "../styles/fontawesome.css";
     Alpine.bind("fadeUp", () => ({
       "x-intersect.once": "show = true",
       ":class": "show && 'fade-up--enter'",
+    }));
+
+    Alpine.data("dropdownWrapper", () => ({
+      isSticky: false,
+    }));
+
+    Alpine.bind("dropdownWrapper", () => ({
+      "@scroll.window.throttle.150ms":
+        "isSticky = $el.getBoundingClientRect().y <= window.scrollY",
+      ":class": "isSticky && 'is-sticky'",
+      "@scroll.window.debounce.150ms":
+        "isSticky = $el.getBoundingClientRect().y <= window.scrollY",
     }));
   });
 </script>
