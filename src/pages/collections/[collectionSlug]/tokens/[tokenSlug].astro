@@ -17,4 +17,28 @@ export function getStaticPaths() {
 console.log(token);
 ---
 
-<Layout title={`${tokenSlug} of ${collection.title}`}>hi</Layout>
+<Layout title={`${tokenSlug} of ${collection.title}`}>
+  <div class="container container-grid lg:grid-rows-2">
+    <div
+      class="py-4 md:py-6 max-h-[80vh] col-start-2 col-end-8 lg:col-start-3 lg:col-end-11 flex flex-col items-center text-center justify-center"
+    >
+      <img src={token.src} class="max-h-[calc(100%_-_2rem)]" alt="" />
+      <h5 class="mt-4">{token.title}</h5>
+    </div>
+    <div class="col-start-1 col-end-10 lg:col-end-8 md:px-8">
+      <div class="bg-peach rounded-4xl w-full py-11 px-8">
+        <table class="w-full">
+          <thead>
+            <tr>
+              <th class="w-1/3"><h5>Feature</h5></th>
+              <th class="w-1/3"><h5>Value</h5></th>
+              <th class="w-1/3">
+                <h5>% | Count</h5>
+              </th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+  </div>
+</Layout>
