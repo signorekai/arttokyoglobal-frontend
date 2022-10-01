@@ -53,10 +53,9 @@ import artists from "../data/artists";
                   </div>
                 </div>
                 <div class="card__meta text-center relative transition-all">
-                  <img
-                    :src="artist.profilePhoto"
-                    alt=""
-                    class="absolute group-hover:grayscale aspect-square w-16 rounded-xl left-1/2 -translate-x-1/2 top-0 -translate-y-2/3"
+                  <div
+                    x-bind:style="`background-image: url(${artist.profilePhoto})`"
+                    class="absolute group-hover:grayscale aspect-square w-16 rounded-xl left-1/2 -translate-x-1/2 top-0 -translate-y-2/3 bg-cover bg-center"
                   />
                   <h2 x-text="artist.name" class="pt-8"></h2>
                   <h6
