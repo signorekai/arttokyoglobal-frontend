@@ -135,7 +135,9 @@
   .dropdown-wrapper {
     @apply flex flex-row gap-y-1 justify-between items-center;
     @apply md:max-h-10 md:items-start md:justify-between;
-    @apply sticky top-16 md:top-24;
+    @apply sticky top-15 md:top-21;
+    @apply transition-all;
+
   }
 
   .button-wrapper {
