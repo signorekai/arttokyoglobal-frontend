@@ -6,6 +6,9 @@
 
 ![basics](https://user-images.githubusercontent.com/4677417/186188965-73453154-fdec-4d6b-9c34-cb35c248ae5b.png)
 
+## 🚨 Commit format
+
+Please follow [Gitmoji](https://gitmoji.dev/) for your commit messages
 
 ## 🚀 Project Structure
 
