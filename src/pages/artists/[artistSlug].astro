@@ -132,13 +132,9 @@ export function getStaticPaths() {
               <div class="col-span-4">
                 <a
                   :href="`/collections/${collection.slug}`"
-                  class="transition-all"
+                  class="transition-all block overflow-hidden"
                 >
-                  <img
-                    class="aspect-square w-full"
-                    alt="collection.title"
-                    :src="collection.coverImg"
-                  />
+                  <div class="aspect-square w-full hover:scale-110 transition-all bg-cover bg-center" x-bind:style="`background-image: url(${collection.coverImg})`"></div>
                 </a>
               </div>
               <div
