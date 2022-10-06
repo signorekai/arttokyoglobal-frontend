@@ -37,5 +37,7 @@ export const fetchFromAPI = async (url, query) => {
     headers: {
       Authorization: `Bearer ${import.meta.env.API_TOKEN}`,
     },
-  }).then(r => r.json())
+  }).then(r => r.json()).catch(() => ({
+    success: false,
+  }));
 }
