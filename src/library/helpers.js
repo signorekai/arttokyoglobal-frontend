@@ -1,3 +1,5 @@
+import qs from "qs";
+
 /**
  * @typedef {'large'|'medium'|'small'|'thumbnail'} imageSizes
  */
@@ -29,3 +31,11 @@
 
   return url;
 };
+
+export const fetchFromAPI = async (url, query) => {
+  return fetch(`${import.meta.env.API_URL}${url}?${qs.stringify(query)}`, {
+    headers: {
+      Authorization: `Bearer ${import.meta.env.API_TOKEN}`,
+    },
+  }).then(r => r.json())
+}

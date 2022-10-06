@@ -9,33 +9,16 @@ import Dropdown from "../components/Dropdown.astro";
 
 import tokens from "../data/tokens";
 import type { Collection } from "../data/collections";
+import { fetchFromAPI } from "../library/helpers";
 
-const collectionRes = await fetch(
-  `${import.meta.env.API_URL}/collections?${qs.stringify({
-    populate: ["artist", "tokens", "coverImg", "artist.profilePhoto"],
-    fields: ["title", "slug", "status", "totalTokens", "description"],
-  })}`,
-  {
-    headers: {
-      Authorization: `Bearer ${import.meta.env.API_TOKEN}`,
-    },
-  }
-);
+const { data: collections } = await fetchFromAPI("/collections", {
+  populate: ["artist", "tokens", "coverImg", "artist.profilePhoto"],
+  fields: ["title", "slug", "status", "totalTokens", "description"],
+});
 
-const { data: collections } = await collectionRes.json();
-
-const settingsRes = await fetch(
-  `${import.meta.env.API_URL}/general-setting?${qs.stringify({
-    populate: ["collections", "collections.artist"],
-  })}`,
-  {
-    headers: {
-      Authorization: `Bearer ${import.meta.env.API_TOKEN}`,
-    },
-  }
-);
-
-const { data: settings } = await settingsRes.json();
+const { data: settings } = await fetchFromAPI("/general-setting", {
+  populate: ["collections", "collections.artist"],
+});
 
 // mock token data
 const featuredCollections: Collection[] = [
