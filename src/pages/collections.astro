@@ -138,7 +138,7 @@ const featuredCollections: Collection[] = [
                     <a :href="`/collections/${collection.slug}`">
                       <div class="w-full overflow-hidden">
                         <div
-                          class="aspect-square w-full bg-center bg-cover"
+                          class="aspect-square w-full hover:scale-110 transition-all bg-cover bg-center"
                           :style="`background-image: url(${collection.coverImg.medium ? collection.coverImg.medium.url : collection.coverImg.url})`"
                         >
                         </div>
