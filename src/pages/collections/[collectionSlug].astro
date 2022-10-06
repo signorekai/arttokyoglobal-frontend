@@ -3,18 +3,29 @@ import Layout from "../../layouts/Layout.astro";
 import ProjectStatus from "../../components/ProjectStatus.astro";
 import Dropdown from "../../components/Dropdown.astro";
 import Card from "../../components/ClientCard.astro";
+import { fetchFromAPI } from "../../library/helpers";
 
-import collections, { collectionSlugs } from "../../data/collections";
 import tokens from "../../data/tokens";
-
-import _find from "lodash/find";
-
 const { collectionSlug } = Astro.params;
-const collection = _find(collections, ["slug", collectionSlug]);
 
+const { data } = await fetchFromAPI("/collections", {
+  filters: {
+    slug: collectionSlug,
+  },
+  populate: ["artist", "tokens", "coverImg", "artist.profilePhoto"],
+  fields: ["title", "slug", "status", "totalTokens", "description"],
+});
+const collection = data[0];
 collection.tokens = tokens;
 
-export function getStaticPaths() {
+export async function getStaticPaths() {
+  const { data: collections } = await fetchFromAPI("/collections", {
+    fields: ["slug"],
+  });
+
+  const collectionSlugs = collections.map((collection) => ({
+    params: { collectionSlug: collection.slug },
+  }));
   return collectionSlugs;
 }
 ---
@@ -29,7 +40,9 @@ export function getStaticPaths() {
       <img
         class="aspect-square w-full"
         alt="collection.title"
-        src={collection.coverImg}
+        src={collection.coverImg.medium
+          ? collection.coverImg.medium.url
+          : collection.coverImg.url}
       />
     </div>
     <div
@@ -62,7 +75,7 @@ export function getStaticPaths() {
         >
           <div
             class="aspect-square h-10 grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all bg-cover bg-center"
-            style={`background-image: url(${collection.artist.profilePhoto})`}
+            style={`background-image: url(${collection.artist.profilePhoto.formats.thumbnail.url})`}
           >
           </div>
         </a>

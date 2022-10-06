@@ -1,51 +1,35 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import artists, { artistSlugs } from "../../data/artists";
-import collections from "../../data/collections";
-import _find from "lodash/find";
 import Dropdown from "../../components/Dropdown.astro";
 import ProjectStatus from "../../components/ClientProjectStatus.astro";
+import { fetchFromAPI } from "../../library/helpers";
 
 const { artistSlug } = Astro.params;
-const artist = _find(artists, ["slug", artistSlug]);
 
-artist.collections = [];
+const { data } = await fetchFromAPI("/artists", {
+  filters: {
+    slug: artistSlug,
+  },
+  populate: [
+    "collections",
+    "collections.tokens",
+    "tokens",
+    "profilePhoto",
+    "coverImg",
+    "collections.coverImg",
+  ],
+  fields: ["name", "bio", "description"],
+});
+const artist = data[0];
 
-// random collection generation
-const count = 5;
+export async function getStaticPaths() {
+  const { data: artists } = await fetchFromAPI("/artists", {
+    fields: ["slug"],
+  });
 
-const getRandomCollection = (currentCollection) => {
-  const x = Math.floor(Math.random() * collections.length);
-  if (_find(currentCollection, ["slug", collections[x].slug]) === undefined) {
-    const collection = { ...collections[x] };
-    delete collection.artist;
-    return collection;
-  } else {
-    console.log(collections[x].slug, "dup");
-    return getRandomCollection(currentCollection);
-  }
-};
-
-for (let x = 0; x < count; x++) {
-  artist.collections.push(getRandomCollection(artist.collections));
-}
-console.log("-----------");
-
-artist.intro = `<p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-  eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisi
-  porta lorem mollis aliquam ut porttitor leo a. Suspendisse in est
-  ante in nibh mauris cursus mattis molestie. Est lorem ipsum dolor
-  sit amet consectetur adipiscing elit pellentesque. Varius quam
-            quisque id diam vel quam elementum pulvinar.
-          </p>
-          <p>
-            Varius sit amet mattis vulputate enim nulla. Posuere sollicitudin
-            aliquam ultrices sagittis. Feugiat nisl pretium fusce id velit ut.
-            Interdum posuere lorem ipsum dolor sit. Aliquam sem fringilla ut
-            morbi tincidunt augue interdum velit.
-            </p>`;
-
-export function getStaticPaths() {
+  const artistSlugs = artists.map((artist) => ({
+    params: { artistSlug: artist.slug },
+  }));
   return artistSlugs;
 }
 ---
@@ -54,7 +38,7 @@ export function getStaticPaths() {
   <main>
     <div
       class="w-full aspect-video max-h-screen-2/3 bg-cover bg-center"
-      style={`background-image: url(${artist.coverImg})`}
+      style={`background-image: url(${artist.coverImg.url})`}
     >
     </div>
     <div class="container container-grid">
@@ -71,17 +55,22 @@ export function getStaticPaths() {
             x-data="fadeUp"
             x-bind="fadeUp"
             class="fade-up--2 text-body font-trade-gothic md:w-4/5 lg:w-auto md:mx-auto"
+            set:html={artist.bio}
           >
-            {artist.bio}
           </div>
         </div>
-        <img
+        <div
           x-data="fadeUp"
           x-bind="fadeUp"
-          src={artist.profilePhoto}
-          class="fade-up--2 w-32 md:w-64 aspect-square order-1 -mt-16 md:-mt-24 lg:mt-0 lg:order-2 lg:absolute right-0 bottom-0 rounded-xl"
-          alt=""
-        />
+          class="fade-up--2 w-32 md:w-64 aspect-square overflow-hidden order-1 -mt-16 md:-mt-24 lg:mt-0 lg:order-2 lg:absolute right-0 bottom-0 rounded-xl"
+        >
+          <div
+            style={`background-image: url(${artist.profilePhoto.formats.small.url})`}
+            class="w-full h-full bg-cover bg-center"
+            alt=""
+          >
+          </div>
+        </div>
       </div>
       <div
         class="col-start-1 md:col-start-2 lg:col-start-2 col-span-1 md:col-end-8 lg:col-end-12 py-4 pt-0 lg:pt-4"
@@ -90,7 +79,7 @@ export function getStaticPaths() {
           x-data="fadeUp"
           x-bind="fadeUp"
           class="fade-up--3 w-full order-3 text-center lg:text-right"
-          set:html={artist.intro}
+          set:html={artist.description}
         >
         </div>
       </div>
@@ -134,7 +123,13 @@ export function getStaticPaths() {
                   :href="`/collections/${collection.slug}`"
                   class="transition-all block overflow-hidden"
                 >
-                  <div class="aspect-square w-full hover:scale-110 transition-all bg-cover bg-center" x-bind:style="`background-image: url(${collection.coverImg})`"></div>
+                  <div
+                    class="aspect-square w-full hover:scale-110 transition-all bg-cover bg-center"
+                    x-bind:style="`background-image: url(${collection.coverImg.medium
+                      ? collection.coverImg.medium.url
+                      : collection.coverImg.url})`"
+                  >
+                  </div>
                 </a>
               </div>
               <div
