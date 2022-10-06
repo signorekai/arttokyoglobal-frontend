@@ -1,4 +1,5 @@
 ---
+import { fetchFromAPI } from "../library/helpers";
 import Layout from "../layouts/Layout.astro";
 import ethLogo from "../images/eth-logo.png";
 import ProjectStatus from "../components/ProjectStatus.astro";
@@ -9,23 +10,30 @@ import Carousel from "../components/ClientCarousel.astro";
 import Card from "../components/ClientCard.astro";
 
 import tokens from "../data/tokens";
-import collections from "../data/collections";
-import type { Collection } from "../data/collections";
 
 import _maxBy from "lodash/maxBy";
 
-const featuredCollections: Collection[] = [
-  {
-    ...collections[Math.floor(Math.random() * collections.length)],
+const { data: settings } = await fetchFromAPI("/general-setting", {
+  populate: ["collections", "collections.artist"],
+});
+
+// mock token data
+const featuredCollections = [
+  ...settings.collections.map((collection) => ({
+    ...collection,
     tokens,
-  },
+  })),
 ];
 
-const tallestFeaturedToken = _maxBy(
-  featuredCollections[0].tokens,
-  (token) => token.height / token.width
-);
+const { data: collections } = await fetchFromAPI("/collections", {
+  populate: ["artist.name", "artist.slug", "coverImg"],
+  fields: ["status", "title", "slug", "mintPrice"],
+});
 ---
+
+<script define:vars={{ collections }}>
+  console.log(collections);
+</script>
 
 <Layout title="Home">
   <svg
@@ -82,7 +90,12 @@ const tallestFeaturedToken = _maxBy(
           x-intersect.once="show = true"
           x-bind:class="show && 'card-animation--enter'"
           title={featuredCollections[0].tokens[3].title}
-          className={`max-w-full lg:max-h-screen-2/3 ${featuredCollections[0].tokens[3].width > featuredCollections[0].tokens[3].height ? 'w-full': 'h-full'} translate-y-12 card-animation--before` }
+          className={`max-w-full lg:max-h-screen-2/3 ${
+            featuredCollections[0].tokens[3].width >
+            featuredCollections[0].tokens[3].height
+              ? "w-full"
+              : "h-full"
+          } translate-y-12 card-animation--before`}
           img={featuredCollections[0].tokens[3].src}
           aspectRatio={`${featuredCollections[0].tokens[3].width} / ${featuredCollections[0].tokens[3].height}`}
         />
