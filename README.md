@@ -1,5 +1,5 @@
 # Art Tokyo Global front-end
-Built with [Astro](https://astro.build) and [Alpine](https://alpinejs.dev).
+[Astro](https://astro.build) for static generation, [Alpine](https://alpinejs.dev) for front-end interactivity, [Tailwind](https://tailwindcss.com) for utility classes.
 
 ## 🚨 Commit format
 
