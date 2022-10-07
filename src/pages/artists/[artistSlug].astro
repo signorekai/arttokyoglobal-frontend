@@ -65,7 +65,11 @@ export async function getStaticPaths() {
           class="fade-up--2 w-32 md:w-64 aspect-square overflow-hidden order-1 -mt-16 md:-mt-24 lg:mt-0 lg:order-2 lg:absolute right-0 bottom-0 rounded-xl"
         >
           <div
-            style={`background-image: url(${artist.profilePhoto.formats.small.url})`}
+            style={`background-image: url(${
+              artist.profilePhoto.formats.small
+                ? artist.profilePhoto.formats.small.url
+                : artist.profilePhoto.url
+            })`}
             class="w-full h-full bg-cover bg-center"
             alt=""
           >

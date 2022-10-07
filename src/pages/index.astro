@@ -14,16 +14,17 @@ import tokens from "../data/tokens";
 import _maxBy from "lodash/maxBy";
 
 const { data: settings } = await fetchFromAPI("/general-setting", {
-  populate: ["collections", "collections.artist"],
+  populate: [
+    "collections",
+    "collections.artist",
+    "collections.tokens",
+    "collections.tokens.slug",
+    "collections.tokens.image",
+  ],
 });
 
 // mock token data
-const featuredCollections = [
-  ...settings.collections.map((collection) => ({
-    ...collection,
-    tokens,
-  })),
-];
+const featuredCollections = [...settings.collections];
 
 const { data: collections } = await fetchFromAPI("/collections", {
   populate: ["artist.name", "artist.slug", "coverImg"],
@@ -89,15 +90,15 @@ const { data: collections } = await fetchFromAPI("/collections", {
           x-data="{ show: false }"
           x-intersect.once="show = true"
           x-bind:class="show && 'card-animation--enter'"
-          title={featuredCollections[0].tokens[3].title}
+          title={featuredCollections[0].tokens[1].title}
           className={`max-w-full lg:max-h-screen-2/3 ${
-            featuredCollections[0].tokens[3].width >
-            featuredCollections[0].tokens[3].height
+            featuredCollections[0].tokens[1].image.width >
+            featuredCollections[0].tokens[1].image.height
               ? "w-full"
               : "h-full"
           } translate-y-12 card-animation--before`}
-          img={featuredCollections[0].tokens[3].src}
-          aspectRatio={`${featuredCollections[0].tokens[3].width} / ${featuredCollections[0].tokens[3].height}`}
+          img={featuredCollections[0].tokens[1].image.url}
+          aspectRatio={`${featuredCollections[0].tokens[1].image.width} / ${featuredCollections[0].tokens[1].image.height}`}
         />
       </div>
       <div
@@ -152,8 +153,8 @@ const { data: collections } = await fetchFromAPI("/collections", {
         <div slot="template" class="carousel-item w-2/3 lg:w-1/4">
           <Card
             link={`/collections/${featuredCollections[0].slug}/tokens/\${item.slug}`}
-            backgroundImage="${item.src}"
-            aspectRatio="${item.width} / ${item.height}"
+            backgroundImage="${item.image.formats.medium ? item.image.formats.medium.url : item.image.url}"
+            aspectRatio="${item.image.width} / ${item.image.height}"
           />
         </div>
       </Carousel>

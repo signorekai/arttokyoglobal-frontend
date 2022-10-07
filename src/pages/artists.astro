@@ -53,13 +53,13 @@ const { data: artists } = await fetchFromAPI("/artists", {
                 <div class="card__img-wrapper">
                   <div
                     class="group-hover:scale-110 card__img"
-                    x-bind:style="`background-image: url(${artist.coverImg.formats.small.url})`"
+                    x-bind:style="`background-image: url(${artist.coverImg.formats.small ? artist.coverImg.formats.small.url : artist.coverImg.url})`"
                   >
                   </div>
                 </div>
                 <div class="card__meta text-center relative transition-all">
                   <div
-                    x-bind:style="`background-image: url(${artist.profilePhoto.formats.thumbnail.url})`"
+                    x-bind:style="`background-image: url(${artist.profilePhoto.formats.thumbnail ? artist.profilePhoto.formats.thumbnail.url : artist.profilePhoto.url})`"
                     class="absolute group-hover:grayscale aspect-square w-16 rounded-xl left-1/2 -translate-x-1/2 top-0 -translate-y-2/3 bg-cover bg-center"
                   >
                   </div>

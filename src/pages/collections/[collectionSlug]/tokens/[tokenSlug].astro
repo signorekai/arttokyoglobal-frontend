@@ -1,35 +1,48 @@
 ---
 import Layout from "../../../../layouts/Layout.astro";
-import collections, {
-  collectionSlugsWithTokenSlugs,
-} from "../../../../data/collections";
-
 import _find from "lodash/find";
+
 import ProjectStatus from "../../../../components/ProjectStatus.astro";
+import { fetchFromAPI } from "../../../../library/helpers";
 
 const { collectionSlug, tokenSlug } = Astro.params;
-const collection = _find(collections, ["slug", collectionSlug]);
-const token = _find(collection.tokens, ["slug", tokenSlug]);
+
+const { data: tokens } = await fetchFromAPI("/tokens", {
+  filters: {
+    slug: tokenSlug,
+    collection: {
+      slug: collectionSlug,
+    },
+  },
+  populate: [
+    "image",
+    "collection",
+    "collection.tokens",
+    "collection.artist",
+    "collection.coverImage",
+    "collection.artist.profilePhoto",
+  ],
+});
+
+const token = tokens[0];
+const { collection } = token;
 const { artist } = collection;
 
-export function getStaticPaths() {
+export async function getStaticPaths() {
+  const { data } = await fetchFromAPI("/tokens", {
+    fields: ["slug"],
+    populate: ["collection"],
+  });
+
+  const collectionSlugsWithTokenSlugs = data.map((token) => ({
+    params: {
+      collectionSlug: token.collection.slug,
+      tokenSlug: token.slug,
+    },
+  }));
+
   return collectionSlugsWithTokenSlugs;
 }
-
-token.attributes = [
-  {
-    id: "circle",
-    label: "Circle",
-    value: 22,
-    count: 0.663,
-  },
-  {
-    id: "square",
-    label: "Square",
-    value: 90,
-    count: 0.00123,
-  },
-];
 ---
 
 <Layout title={`${tokenSlug} of ${collection.title}`}>
@@ -38,9 +51,11 @@ token.attributes = [
       class="py-4 md:py-6 max-h-[80vh] w-full px-4 mx-auto flex flex-col items-center text-center justify-center"
     >
       <img
-        src={token.src}
+        src={token.image.formats.large
+          ? token.image.formats.large.url
+          : token.image.url}
         class="lg:h-full"
-        style={`aspect-ratio: ${token.width} / ${token.height}`}
+        style={`aspect-ratio: ${token.image.width} / ${token.image.height}`}
         alt=""
       />
       <h5 class="mt-4">{token.title}</h5>
@@ -70,11 +85,11 @@ token.attributes = [
             </h4>
           </div>
           <a href={`/artists/${artist.slug}`}>
-            <img
-              src={collection.artist.profilePhoto}
-              alt={collection.artist.name}
-              class="aspect-square h-10 ml-3 mb-1 rounded-lg grayscale group-hover:grayscale-0 transition-all"
-            />
+            <div
+              class="bg-cover bg-center aspect-square h-10 ml-3 mb-1 rounded-lg grayscale group-hover:grayscale-0 transition-all"
+              style={`background-image: url(${collection.artist.profilePhoto.formats.thumbnail.url})`}
+            >
+            </div>
           </a>
         </div>
       </div>
@@ -98,9 +113,9 @@ token.attributes = [
           </thead>
           <tbody class="text-center font-trade-gothic text-sm">
             {
-              token.attributes.map((attribute) => (
+              token.tokenAttributes.map((attribute) => (
                 <tr>
-                  <td>{attribute.label}</td>
+                  <td>{attribute.trait_type}</td>
                   <td>{attribute.value}</td>
                   <td>{attribute.count * 100}%</td>
                 </tr>
