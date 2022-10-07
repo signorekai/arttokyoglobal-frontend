@@ -241,6 +241,12 @@
       @apply border-b-0 pb-0;
     }
   }
+
+  .content-wrapper {
+    a {
+      @apply text-red hover:text-red/75 transition-all;
+    }
+  }
 }
 
 body {
