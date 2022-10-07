@@ -1,25 +1,19 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { fetchFromAPI } from "../library/helpers";
+
+const { data: page } = await fetchFromAPI("/terms-of-use", {
+  fields: ["title", "content"],
+});
 ---
 
-<Layout title="Terms of Use">
+<Layout title={page.title}>
   <div class="container px-4">
     <div class="rounded-4xl bg-peach px-4 md:px-8 py-8 mt-8 text-right">
-      <h1 class="block text-right lg:ml-auto lg:max-w-[75%]">Terms of Use</h1>
-      <h3 class="mt-4">1.1 Section</h3>
-      <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quas nemo consectetur blanditiis, deserunt harum soluta aperiam modi distinctio. Numquam, iusto doloremque? Impedit saepe fugit esse reiciendis nulla blanditiis reprehenderit qui delectus. Necessitatibus repellendus ratione, nam deserunt eligendi minima id suscipit assumenda dicta similique.</p>
-      <p>Placeat magnam omnis a ratione corporis tempore autem ducimus fuga, voluptas dolore eius sed esse, velit sunt. Inventore tempora asperiores commodi reiciendis, a molestias, minus animi ratione ipsum nostrum, doloribus maxime enim pariatur rem similique. Tempora inventore minima perspiciatis repellendus pariatur. Consectetur, impedit.</p>
-      <p>Sunt, natus fugiat quos laboriosam a voluptas obcaecati doloremque? Modi, sit ipsum unde quas facilis beatae cum dolorem alias eos laboriosam qui corrupti natus enim quisquam tenetur quae blanditiis fugiat omnis est temporibus sint eveniet doloribus fuga aspernatur. Commodi temporibus architecto soluta odit!</p>
-      <h3 class="mt-4">1.2 Section</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum veniam saepe rem asperiores natus perspiciatis tempore reprehenderit. Autem quaerat tempore a natus, commodi corrupti illo, omnis non possimus debitis aperiam porro distinctio cupiditate iure hic eos quo placeat rem dolor, at dicta! Commodi, placeat.</p>
-      <p>Corporis vitae neque, vel voluptatem blanditiis itaque ea ipsum. Sed, voluptatem iste saepe id a deleniti vero, perferendis aliquid perspiciatis harum unde repellat doloribus officiis. Sapiente obcaecati dolorem quisquam expedita unde maxime voluptatum corrupti tempora at amet, rem alias enim hic numquam molestiae animi?</p>
-      <p>Voluptatum quae nostrum, dolor, eveniet reprehenderit ea accusantium repellat architecto at illum ullam ipsam nulla. Voluptas recusandae voluptate corrupti asperiores voluptates illo quo explicabo sapiente? Molestias hic assumenda repudiandae, cupiditate eligendi recusandae eius numquam debitis accusamus accusantium laborum voluptate ipsa illo ab repellat omnis.</p>
-      <p>Harum, tenetur eveniet ad accusantium amet odit sequi sit corrupti, error facilis assumenda earum. Dolorem explicabo voluptates necessitatibus nulla nostrum nesciunt iusto beatae illum exercitationem eaque aliquid adipisci magni provident temporibus dolores velit consequuntur corrupti laudantium, aperiam sapiente itaque porro repellendus! Illo, aperiam iste.</p>
-      <h3 class="mt-4">1.3 Section</h3>
-      <p>Nihil ab in modi minus, quod delectus vitae facilis debitis dolorem deserunt impedit voluptatem optio inventore libero repellat omnis similique recusandae, magni eum. Consectetur soluta esse dolore error aperiam officiis eum amet, impedit tenetur sunt ipsa omnis quaerat perspiciatis, velit doloremque voluptas sint? Quidem?</p>
-      <p>Sit, neque in deleniti maiores laboriosam, quae facilis ab veniam debitis asperiores repellendus autem aliquid magni quis molestiae minus exercitationem tempore suscipit cupiditate ut voluptas dicta repudiandae at consequuntur. Id consequuntur obcaecati minus, iure, impedit minima veniam autem, dolore et ad sapiente quibusdam fugiat!</p>
-      <p>Quod, suscipit? Nostrum, ad. Animi totam esse, inventore facere libero vitae asperiores officia delectus eum. Repellendus commodi nam repudiandae, perspiciatis, eius tempore nisi quo quisquam harum iusto facere temporibus ipsam sint unde fugiat velit. Quis, necessitatibus totam officiis illo atque doloremque nihil natus rem!</p>
-      <p>Nemo assumenda tempore iure, qui blanditiis reiciendis cum in porro suscipit molestias iste culpa consequuntur inventore error fuga voluptatem mollitia magni ipsum aliquam ut unde at libero quae? Minima totam similique, officia quam natus consequuntur assumenda. Repellendus facere unde quam adipisci iure debitis nulla?</p>
+      <h1 class="block text-right lg:ml-auto lg:max-w-[75%] mb-8">
+        {page.title}
+      </h1>
+      <Fragment set:html={page.content} />
     </div>
   </div>
 </Layout>

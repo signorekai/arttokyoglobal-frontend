@@ -1,18 +1,27 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import sections from "../data/faq";
+// import sections from "../data/faq";
+import { fetchFromAPI } from "../library/helpers";
+
+const { data } = await fetchFromAPI("/faq", {
+  populate: ["Sections", "Sections.Items"],
+})
+
+const sections = data.Sections;
+
 ---
+<script define:vars={{data}}>console.log(sections)</script>
 
 <Layout title="Frequently Asked Questions">
   <div class="container px-4">
     <div class="rounded-4xl bg-peach px-4 md:px-8 py-8 mt-8">
       <h1 class="text-right lg:ml-auto lg:max-w-[75%]">F<span class="hidden md:inline">requently </span>A<span class="hidden md:inline">sked </span>Q<span class="hidden md:inline">uestions</span></h1>
-      <div class="w-full lg:grid lg:grid-cols-2 lg:gap-x-8 mt-4">
+      <div class="w-full lg:grid lg:grid-cols-2 lg:gap-x-8 mt-4 gap-y-4">
         {sections.map(section => (
           <div class="flex flex-col items-end mt-4">
             <h2 class="">{section.title}</h2>
             <dl class="w-full">
-              {section.item.map(item => (
+              {section.Items.map(item => (
                 <dt x-data="{ expanded: false }" class="mt-2 border-b-1 border-black/75 ">
                   <button class="block w-full text-right hover:opacity-50 transition-opacity" @click="expanded = !expanded">
                     <h4 class="inline-block text-right pb-3">{item.header}</h4>
@@ -28,7 +37,7 @@ import sections from "../data/faq";
                       <path d="M1 1L8.5 7L16 1" class="stroke-current stroke-2"></path>
                     </svg>
                   </button>
-                  <p class="text-right pb-1" x-show="expanded" x-collapse>{item.content}</p>
+                  <div class="!text-right pb-1 content-wrapper" x-show="expanded" x-collapse set:html={item.content}></div>
                   
                 </dt>
               ))} 
