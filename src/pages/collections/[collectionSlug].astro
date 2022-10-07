@@ -97,66 +97,68 @@ export async function getStaticPaths() {
       </div>
     </div>
   </div>
-  {collection.tokens.length > 0 && (
-    <section
-      x-data="fadeUp"
-      x-bind="fadeUp"
-      class="relative m-0 md:mt-4 lg:mt-12 p-4 lg:p-0 fade-up"
-    >
-      <div class="container bg-peach rounded-4xl px-6 py-4 md:px-11 md:py-8">
-        <div class="dropdown-wrapper z-40">
-          <div class="flex flex-col lg:flex-row items-start">
-            <Dropdown
-              className="block"
-              label="Sort By"
-              listenTo="allCollections"
-              id="sortBy"
-              selects={[
-                { label: "A-Z", sorting: [["title"], ["asc"]] },
-                { label: "Z-A", sorting: [["title"], ["desc"]] },
-              ]}
-            />
+  {
+    collection.tokens.length > 0 && (
+      <section
+        x-data="fadeUp"
+        x-bind="fadeUp"
+        class="relative m-0 md:mt-4 lg:mt-12 p-4 lg:p-0 fade-up"
+      >
+        <div class="container bg-peach rounded-4xl px-6 py-4 md:px-11 md:py-8">
+          <div class="dropdown-wrapper z-40">
+            <div class="flex flex-col lg:flex-row items-start">
+              <Dropdown
+                className="block"
+                label="Sort By"
+                listenTo="allCollections"
+                id="sortBy"
+                selects={[
+                  { label: "A-Z", sorting: [["title"], ["asc"]] },
+                  { label: "Z-A", sorting: [["title"], ["desc"]] },
+                ]}
+              />
+            </div>
+            <h3 class="pt-2">Tokens</h3>
           </div>
-          <h3 class="pt-2">Tokens</h3>
-        </div>
-        <div class="content-wrapper">
-          <div
-            x-data={`filterables({
+          <div class="content-wrapper">
+            <div
+              x-data={`filterables({
             id: "allCollections",
             listenTo: ["sortBy"],
             data: ${JSON.stringify(collection.tokens)},
           })`}
-          >
-            <div
-              class="transition-opacity grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-8 lg:gap-y-4"
-              x-ref="container"
-              x-bind="container"
             >
-              <template x-for="token in filtered" :key="token.title">
-                <div class="carousel-item w-full">
-                  <Card
-                    link={`/collections/${collection.slug}/tokens/\${token.slug}`}
-                    backgroundImage="${token.image.formats.medium ? token.image.formats.medium.url : token.image.url}"
-                    aspectRatio="${token.image.width} / ${token.image.height}"
-                  />
-                </div>
-              </template>
+              <div
+                class="transition-opacity grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-8 lg:gap-y-4"
+                x-ref="container"
+                x-bind="container"
+              >
+                <template x-for="token in filtered" x-bind:key="token.title">
+                  <div class="carousel-item w-full">
+                    <Card
+                      link={`/collections/${collection.slug}/tokens/\${token.slug}`}
+                      backgroundImage="${token.image.formats.medium ? token.image.formats.medium.url : token.image.url}"
+                      aspectRatio="${token.image.width} / ${token.image.height}"
+                    />
+                  </div>
+                </template>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
-  )}
+      </section>
+    )
+  }
 
-  {collection.tokens.length === 0 && (
-    <div class="container px-4">
-      <div class="rounded-4xl bg-peach px-4 md:px-8 py-8 mt-8 text-right">
-        <h1 class="block text-right lg:ml-auto lg:max-w-[75%] mb-8">
-          
-        </h1>
+  {
+    collection.tokens.length === 0 && (
+      <div class="container px-4">
+        <div class="rounded-4xl bg-peach px-4 md:px-8 py-8 mt-8 text-right">
+          <h1 class="block text-right lg:ml-auto lg:max-w-[75%] mb-8"></h1>
+        </div>
       </div>
-    </div>
-  )}
+    )
+  }
 </Layout>
 
 <script>
