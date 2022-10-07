@@ -32,10 +32,6 @@ const { data: collections } = await fetchFromAPI("/collections", {
 });
 ---
 
-<script define:vars={{ collections }}>
-  console.log(collections);
-</script>
-
 <Layout title="Home">
   <svg
     class="w-full absolute m-0 z-0 pointer-events-none"
