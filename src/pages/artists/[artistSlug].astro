@@ -115,7 +115,7 @@ export async function getStaticPaths() {
           x-ref="container"
           x-bind="container"
         >
-          <template x-for="collection in filtered" :key="collection.slug">
+          <template x-for="collection in filtered" x-bind:key="collection.slug">
             <div
               x-data="{ show: false }"
               x-intersect.threshold.30="show = true"
@@ -124,7 +124,7 @@ export async function getStaticPaths() {
             >
               <div class="col-span-4">
                 <a
-                  :href="`/collections/${collection.slug}`"
+                  x-bind:href="`/collections/${collection.slug}`"
                   class="transition-all block overflow-hidden"
                 >
                   <div
@@ -141,7 +141,7 @@ export async function getStaticPaths() {
               >
                 <ProjectStatus />
                 <a
-                  :href="`/collections/${collection.slug}`"
+                  x-bind:href="`/collections/${collection.slug}`"
                   class="text-right w-full lg:max-w-[75%]"
                 >
                   <h1 class="mt-4" x-text="collection.title"></h1>

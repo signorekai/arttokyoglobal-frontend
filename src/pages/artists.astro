@@ -44,10 +44,10 @@ const { data: artists } = await fetchFromAPI("/artists", {
           x-ref="container"
           x-bind="container"
         >
-          <template x-for="artist in filtered" :key="artist.slug">
+          <template x-for="artist in filtered" x-bind:key="artist.slug">
             <a
               class="col-span-1 group hover:scale-105 transition-transform"
-              :href="`/artists/${artist.slug}`"
+              x-bind:href="`/artists/${artist.slug}`"
             >
               <div class="card hover:md:border-12">
                 <div class="card__img-wrapper">
