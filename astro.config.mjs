@@ -8,12 +8,13 @@ import mdx from "@astrojs/mdx";
 
 // https://astro.build/config
 export default defineConfig({
-  // output: 'server',
+  output: 'server',
+  adapter: vercel(),
   integrations: [alpine(), tailwind({
     plugins: [nesting],
     config: {
       applyBaseStyles: false
     }
-  }), mdx()] // adapter: vercel()
+  }), mdx()] 
 
 });
