@@ -30,10 +30,6 @@ const { data: settings } = await fetchFromAPI("/general-setting", {
 const featuredCollections: Collection[] = [...settings.collections];
 ---
 
-<script define:vars={{ featuredCollections }}>
-  console.log(featuredCollections);
-</script>
-
 <Layout title="Collections">
   <main class="relative z-10">
     <section class="w-full bg-grey-darker text-white snap-start min-h-[89.5vh]">
