@@ -3,6 +3,8 @@ export interface Props {
   data?: string;
 }
 
+import { projectStatus } from "../library/helpers";
+
 const { data = "collection.status" } = Astro.props;
 ---
 
@@ -14,26 +16,10 @@ const { data = "collection.status" } = Astro.props;
   <h5 class="leading-none" x-text="title"></h5>
 </div>
 
-<script>
-  import Alpine from "alpinejs";
-
+<script define:vars={{ projectStatus }}>
   document.addEventListener("alpine:init", () => {
     Alpine.data("projectStatus", (status) => {
-      const properties = {
-        CurrentlyMinting: {
-          title: "Currently Minting",
-          className: "bg-red text-white",
-        },
-        MintingPaused: {
-          title: "Minting Paused",
-          className: "bg-grey-dark text-white",
-        },
-        FinishedMinting: {
-          title: "Minting Completed",
-          className: "bg-grey-mid/25 text-white",
-        },
-      };
-      return properties[status];
+      return projectStatus[status];
     });
   });
 </script>

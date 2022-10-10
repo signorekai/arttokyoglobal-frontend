@@ -41,3 +41,18 @@ export const fetchFromAPI = async (url, query) => {
     success: false,
   }));
 }
+
+export const projectStatus = {
+  CurrentlyMinting: {
+    title: "Currently Minting",
+    className: "bg-red text-white",
+  },
+  MintingPaused: {
+    title: "Minting Paused",
+    className: "bg-grey-dark text-white",
+  },
+  FinishedMinting: {
+    title: "Minting Completed",
+    className: "bg-grey-mid/25 text-white",
+  },
+}
