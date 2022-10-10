@@ -42,7 +42,7 @@ export async function getStaticPaths() {
     x-data="fadeUp"
     x-bind="fadeUp"
   >
-    <div class="col-start-2 col-span-6 lg:col-end-7">
+    <div class="col-start-1 col-span-6 lg:col-end-6 lg:pl-4 lg:pt-2 lg:pb-2">
       <img
         class="aspect-square w-full"
         alt="collection.title"
@@ -52,7 +52,7 @@ export async function getStaticPaths() {
       />
     </div>
     <div
-      class="mt-6 lg:mt-0 col-start-2 col-end-8 lg:col-start-7 lg:col-end-12 flex flex-col items-end text-right justify-center"
+      class="mt-6 lg:mt-0 col-start-2 col-end-8 lg:col-start-6 lg:col-end-13 lg:pr-4 flex flex-col items-end text-right justify-center"
     >
       <ProjectStatus status={collection.status} />
       <a
@@ -154,7 +154,7 @@ export async function getStaticPaths() {
     collection.tokens.length === 0 && (
       <div class="container px-4">
         <div class="rounded-4xl bg-peach px-4 md:px-8 py-8 mt-8 text-right">
-          <h1 class="block text-right lg:ml-auto lg:max-w-[75%] mb-8"></h1>
+          <h1 class="block text-right lg:ml-auto lg:max-w-[75%] mb-8" />
         </div>
       </div>
     )
