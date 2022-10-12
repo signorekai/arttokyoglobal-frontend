@@ -4,6 +4,7 @@ import _find from "lodash/find";
 
 import ProjectStatus from "../../../../components/ProjectStatus.astro";
 import { fetchFromAPI } from "../../../../library/helpers";
+import filter from "lodash/filter";
 
 const { collectionSlug, tokenSlug } = Astro.params;
 
@@ -30,6 +31,8 @@ const { data: tokens } = await fetchFromAPI("/tokens", {
 const token = tokens[0];
 const { collection } = token;
 const { artist } = collection;
+
+collection.tokens = filter(collection.tokens, (token) => token.minted === true);
 
 export async function getStaticPaths() {
   const { data } = await fetchFromAPI("/tokens", {
