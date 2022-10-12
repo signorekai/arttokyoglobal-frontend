@@ -1,5 +1,5 @@
 ---
-import qs from "qs";
+import filter from "lodash/filter";
 import Layout from "../layouts/Layout.astro";
 import ethLogo from "../images/eth-logo.png";
 import Carousel from "../components/ClientCarousel.astro";
@@ -11,7 +11,7 @@ import tokens from "../data/tokens";
 import type { Collection } from "../data/collections";
 import { fetchFromAPI } from "../library/helpers";
 
-const { data: collections } = await fetchFromAPI("/collections", {
+let { data: collections } = await fetchFromAPI("/collections", {
   populate: ["artist", "tokens", "coverImg", "artist.profilePhoto"],
   fields: ["title", "slug", "status", "totalTokens", "description"],
 });
@@ -26,13 +26,22 @@ const { data: settings } = await fetchFromAPI("/general-setting", {
   ],
 });
 
-// mock token data
-const featuredCollections: Collection[] = [...settings.collections];
+// remove tokens that are not minted
+collections = collections.map((collection) => ({
+  ...collection,
+  tokens: filter(collection.tokens, (token) => token.minted === true),
+}));
+
+// only return minted tokens
+const featuredCollections = settings.collections.map((collection) => ({
+  ...collection,
+  tokens: filter(collection.tokens, (token) => token.minted),
+}));
 ---
 
 <Layout title="Collections">
   <main class="relative z-10">
-    <section class="w-full bg-grey-darker text-white snap-start min-h-[89.5vh]">
+    <section class="w-full bg-grey-darker text-white snap-start">
       <div x-data="fadeUp" x-bind="fadeUp" class="fade-up">
         <div class="px-10 pt-10 pb-0 md:pb-4 lg:pb-10">
           <h5 class="alt text-center md:text-right">Featured collection</h5>

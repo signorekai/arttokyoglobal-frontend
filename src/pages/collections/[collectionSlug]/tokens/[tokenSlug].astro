@@ -30,6 +30,9 @@ const { artist } = collection;
 
 export async function getStaticPaths() {
   const { data } = await fetchFromAPI("/tokens", {
+    filters: {
+      minted: true,
+    },
     fields: ["slug"],
     populate: ["collection"],
   });

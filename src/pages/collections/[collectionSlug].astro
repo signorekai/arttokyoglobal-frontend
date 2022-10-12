@@ -5,8 +5,7 @@ import Dropdown from "../../components/Dropdown.astro";
 import Card from "../../components/ClientCard.astro";
 import { fetchFromAPI } from "../../library/helpers";
 
-import tokens from "../../data/tokens";
-import collections from "../../data/collections";
+import filter from "lodash/filter";
 const { collectionSlug } = Astro.params;
 
 const { data } = await fetchFromAPI("/collections", {
@@ -23,6 +22,7 @@ const { data } = await fetchFromAPI("/collections", {
   fields: ["title", "slug", "status", "totalTokens", "description"],
 });
 const collection = data[0];
+collection.tokens = filter(collection.tokens, (token) => token.minted);
 
 export async function getStaticPaths() {
   const { data: collections } = await fetchFromAPI("/collections", {

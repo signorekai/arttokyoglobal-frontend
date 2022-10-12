@@ -9,9 +9,7 @@ import CollectionTemplate from "../components/ClientCollection.astro";
 import Carousel from "../components/ClientCarousel.astro";
 import Card from "../components/ClientCard.astro";
 
-import tokens from "../data/tokens";
-
-import _maxBy from "lodash/maxBy";
+import filter from "lodash/filter";
 
 const { data: settings } = await fetchFromAPI("/general-setting", {
   populate: [
@@ -23,8 +21,11 @@ const { data: settings } = await fetchFromAPI("/general-setting", {
   ],
 });
 
-// mock token data
-const featuredCollections = [...settings.collections];
+// only return minted tokens
+const featuredCollections = settings.collections.map((collection) => ({
+  ...collection,
+  tokens: filter(collection.tokens, (token) => token.minted),
+}));
 
 const { data: collections } = await fetchFromAPI("/collections", {
   populate: ["artist.name", "artist.slug", "coverImg"],
@@ -86,15 +87,15 @@ const { data: collections } = await fetchFromAPI("/collections", {
           x-data="{ show: false }"
           x-intersect.once="show = true"
           x-bind:class="show && 'card-animation--enter'"
-          title={featuredCollections[0].tokens[1].title}
+          title={featuredCollections[0].tokens[0].title}
           className={`max-w-full lg:max-h-screen-2/3 ${
-            featuredCollections[0].tokens[1].image.width >
-            featuredCollections[0].tokens[1].image.height
+            featuredCollections[0].tokens[0].image.width >
+            featuredCollections[0].tokens[0].image.height
               ? "w-full"
               : "h-full"
           } translate-y-12 card-animation--before`}
-          img={featuredCollections[0].tokens[1].image.url}
-          aspectRatio={`${featuredCollections[0].tokens[1].image.width} / ${featuredCollections[0].tokens[1].image.height}`}
+          img={featuredCollections[0].tokens[0].image.url}
+          aspectRatio={`${featuredCollections[0].tokens[0].image.width} / ${featuredCollections[0].tokens[0].image.height}`}
         />
       </div>
       <div
