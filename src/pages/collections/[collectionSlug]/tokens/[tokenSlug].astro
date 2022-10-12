@@ -9,6 +9,7 @@ const { collectionSlug, tokenSlug } = Astro.params;
 
 const { data: tokens } = await fetchFromAPI("/tokens", {
   filters: {
+    minted: true,
     slug: tokenSlug,
     collection: {
       slug: collectionSlug,
