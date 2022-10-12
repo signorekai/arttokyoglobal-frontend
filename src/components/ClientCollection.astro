@@ -28,7 +28,7 @@ import ethLogo from "../images/eth-logo.png";
       class="inline-flex flex-row items-center justify-center pl-0 lg:pl-3 text-black"
     >
       <img src={ethLogo} width="20" alt="" />
-      <span class="px-1" x-text="item.mintPrice"></span>
+      <span class="px-1" x-text="item.mintPrice / (10 ** 18)"></span>
     </h4>
   </div>
 </div>
