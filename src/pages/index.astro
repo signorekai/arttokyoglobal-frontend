@@ -136,7 +136,9 @@ const { data: collections } = await fetchFromAPI("/collections", {
             </h4>
             <h4 class="inline-flex flex-row pl-3 justify-center items-center">
               <img src={ethLogo} width="20" alt="" />
-              <span class="pl-1">{featuredCollections[0].mintPrice}</span>
+              <span class="pl-1"
+                >{featuredCollections[0].mintPrice / 10 ** 18}
+              </span>
             </h4>
           </div>
         </div>
