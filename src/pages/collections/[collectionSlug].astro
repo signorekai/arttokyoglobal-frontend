@@ -137,7 +137,7 @@ export async function getStaticPaths() {
                   <div class="carousel-item w-full">
                     <Card
                       link={`/collections/${collection.slug}/tokens/\${token.slug}`}
-                      backgroundImage="${token.image.formats.medium ? token.image.formats.medium.url : token.image.url}"
+                      backgroundImage="${token.image.formats.small ? token.image.formats.small.url : token.image.url}"
                       aspectRatio="${token.image.width} / ${token.image.height}"
                     />
                   </div>
