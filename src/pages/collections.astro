@@ -151,7 +151,7 @@ const featuredCollections = settings.collections.map((collection) => ({
                       <div class="w-full overflow-hidden">
                         <div
                           class="aspect-square w-full hover:scale-110 transition-all bg-cover bg-center"
-                          :style="`background-image: url(${collection.coverImg.medium ? collection.coverImg.medium.url : collection.coverImg.url})`"
+                          :style="`background-image: url(${collection.coverImg.formats.medium ? collection.coverImg.formats.medium.url : collection.coverImg.url})`"
                         >
                         </div>
                       </div>
