@@ -33,9 +33,18 @@ import "../styles/fontawesome.css";
       </a>
       <div class="search-wrapper"></div>
       <div class="button-wrapper">
-        <button class="hidden md:flex btn btn--standard"
-          ><h4>Connect Wallet</h4>
-        </button>
+        <div x-data="connectWallet">
+          <button
+            x-bind="connectButton"
+            class="hidden md:flex btn btn--standard"
+            ><h4>Connect Wallet</h4>
+          </button>
+          <div
+            class="font-trade-gothic text-base font-bold hidden md:flex"
+            x-bind="userInfo"
+          >
+          </div>
+        </div>
         <button
           x-on:click="showMenu = !showMenu"
           class="group btn w-9 h-9 -m-1 md:m-0"
@@ -70,7 +79,7 @@ import "../styles/fontawesome.css";
         </button>
       </div>
     </header>
-    <div class="modal" style="display:none" x-show="showMenu">
+    <div class="modal-overlay" style="display:none" x-show="showMenu">
       <div
         class="menu shadow-modal"
         x-show="showMenu"
@@ -109,6 +118,9 @@ import "../styles/fontawesome.css";
             <li class="menu-item"><a href="/artists">Artists</a></li>
           </ul>
           <ul class="mt-2 gap-y-1 flex flex-col items-end">
+            <li class="menu-item menu-item--small">
+              <a href="/about-us">About Us</a>
+            </li>
             <li class="menu-item menu-item--small">
               <a href="/faq">FAQ</a>
             </li>
@@ -194,12 +206,187 @@ import "../styles/fontawesome.css";
 <script>
   import Alpine from "alpinejs";
   import intersect from "@alpinejs/intersect";
+  import persist from "@alpinejs/persist";
+  import { isJwtExpired } from "jwt-check-expiration";
 
-  Alpine.plugin(intersect);
+  import { ethers, BigNumber } from "ethers";
+  import detectEthereumProvider from "@metamask/detect-provider";
   import _filter from "lodash/filter";
   import _orderBy from "lodash/orderBy";
 
+  import { timerMessage } from "astro/dist/core/logger/core";
+
+  Alpine.plugin(intersect);
+  Alpine.plugin(persist);
+
   document.addEventListener("alpine:init", () => {
+    Alpine.data("connectWallet", function () {
+      return {
+        loading: false,
+        hasProvider: false,
+        isSupportedProvider: false,
+        token: this.$persist(""),
+        jwt: this.$persist(""),
+        account: this.$persist(false),
+        userProfile: this.$persist({}),
+        clearCredentials() {
+          console.log("CLEAR");
+          this.account = false;
+          this.token = "";
+          this.jwt = "";
+          this.userProfile = {};
+        },
+        async handleAccountsChanged(accounts) {
+          const browserProvider = await detectEthereumProvider();
+          console.log("checking accounts");
+
+          if (
+            accounts.length === 0 || // no account connected
+            (accounts[0] !== this.account && this.account !== false) // not the same account as cached account
+          ) {
+            console.log(
+              accounts.length === 0,
+              accounts[0] !== this.account,
+              this.account !== false
+            );
+            this.clearCredentials();
+          }
+
+          if (accounts.length > 0) {
+            const account = accounts[0];
+
+            const token = await this.fetchToken(account);
+
+            if (token) {
+              console.log("fetched token", token);
+
+              const invalidJWT =
+                this.jwt.length === 0 || isJwtExpired(this.jwt);
+
+              if (invalidJWT) {
+                this.jwt = "";
+
+                const signedMessage = await this.signMessage(
+                  browserProvider,
+                  token
+                );
+
+                const userProfile = await this.authenticate(
+                  account,
+                  signedMessage
+                );
+
+                if (userProfile.jwt) {
+                  this.account = account;
+                  this.token = token;
+                  this.jwt = userProfile.jwt;
+                  this.userProfile = userProfile.user;
+                }
+                console.log("DONE");
+              }
+            } else {
+              this.account = false;
+            }
+          }
+        },
+        async init() {
+          if (typeof window.ethereum !== "undefined") {
+            const browserProvider = await detectEthereumProvider();
+
+            this.hasProvider = true;
+            this.isSupportedProvider = browserProvider.isMetaMask;
+
+            if (this.hasProvider && this.isSupportedProvider) {
+              window.ethereum.on(
+                "accountsChanged",
+                this.handleAccountsChanged.bind(this)
+              );
+              this.getWallet();
+            } else {
+              this.clearCredentials();
+            }
+          }
+        },
+        async signIn() {
+          if (typeof window.ethereum !== "undefined") {
+            const browserProvider = await detectEthereumProvider();
+
+            this.hasProvider = true;
+            this.isSupportedProvider = browserProvider.isMetaMask;
+
+            if (this.hasProvider && this.isSupportedProvider) {
+              this.requestWallet();
+            }
+          }
+        },
+        async fetchToken(address) {
+          const response = await fetch(`/api/token/${address}`);
+          const body = await response.text();
+          return body;
+        },
+        async signMessage(browserProvider, token) {
+          const provider = new ethers.providers.Web3Provider(browserProvider);
+          const signer = provider.getSigner();
+          const signedMessage = await signer.signMessage(
+            `Your authentication token : ${token}`
+          );
+
+          return signedMessage;
+        },
+        async authenticate(address, signature) {
+          const response = await fetch(
+            `/api/authenticate/${address}/${signature}`
+          );
+          const body = await response.json();
+          return body;
+        },
+        async getWallet() {
+          if (
+            typeof window.ethereum !== "undefined" &&
+            this.hasProvider &&
+            this.isSupportedProvider
+          ) {
+            const accounts = await ethereum.request({
+              method: "eth_accounts",
+            });
+            console.log(350);
+            this.handleAccountsChanged(accounts);
+          }
+        },
+        async requestWallet() {
+          if (
+            typeof window.ethereum !== "undefined" &&
+            this.hasProvider &&
+            this.isSupportedProvider
+          ) {
+            await window.ethereum.request({
+              method: "eth_requestAccounts",
+            });
+          }
+        },
+        userInfo: {
+          ["x-show"]() {
+            return this.account !== false;
+          },
+          ["x-html"]() {
+            return this.userProfile.name ? this.userProfile.name : this.account;
+          },
+        },
+        connectButton: {
+          ["x-show"]() {
+            return (
+              this.hasProvider &&
+              this.isSupportedProvider &&
+              this.account === false
+            );
+          },
+          async ["@click"]() {
+            this.signIn();
+          },
+        },
+      };
+    });
+
     Alpine.data("filterables", (opts) => {
       const { data, listenTo = [], id } = opts;
       const store = { filtered: data, data, id, filters: [], sorting: [] };
