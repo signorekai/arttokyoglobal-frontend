@@ -93,13 +93,15 @@ export async function getStaticPaths() {
     x-bind="fadeUp"
   >
     <div class="col-start-1 col-span-6 lg:col-end-6 lg:pl-4 lg:pt-2 lg:pb-2">
-      <img
-        class="aspect-square w-full"
-        alt="collection.title"
-        src={collection.coverImg.formats.large
-          ? collection.coverImg.formats.large.url
-          : collection.coverImg.url}
-      />
+      <div
+        class="aspect-square bg-cover bg-center w-full h-auto"
+        style={`background-image: url(${
+          collection.coverImg.formats.large
+            ? collection.coverImg.formats.large.url
+            : collection.coverImg.url
+        })`}
+      >
+      </div>
     </div>
     <div
       class="mt-6 lg:mt-0 col-start-2 col-end-8 lg:col-start-6 lg:col-end-13 lg:pr-4 flex flex-col items-end text-right justify-center"
