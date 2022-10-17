@@ -1,0 +1,19 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { fetchFromAPI } from "../library/helpers";
+
+const { data: page } = await fetchFromAPI("/about-us", {
+  fields: ["title", "content"],
+});
+---
+
+<Layout title={page.title}>
+  <div class="container px-4">
+    <div class="rounded-4xl bg-peach px-4 md:px-8 py-8 mt-8 text-right">
+      <h1 class="block text-right lg:ml-auto lg:max-w-[75%] mb-8">
+        {page.title}
+      </h1>
+      <Fragment set:html={page.content} />
+    </div>
+  </div>
+</Layout>
