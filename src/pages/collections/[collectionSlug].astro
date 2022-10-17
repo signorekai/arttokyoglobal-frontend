@@ -31,6 +31,33 @@ const { data } = await fetchFromAPI("/collections", {
 const collection = data[0];
 collection.tokens = filter(collection.tokens, (token) => token.minted);
 
+// const updatedInfo: any = {};
+// if (contract.maxSupply) {
+//   updatedInfo.totalTokens = await contract.maxSupply();
+// }
+
+// if (contract.cost) {
+//   updatedInfo.mintPrice = Number(await contract.cost());
+// }
+
+// if (contract.totalSupply) {
+//   updatedInfo.totalSupply = Number(await contract.totalSupply());
+// }
+
+// if (contract.whitelistMintEnabled) {
+//   updatedInfo.whitelistMintEnabled = await contract.whitelistMintEnabled();
+// }
+
+// if (contract.dynamicStart) {
+//   updatedInfo.dynamicStart = await contract.dynamicStart();
+// }
+
+// if (contract.getStartDate) {
+//   updatedInfo.startDate = await contract.getStartDate();
+// }
+
+// merge(collection, updatedInfo);
+
 export async function getStaticPaths() {
   const { data: collections } = await fetchFromAPI("/collections", {
     fields: ["slug"],
