@@ -26,7 +26,21 @@ const { data } = await fetchFromAPI("/collections", {
     "coverImg",
     "artist.profilePhoto",
   ],
-  fields: ["title", "slug", "status", "totalTokens", "description"],
+  fields: [
+    "CID",
+    "ABI",
+    "title",
+    "slug",
+    "status",
+    "totalTokens",
+    "description",
+    "dynamicStart",
+    "startDate",
+    "mintPrice",
+    "totalTokens",
+    "totalSupply",
+    "contractAddress",
+  ],
 });
 let collection = data[0];
 // const provider = new ethers.providers.AlchemyProvider(
@@ -156,6 +170,17 @@ export async function getStaticPaths() {
             startDate={collection.startDate}
           />
         </h4>
+        <MintWidget
+          cid={collection.CID}
+          contractAddress={collection.contractAddress}
+          maxSupply={collection.totalTokens}
+          totalSupply={collection.totalSupply}
+          status={collection.status}
+          ABI={JSON.stringify(collection.ABI)}
+          dynamicStart={collection.dynamicStart}
+          mintPrice={collection.mintPrice}
+          startDate={collection.startDate}
+        />
       </div>
     </div>
   </div>
