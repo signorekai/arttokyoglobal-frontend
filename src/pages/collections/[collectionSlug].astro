@@ -95,6 +95,16 @@ export async function getStaticPaths() {
         set:html={collection.description}
       >
       </div>
+      <div class="flex flex-row mt-1">
+        <h4 class="inline-flex flex-row pl-3 justify-center items-center">
+          <img src={ethLogo} width="20" alt="" />
+          <MintPrice
+            dynamicStart={collection.dynamicStart}
+            mintPrice={collection.mintPrice}
+            startDate={collection.startDate}
+          />
+        </h4>
+      </div>
     </div>
   </div>
   {
