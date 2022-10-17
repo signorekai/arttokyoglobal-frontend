@@ -47,6 +47,10 @@ export const projectStatus = {
     title: "Currently Minting",
     className: "bg-red text-white",
   },
+  Upcoming: {
+    title: "Upcoming",
+    className: "bg-grey-dark text-white",
+  },
   MintingPaused: {
     title: "Minting Paused",
     className: "bg-grey-dark text-white",
@@ -54,5 +58,9 @@ export const projectStatus = {
   FinishedMinting: {
     title: "Minting Completed",
     className: "bg-grey-mid/25 text-white",
+  },
+  WhitelistOnly: {
+    title: "Whitelist Only",
+    className: "bg-grey-mid/50 text-white",
   },
 }
