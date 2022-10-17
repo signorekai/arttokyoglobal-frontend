@@ -57,6 +57,13 @@ collection.tokens = filter(collection.tokens, (token) => token.minted);
 // }
 
 // merge(collection, updatedInfo);
+const tokens = [];
+
+for (var x = 0; x < collection.totalSupply; x++) {
+  tokens.push(collection.tokens[x]);
+}
+
+collection.tokens = tokens;
 
 export async function getStaticPaths() {
   const { data: collections } = await fetchFromAPI("/collections", {
