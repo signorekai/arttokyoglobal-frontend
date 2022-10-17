@@ -4,8 +4,15 @@ import ProjectStatus from "../../components/ProjectStatus.astro";
 import Dropdown from "../../components/Dropdown.astro";
 import Card from "../../components/ClientCard.astro";
 import { fetchFromAPI } from "../../library/helpers";
+import ethLogo from "../../images/eth-logo.png";
+
+import MintPrice from "../../components/MintPrice.client.astro";
+import MintWidget from "../../components/MintWidget.client.astro";
 
 import filter from "lodash/filter";
+import merge from "lodash/merge";
+
+import { ethers } from "ethers";
 const { collectionSlug } = Astro.params;
 
 const { data } = await fetchFromAPI("/collections", {
