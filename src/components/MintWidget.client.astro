@@ -1,0 +1,138 @@
+---
+export interface Props {
+  cid: string;
+  contractAddress: string;
+  startDate: number;
+  dynamicStart: boolean;
+  mintPrice: number;
+  ABI: string;
+  status: "CurrentlyMinting" | "MintingPaused" | "FinishedMinting";
+  className?: string;
+  maxSupply: number;
+  totalSupply: number;
+}
+
+const { className = "", ...props } = Astro.props;
+---
+
+<div x-data={`mintWidget(${JSON.stringify(props)})`} class="ml-4">
+  <button class="btn btn--standard" x-bind="button"
+    ><h4 x-bind="buttonText"></h4>
+  </button>
+</div>
+
+<script>
+  import { getPrice } from "../library/client";
+  import { ethereumTestnet as ethereumConfig } from "../library/network-config";
+
+  import { ethers, BigNumber } from "ethers";
+  import detectEthereumProvider from "@metamask/detect-provider";
+
+  document.addEventListener("alpine:init", () => {
+    Alpine.data("mintWidget", function (props) {
+      return {
+        receipt: undefined,
+        loading: false,
+        error: false,
+        success: false,
+        price: BigNumber.from(0),
+        account: this.$store.credentials.account,
+        mintAmount: 1,
+        message: "",
+        contract: undefined,
+        props,
+        async init() {
+          if (typeof window.ethereum !== "undefined") {
+            const browserProvider = await detectEthereumProvider();
+            if (!browserProvider.isMetaMask) {
+              return false;
+            }
+
+            this.price = getPrice(this.props);
+          }
+        },
+        async mintTokens() {
+          if (this.price === 0 || this.props.status !== "CurrentlyMinting") {
+            return false;
+          }
+          const browserProvider = await detectEthereumProvider();
+          const provider = new ethers.providers.Web3Provider(browserProvider);
+
+          const signer = provider.getSigner();
+
+          const contract = new ethers.Contract(
+            this.props.contractAddress,
+            JSON.parse(this.props.ABI),
+            signer
+          );
+
+          // if (await this.provider.getCode(this.props.contractAddress!) === '0x') {
+          //   this.setError('Could not find the contract, are you connected to the right chain?');
+
+          //   return;
+          // }
+
+          try {
+            this.loading = true;
+            const tx = await contract.mint(this.mintAmount);
+            const receipt = await tx.wait();
+
+            this.loading = false;
+            this.message = `Minting success! View transaction here`;
+            this.success = true;
+            this.receipt = receipt;
+
+            // @todo ping server to refresh token
+            // this.refreshContractState();
+          } catch (e) {
+            this.loading = false;
+            this.message = "Minting failed. Do you have enough ETH?";
+            this.error = true;
+            console.error(e);
+          }
+        },
+        button: {
+          ["x-bind:class"]() {
+            return {
+              "btn--disabled":
+                this.price === 0 ||
+                this.account === false ||
+                this.props.status !== "CurrentlyMinting",
+              "btn--loading": this.loading,
+              "btn--message": this.message.length > 0 && this.error === true,
+              "btn--success": this.message.length > 0 && this.success === true,
+            };
+          },
+          ["x-on:click"]() {
+            if (this.success) {
+              window.open(
+                ethereumConfig.blockExplorer.generateTransactionUrl(
+                  this.receipt.transactionHash
+                ),
+                "_blank"
+              );
+            } else {
+              this.mintTokens();
+            }
+          },
+        },
+        buttonText: {
+          ["x-html"]() {
+            if (this.loading === true) {
+              return `<img class="animate-spin w-6 h-6 fill-white" src="/spinner-third.svg" alt="" />`;
+            } else if (
+              this.message.length > 0 &&
+              (this.error === true || this.success === true)
+            ) {
+              return this.message;
+            } else {
+              return this.$store.credentials.account === false
+                ? "Connect Wallet to Mint"
+                : "Mint";
+            }
+          },
+        },
+      };
+    });
+  });
+</script>
