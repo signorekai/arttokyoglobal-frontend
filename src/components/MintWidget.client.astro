@@ -101,6 +101,7 @@ const { className = "", ...props } = Astro.props;
               "btn--loading": this.loading,
               "btn--message": this.message.length > 0 && this.error === true,
               "btn--success": this.message.length > 0 && this.success === true,
+              hidden: this.props.status === "MintingPaused",
             };
           },
           ["x-on:click"]() {
