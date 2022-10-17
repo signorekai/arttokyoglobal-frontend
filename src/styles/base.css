@@ -69,15 +69,29 @@
     @apply justify-center items-center px-4 py-2;
   }
 
+  .btn--success {
+    @apply hover:bg-red hover:text-white;
+  }
+
   .btn--grey {
     @apply bg-grey-mild text-grey-dark;
+  }
+
+  .btn--loading, .btn--message {
+    @apply bg-grey-mild text-grey-mid;
+    @apply hover:bg-grey-mild hover:text-grey-mid;
+  }
+
+  .btn--disabled {
+    @apply bg-grey-mild text-grey-mid cursor-not-allowed;
+    @apply shadow-none hover:bg-grey-mild hover:text-grey-mid;
   }
 
   .btn--black {
     @apply bg-black hover:text-white hover:bg-red;
   }
 
-  .modal {
+  .modal-overlay {
     @apply fixed z-50 top-0 left-0;
     @apply w-full h-full p-7 flex justify-end overflow-hidden;   
   }
