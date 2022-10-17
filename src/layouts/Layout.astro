@@ -36,11 +36,19 @@ import "../styles/fontawesome.css";
         <div x-data="connectWallet">
           <button
             x-bind="connectButton"
-            class="hidden md:flex btn btn--standard"
-            ><h4>Connect Wallet</h4>
+            x-on:click="$store.credentials.signIn()"
+            class="btn btn--standard connect-button--desktop"
+          >
+            <h4>Connect Wallet</h4>
+          </button>
+          <button
+            x-bind="errorMsg"
+            class="hidden btn btn--standard btn--disabled"
+          >
+            <h4 x-text="$store.credentials.error"></h4>
           </button>
           <div
-            class="font-trade-gothic text-base font-bold hidden md:flex"
+            class="font-roc-grotesk uppercase -mb-1 text-base font-bold hidden md:flex"
             x-bind="userInfo"
           >
           </div>
@@ -110,6 +118,19 @@ import "../styles/fontawesome.css";
             ></path>
           </svg>
         </button>
+        <div x-data="connectWallet">
+          <button
+            x-bind="connectButton"
+            class="btn btn--standard connect-button--all"
+            ><h4 x-text="$store.error ? $store.error : 'Connect Wallet'"></h4>
+          </button>
+          <div
+            class="font-trade-gothic text-base font-bold hidden md:flex"
+            x-bind="userInfo"
+            @click="$store.credentials.signIn()"
+          >
+          </div>
+        </div>
         <div class="menu-wrapper mt-32">
           <ul class="gap-y-2 flex flex-col items-end">
             <li class="menu-item">
@@ -145,6 +166,21 @@ import "../styles/fontawesome.css";
       <Footer />
     </div>
     <style>
+      .connect-button--all {
+        @apply !hidden;
+
+        &.connect-button--show {
+          @apply !flex;
+        }
+      }
+      .connect-button--desktop {
+        @apply !hidden;
+      }
+
+      .connect-button--desktop.connect-button--show {
+        @apply !hidden md:!flex;
+      }
+
       .header {
         @apply bg-white/75 flex flex-row items-center justify-between p-4;
         @apply md:py-6 md:px-7 mix-blend-normal backdrop-blur-xl;
@@ -208,6 +244,7 @@ import "../styles/fontawesome.css";
   import intersect from "@alpinejs/intersect";
   import persist from "@alpinejs/persist";
   import { isJwtExpired } from "jwt-check-expiration";
+  import { ethereumTestnet as ethereumConfig } from "../library/network-config";
 
   import { ethers, BigNumber } from "ethers";
   import detectEthereumProvider from "@metamask/detect-provider";
@@ -218,168 +255,190 @@ import "../styles/fontawesome.css";
   Alpine.plugin(persist);
 
   document.addEventListener("alpine:init", () => {
-    Alpine.data("connectWallet", function () {
-      return {
-        loading: false,
-        hasProvider: false,
-        isSupportedProvider: false,
-        token: this.$persist(""),
-        jwt: this.$persist(""),
-        account: this.$persist(false),
-        userProfile: this.$persist({}),
-        clearCredentials() {
-          console.log("CLEAR");
-          this.account = false;
-          this.token = "";
-          this.jwt = "";
-          this.userProfile = {};
-        },
-        async handleAccountsChanged(accounts) {
-          const browserProvider = await detectEthereumProvider();
-          console.log("checking accounts");
+    Alpine.store("credentials", {
+      provider: false,
+      loading: true,
+      hasProvider: false,
+      error: false,
+      isSupportedProvider: false,
+      token: Alpine.$persist(""),
+      jwt: Alpine.$persist(""),
+      account: Alpine.$persist(false),
+      userProfile: Alpine.$persist({}),
+      clearCredentials() {
+        console.log("CLEAR");
+        this.account = false;
+        this.token = "";
+        this.jwt = "";
+        this.userProfile = {};
+      },
+      async handleAccountsChanged(accounts) {
+        const browserProvider = await detectEthereumProvider();
+        console.log("checking accounts");
 
-          if (
-            accounts.length === 0 || // no account connected
-            (accounts[0] !== this.account && this.account !== false) // not the same account as cached account
-          ) {
-            console.log(
-              accounts.length === 0,
-              accounts[0] !== this.account,
-              this.account !== false
-            );
-            this.clearCredentials();
-          }
+        if (
+          accounts.length === 0 || // no account connected
+          (accounts[0] !== this.account && this.account !== false) // not the same account as cached account
+        ) {
+          this.clearCredentials();
+          console.log(284);
+        }
 
-          if (accounts.length > 0) {
-            const account = accounts[0];
+        if (accounts.length > 0) {
+          const account = accounts[0];
 
-            const token = await this.fetchToken(account);
+          const token = await this.fetchToken(account);
 
-            if (token) {
-              console.log("fetched token", token);
+          if (token) {
+            console.log("fetched token", token);
+            const invalidJWT = this.jwt.length === 0 || isJwtExpired(this.jwt);
 
-              const invalidJWT =
-                this.jwt.length === 0 || isJwtExpired(this.jwt);
+            if (invalidJWT) {
+              console.log(298);
+              this.jwt = "";
 
-              if (invalidJWT) {
-                this.jwt = "";
+              const signedMessage = await this.signMessage(
+                browserProvider,
+                token
+              );
 
-                const signedMessage = await this.signMessage(
-                  browserProvider,
-                  token
-                );
+              const userProfile = await this.authenticate(
+                account,
+                signedMessage
+              );
 
-                const userProfile = await this.authenticate(
-                  account,
-                  signedMessage
-                );
-
-                if (userProfile.jwt) {
-                  this.account = account;
-                  this.token = token;
-                  this.jwt = userProfile.jwt;
-                  this.userProfile = userProfile.user;
-                }
-                console.log("DONE");
+              if (userProfile.jwt) {
+                this.account = account;
+                this.token = token;
+                this.jwt = userProfile.jwt;
+                this.userProfile = userProfile.user;
               }
             } else {
-              this.account = false;
+              this.account = account;
             }
+          } else {
+            this.account = false;
           }
-        },
-        async init() {
-          if (typeof window.ethereum !== "undefined") {
-            const browserProvider = await detectEthereumProvider();
+        }
 
-            this.hasProvider = true;
-            this.isSupportedProvider = browserProvider.isMetaMask;
+        this.loading = false;
+      },
+      async init() {
+        if (typeof window.ethereum !== "undefined") {
+          const browserProvider = await detectEthereumProvider();
 
-            if (this.hasProvider && this.isSupportedProvider) {
+          if (browserProvider.isMetaMask) {
+            const provider = new ethers.providers.Web3Provider(browserProvider);
+            const network = await provider.send("eth_chainId", []);
+
+            window.ethereum.on("chainChanged", (_chainId) =>
+              window.location.reload()
+            );
+
+            if (network === ethereumConfig.chainId) {
+              this.hasProvider = true;
+              this.isSupportedProvider = browserProvider.isMetaMask;
+              this.provider = provider;
+
               window.ethereum.on(
                 "accountsChanged",
                 this.handleAccountsChanged.bind(this)
               );
+
               this.getWallet();
             } else {
-              this.clearCredentials();
+              this.loading = false;
+              this.error = `Wrong network. Please connect to ${ethereumConfig.name}`;
+              this.account = false;
             }
+          } else {
+            this.clearCredentials();
+            this.loading = false;
           }
-        },
-        async signIn() {
-          if (typeof window.ethereum !== "undefined") {
-            const browserProvider = await detectEthereumProvider();
+        }
+      },
+      async signIn() {
+        this.requestWallet();
+      },
+      async fetchToken(address) {
+        const response = await fetch(`/api/token/${address}`);
+        const body = await response.text();
+        return body;
+      },
+      async signMessage(browserProvider, token) {
+        const provider = new ethers.providers.Web3Provider(browserProvider);
+        const signer = provider.getSigner();
+        const signedMessage = await signer.signMessage(
+          `Your authentication token : ${token}`
+        );
 
-            this.hasProvider = true;
-            this.isSupportedProvider = browserProvider.isMetaMask;
-
-            if (this.hasProvider && this.isSupportedProvider) {
-              this.requestWallet();
-            }
-          }
-        },
-        async fetchToken(address) {
-          const response = await fetch(`/api/token/${address}`);
-          const body = await response.text();
-          return body;
-        },
-        async signMessage(browserProvider, token) {
-          const provider = new ethers.providers.Web3Provider(browserProvider);
-          const signer = provider.getSigner();
-          const signedMessage = await signer.signMessage(
-            `Your authentication token : ${token}`
-          );
-
-          return signedMessage;
-        },
-        async authenticate(address, signature) {
-          const response = await fetch(
-            `/api/authenticate/${address}/${signature}`
-          );
-          const body = await response.json();
-          return body;
-        },
-        async getWallet() {
-          if (
-            typeof window.ethereum !== "undefined" &&
-            this.hasProvider &&
-            this.isSupportedProvider
-          ) {
-            const accounts = await ethereum.request({
-              method: "eth_accounts",
-            });
-            console.log(350);
-            this.handleAccountsChanged(accounts);
-          }
-        },
-        async requestWallet() {
-          if (
-            typeof window.ethereum !== "undefined" &&
-            this.hasProvider &&
-            this.isSupportedProvider
-          ) {
-            await window.ethereum.request({
-              method: "eth_requestAccounts",
-            });
-          }
-        },
+        return signedMessage;
+      },
+      async authenticate(address, signature) {
+        const response = await fetch(
+          `/api/authenticate/${address}/${signature}`
+        );
+        const body = await response.json();
+        return body;
+      },
+      async getWallet() {
+        if (
+          typeof window.ethereum !== "undefined" &&
+          this.hasProvider &&
+          this.isSupportedProvider &&
+          this.error === false
+        ) {
+          const accounts = await ethereum.request({
+            method: "eth_accounts",
+          });
+          console.log(350, accounts);
+          this.handleAccountsChanged(accounts);
+        }
+      },
+      async requestWallet() {
+        if (
+          typeof window.ethereum !== "undefined" &&
+          this.hasProvider &&
+          this.isSupportedProvider &&
+          this.error === false
+        ) {
+          await window.ethereum.request({
+            method: "eth_requestAccounts",
+          });
+        }
+      },
+    });
+    Alpine.data("connectWallet", function () {
+      return {
         userInfo: {
           ["x-show"]() {
-            return this.account !== false;
+            return (
+              this.$store.credentials.loading === false &&
+              this.$store.credentials.account !== false &&
+              this.$store.credentials.error === false
+            );
           },
           ["x-html"]() {
-            return this.userProfile.name ? this.userProfile.name : this.account;
+            return this.$store.credentials.userProfile.name
+              ? this.$store.credentials.userProfile.name
+              : this.$store.credentials.account;
           },
         },
         connectButton: {
-          ["x-show"]() {
-            return (
-              this.hasProvider &&
-              this.isSupportedProvider &&
-              this.account === false
-            );
+          ["x-bind:class"]() {
+            return {
+              "connect-button--show":
+                this.$store.credentials.loading === false &&
+                this.$store.credentials.account === false &&
+                this.$store.credentials.error === false,
+            };
           },
-          async ["@click"]() {
-            this.signIn();
+        },
+        errorMsg: {
+          ["x-bind:class"]() {
+            return {
+              hidden: this.$store.credentials.error === false,
+            };
           },
         },
       };
