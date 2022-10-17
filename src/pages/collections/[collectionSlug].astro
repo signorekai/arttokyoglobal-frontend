@@ -28,8 +28,17 @@ const { data } = await fetchFromAPI("/collections", {
   ],
   fields: ["title", "slug", "status", "totalTokens", "description"],
 });
-const collection = data[0];
-collection.tokens = filter(collection.tokens, (token) => token.minted);
+let collection = data[0];
+// const provider = new ethers.providers.AlchemyProvider(
+//   "goerli",
+//   import.meta.env.ALCHEMY_API_KEY
+// );
+
+// const contract = new ethers.Contract(
+//   collection.contractAddress,
+//   collection.ABI,
+//   provider
+// );
 
 // const updatedInfo: any = {};
 // if (contract.maxSupply) {
