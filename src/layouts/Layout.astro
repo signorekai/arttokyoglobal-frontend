@@ -369,7 +369,7 @@ import "../styles/fontawesome.css";
         const provider = new ethers.providers.Web3Provider(browserProvider);
         const signer = provider.getSigner();
         const signedMessage = await signer.signMessage(
-          `Your authentication token : ${token}`
+          `Please sign this message to connect to ATG : ${token}`
         );
 
         return signedMessage;
