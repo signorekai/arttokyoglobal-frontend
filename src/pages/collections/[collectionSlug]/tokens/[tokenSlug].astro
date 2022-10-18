@@ -28,6 +28,8 @@ const { data: tokens } = await fetchFromAPI("/tokens", {
   ],
 });
 
+// @todo return 404 if token not minted
+
 const token = tokens[0];
 const { collection } = token;
 const { artist } = collection;
