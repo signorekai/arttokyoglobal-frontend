@@ -419,9 +419,14 @@ import "../styles/fontawesome.css";
             );
           },
           ["x-html"]() {
+            if (this.$store.credentials.account === false) return false;
+
             return this.$store.credentials.userProfile.name
               ? this.$store.credentials.userProfile.name
-              : this.$store.credentials.account;
+              : `${this.$store.credentials.account?.slice(
+                  0,
+                  5
+                )}...${this.$store.credentials.account?.slice(-2)}`;
           },
         },
         connectButton: {
