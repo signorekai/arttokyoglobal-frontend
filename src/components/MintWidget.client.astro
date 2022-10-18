@@ -31,6 +31,9 @@ const { className = "", ...props } = Astro.props;
   document.addEventListener("alpine:init", () => {
     Alpine.data("mintWidget", function (props) {
       return {
+        clearTimer: undefined,
+        timerDuration: 4000,
+        gasLimit: 100000,
         receipt: undefined,
         loading: false,
         error: false,
@@ -49,6 +52,15 @@ const { className = "", ...props } = Astro.props;
             }
 
             this.price = getPrice(this.props);
+          }
+        },
+        resetButton() {
+          // this.clearTimer = undefined;
+          this.success = false;
+          this.message = "";
+          if (typeof this.clearTimer !== "undefined") {
+            clearTimeout(this.clearTimer);
+            this.clearTimer = undefined;
           }
         },
         async mintTokens() {
@@ -74,7 +86,12 @@ const { className = "", ...props } = Astro.props;
 
           try {
             this.loading = true;
-            const tx = await contract.mint(this.mintAmount);
+            console.log(contract);
+
+            const tx = await contract.mint(this.mintAmount, {
+              value: this.price.mul(this.mintAmount),
+              gasLimit: this.gasLimit,
+            });
             const receipt = await tx.wait();
 
             this.loading = false;
@@ -82,12 +99,16 @@ const { className = "", ...props } = Astro.props;
             this.success = true;
             this.receipt = receipt;
 
+            this.clearTimer = setTimeout(this.resetButton, this.timerDuration);
+
             // @todo ping server to refresh token
             // this.refreshContractState();
           } catch (e) {
             this.loading = false;
-            this.message = "Minting failed. Do you have enough ETH?";
+            this.message = "Minting failed. Please try again?";
+            this.gasLimit = this.gasLimit * 1.05;
             this.error = true;
+            this.clearTimer = setTimeout(this.resetButton, this.timerDuration);
             console.error(e);
           }
         },
@@ -97,11 +118,11 @@ const { className = "", ...props } = Astro.props;
               "btn--disabled":
                 this.price === 0 ||
                 this.account === false ||
-                this.props.status !== "CurrentlyMinting",
+                this.props.status !== "CurrentlyMinting" ||
+                this.props.status === "MintingPaused",
               "btn--loading": this.loading,
               "btn--message": this.message.length > 0 && this.error === true,
               "btn--success": this.message.length > 0 && this.success === true,
-              hidden: this.props.status === "MintingPaused",
             };
           },
           ["x-on:click"]() {
@@ -112,7 +133,8 @@ const { className = "", ...props } = Astro.props;
                 ),
                 "_blank"
               );
-            } else {
+              this.resetButton();
+            } else if (this.props.status === "CurrentlyMinting") {
               this.mintTokens();
             }
           },
