@@ -6,16 +6,16 @@ import Card from "../../components/ClientCard.astro";
 import { fetchFromAPI, getLargestPossibleImage } from "../../library/helpers";
 import ethLogo from "../../images/eth-logo.png";
 
+import { ethereumTestnet as ethereumConfig } from "../../library/network-config";
+
 import MintPrice from "../../components/MintPrice.client.astro";
 import MintWidget from "../../components/MintWidget.client.astro";
 
-import filter from "lodash/filter";
-import merge from "lodash/merge";
-
-import { ethers } from "ethers";
+import { sortBy, merge, filter } from "lodash";
 const { collectionSlug } = Astro.params;
 
 const { data } = await fetchFromAPI("/collections", {
+  sort: ["tokens.tokenId"],
   filters: {
     slug: collectionSlug,
   },
@@ -43,47 +43,14 @@ const { data } = await fetchFromAPI("/collections", {
   ],
 });
 let collection = data[0];
-// const provider = new ethers.providers.AlchemyProvider(
-//   "goerli",
-//   import.meta.env.ALCHEMY_API_KEY
-// );
 
-// const contract = new ethers.Contract(
-//   collection.contractAddress,
-//   collection.ABI,
-//   provider
-// );
-
-// const updatedInfo: any = {};
-// if (contract.maxSupply) {
-//   updatedInfo.totalTokens = await contract.maxSupply();
-// }
-
-// if (contract.cost) {
-//   updatedInfo.mintPrice = Number(await contract.cost());
-// }
-
-// if (contract.totalSupply) {
-//   updatedInfo.totalSupply = Number(await contract.totalSupply());
-// }
-
-// if (contract.whitelistMintEnabled) {
-//   updatedInfo.whitelistMintEnabled = await contract.whitelistMintEnabled();
-// }
-
-// if (contract.dynamicStart) {
-//   updatedInfo.dynamicStart = await contract.dynamicStart();
-// }
-
-// if (contract.getStartDate) {
-//   updatedInfo.startDate = await contract.getStartDate();
-// }
-
-// merge(collection, updatedInfo);
 const tokens = [];
+const sortedTokens = sortBy(collection.tokens, [
+  (token) => Number(token.tokenId),
+]);
 
 for (var x = 0; x < collection.totalSupply; x++) {
-  tokens.push(collection.tokens[x]);
+  tokens.push(sortedTokens[x]);
 }
 
 collection.tokens = tokens;
@@ -180,6 +147,18 @@ export async function getStaticPaths() {
           startDate={collection.startDate}
         />
       </div>
+      <h6 class="mt-4">
+        <a
+          href={ethereumConfig.blockExplorer.generateContractUrl(
+            collection.contractAddress
+          )}
+          target="_blank"
+          ><span class="italic bold"
+            >View on {ethereumConfig.blockExplorer.name}
+          </span>
+          <i class="fas fa-external-link-square"></i>
+        </a>
+      </h6>
     </div>
   </div>
   {
