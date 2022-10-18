@@ -261,6 +261,97 @@
       @apply text-red hover:text-red/75 transition-all;
     }
   }
+
+  .user-content {
+
+    @apply font-trade-gothic;
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      @apply mt-6 mb-4 leading-none;
+
+      & + ol, & + ul {
+        @apply pt-0;
+      }
+    }
+
+    h2,
+    h3, 
+    h4 {
+      @apply text-red font-roc-grotesk tracking-normal mb-2;
+    }
+
+    h2 {
+      @apply text-3xl;
+    }
+
+    h3 {
+      @apply text-2xl;
+    }
+
+    h4 {
+      @apply text-xl;
+    }
+
+    blockquote {
+      @apply block mx-4 md:mx-6 bg-red/25 rounded-xl py-4 px-6 text-lg;
+    }
+
+    blockquote, pre {
+      & + p {
+        @apply mt-4;
+      }
+    }
+
+    a {
+      @apply text-red hover:text-red/75 transition-colors;
+    }
+    
+    p {
+      @apply mb-0;
+    }
+
+    p + p {
+      @apply mt-4;
+    }
+
+    ul,
+    ol {
+      @apply px-6 md:px-10 pt-4 pb-6;
+
+      li + li {
+        @apply mt-2;
+      }
+      
+      & + p {
+        @apply mt-2;
+      }
+    }
+
+    ul li {
+      @apply list-disc;
+    }
+
+    ol {
+      @apply list-decimal
+    }
+
+    pre {
+      @apply my-4;
+
+      code {
+        @apply rounded-xl mx-4 md:mx-6;
+      }
+    }
+
+    pre code.hljs {
+      @apply pt-0;
+    }
+  }
 }
 
 body {
