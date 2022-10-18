@@ -1,7 +1,25 @@
-[] lightbox for collection cover images and token
-[] support for multiple featured collection
-[] homepage animation
-[] whitelist minting
-✔ /tokens/:token @done(22-10-02 02:30)
-✔ /faq @done(22-10-02 01:07)
-✔ /terms-of-service & /privacy-policy @done(22-10-02 01:07)
+FEATURES:
+  [] lightbox for collection cover images and token
+  [] support for multiple featured collection
+  [] homepage animation
+  [] whitelist minting
+  [] project description from contract
+  [] wallet profile page for ATG minted tokens
+  [] unsticky dropdown headers
+  [] mint amount UI + `maxMintAmountPerTx`
+  [] `revealed` ? `hiddenMetadataUri` : `uriPrefix`
+  ✔ /tokens/:token @done(22-10-02 02:30)
+  ✔ /faq @done(22-10-02 01:07)
+  ✔ /terms-of-service & /privacy-policy @done(22-10-02 01:07)
+  ✘ Dutch Auction indicator @cancelled(22-10-18 17:43)
+  ✘ Dutch Auction multipler @cancelled(22-10-18 17:43)
+
+BUGS: 
+  [] strapi CKeditor image uploading
+  [] Minting gas issue?
+
+GENERAL:
+  [] trello board for Carson
+
+TO RECEIVE:
+  [] contract function spec
