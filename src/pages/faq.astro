@@ -14,7 +14,7 @@ const sections = data.Sections;
 <Layout title="Frequently Asked Questions">
   <div class="container px-4">
     <div class="rounded-4xl bg-peach px-4 md:px-8 py-8 mt-8">
-      <h1 class="text-right lg:ml-auto lg:max-w-[75%]">F<span class="hidden md:inline">requently </span>A<span class="hidden md:inline">sked </span>Q<span class="hidden md:inline">uestions</span></h1>
+      <h1 class=" lg:ml-auto lg:max-w-[75%]">F<span class="hidden md:inline">requently </span>A<span class="hidden md:inline">sked </span>Q<span class="hidden md:inline">uestions</span></h1>
       <div class="w-full lg:grid lg:grid-cols-2 lg:gap-x-8 mt-4 gap-y-4">
         {sections.map(section => (
           <div class="flex flex-col items-end mt-4">
@@ -22,8 +22,8 @@ const sections = data.Sections;
             <dl class="w-full">
               {section.Items.map(item => (
                 <dt x-data="{ expanded: false }" class="mt-2 border-b-1 border-black/75 ">
-                  <button class="block w-full text-right hover:opacity-50 transition-opacity" @click="expanded = !expanded">
-                    <h4 class="inline-block text-right pb-3">{item.header}</h4>
+                  <button class="block w-full flex flex-row justify-between items-center hover:opacity-50 transition-opacity" @click="expanded = !expanded">
+                    <h4 class="inline-block  pb-3">{item.header}</h4>
                     <svg
                       class="inline-block group-hover:scale-y-80 group-hover:scale-x-125 transition-transform"
                       x-bind:class="expanded && 'rotate-180'"
@@ -36,7 +36,7 @@ const sections = data.Sections;
                       <path d="M1 1L8.5 7L16 1" class="stroke-current stroke-2"></path>
                     </svg>
                   </button>
-                  <div class="!text-right pb-1 content-wrapper" x-show="expanded" x-collapse set:html={item.content}></div>
+                  <div class="! pb-1 content-wrapper" x-show="expanded" x-collapse set:html={item.content}></div>
                   
                 </dt>
               ))} 
