@@ -146,8 +146,10 @@ export async function getStaticPaths() {
         >
           <div
             class="aspect-square h-10 grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all bg-cover bg-center"
-            x-data="imageHelper(collection.artist.profilePhoto, 'thumbnail')"
-            x-bind="backgroundImage"
+            style={`background-image: url(${getLargestPossibleImage(
+              collection.artist.profilePhoto,
+              "thumbnail"
+            )})`}
           >
           </div>
         </a>
