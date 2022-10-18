@@ -11,15 +11,7 @@ const { data = "collection.status" } = Astro.props;
 <div
   class="mt-1 py-2 px-5"
   x-data={`projectStatus(${data})`}
-  :class="className"
+  x-bind:class="className"
 >
   <h5 class="leading-none" x-text="title"></h5>
 </div>
-
-<script define:vars={{ projectStatus }}>
-  document.addEventListener("alpine:init", () => {
-    Alpine.data("projectStatus", (status) => {
-      return projectStatus[status];
-    });
-  });
-</script>

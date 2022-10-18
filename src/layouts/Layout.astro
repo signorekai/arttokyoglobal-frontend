@@ -251,6 +251,9 @@ import "../styles/fontawesome.css";
   import _filter from "lodash/filter";
   import _orderBy from "lodash/orderBy";
 
+  import { imageHelper } from "../library/client";
+  import { projectStatus } from "../library/helpers";
+
   Alpine.plugin(intersect);
   Alpine.plugin(persist);
 
@@ -408,6 +411,9 @@ import "../styles/fontawesome.css";
         }
       },
     });
+
+    Alpine.data("imageHelper", imageHelper);
+
     Alpine.data("connectWallet", function () {
       return {
         userInfo: {
@@ -515,5 +521,9 @@ import "../styles/fontawesome.css";
       "@scroll.window.debounce.150ms":
         "isSticky = $el.getBoundingClientRect().y <= window.scrollY",
     }));
+
+    Alpine.data("projectStatus", (status) => {
+      return projectStatus[status];
+    });
   });
 </script>

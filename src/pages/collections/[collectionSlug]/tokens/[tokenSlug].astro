@@ -3,7 +3,10 @@ import Layout from "../../../../layouts/Layout.astro";
 import _find from "lodash/find";
 
 import ProjectStatus from "../../../../components/ProjectStatus.astro";
-import { fetchFromAPI } from "../../../../library/helpers";
+import {
+  fetchFromAPI,
+  getLargestPossibleImage,
+} from "../../../../library/helpers";
 import filter from "lodash/filter";
 
 const { collectionSlug, tokenSlug } = Astro.params;
@@ -62,9 +65,7 @@ export async function getStaticPaths() {
       class="py-4 md:py-6 max-h-[80vh] w-full px-4 mx-auto flex flex-col items-center text-center justify-center"
     >
       <img
-        src={token.image.formats.large
-          ? token.image.formats.large.url
-          : token.image.url}
+        src={getLargestPossibleImage(token.image, "large")}
         class="lg:h-full"
         style={`aspect-ratio: ${token.image.width} / ${token.image.height}`}
         alt=""

@@ -1,6 +1,5 @@
 ---
 export interface Props {
-  aspectRatio: string;
   backgroundImage: string;
   link: string;
 }
@@ -13,8 +12,9 @@ const Wrapper = link.length > 0 ? "a" : Fragment;
 <Wrapper :href={`\`${link}\``}>
   <div
     {...props}
+    x-data={`${backgroundImage}`}
+    x-bind="backgroundImage"
     class="rounded-4xl border-6 border-white bg-cover bg-center shadow-card"
-    x-bind:style={`\`background-image: url(${backgroundImage}); aspect-ratio: ${aspectRatio}\``}
   >
   </div>
 </Wrapper>

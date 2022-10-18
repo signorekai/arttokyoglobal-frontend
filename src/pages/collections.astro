@@ -144,14 +144,15 @@ const featuredCollections = settings.collections.map((collection) => ({
                   x-data="{ show: false }"
                   x-intersect.threshold.30="show = true"
                   class="md:grid grid-cols-10 transition-all"
-                  :class="show === false ? 'opacity-0 translate-y-2' : 'opacity-100 translate-y-0'"
+                  x-bind:class="show === false ? 'opacity-0 translate-y-2' : 'opacity-100 translate-y-0'"
                 >
                   <div class="col-span-4">
-                    <a :href="`/collections/${collection.slug}`">
+                    <a x-bind:href="`/collections/${collection.slug}`">
                       <div class="w-full overflow-hidden">
                         <div
+                          x-data="imageHelper(collection.coverImg, 'medium')"
+                          x-bind="backgroundImage"
                           class="aspect-square w-full hover:scale-110 transition-all bg-cover bg-center"
-                          :style="`background-image: url(${collection.coverImg.formats.medium ? collection.coverImg.formats.medium.url : collection.coverImg.url})`"
                         >
                         </div>
                       </div>
@@ -183,8 +184,9 @@ const featuredCollections = settings.collections.map((collection) => ({
                           class="block overflow-hidden rounded-xl h-10 w-10 ml-3"
                         >
                           <div
+                            x-data="imageHelper(collection.artist.profilePhoto, 'thumbnail')"
+                            x-bind="backgroundImage"
                             class="aspect-square h-10 bg-cover bg-center grayscale group-hover:grayscale-0 transition-all"
-                            :style="`background-image: url(${collection.artist.profilePhoto.formats.thumbnail.url})`"
                           >
                           </div>
                         </a>

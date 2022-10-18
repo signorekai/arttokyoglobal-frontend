@@ -152,8 +152,7 @@ const { data: collections } = await fetchFromAPI("/collections", {
         <div slot="template" class="carousel-item w-2/3 lg:w-1/4">
           <Card
             link={`/collections/${featuredCollections[0].slug}/tokens/\${item.slug}`}
-            backgroundImage="${item.image.formats.medium ? item.image.formats.medium.url : item.image.url}"
-            aspectRatio="${item.image.width} / ${item.image.height}"
+            backgroundImage="imageHelper(item.image, 'medium', true)"
           />
         </div>
       </Carousel>

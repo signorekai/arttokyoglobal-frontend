@@ -109,11 +109,8 @@ export async function getStaticPaths() {
     <div class="col-start-1 col-span-6 lg:col-end-6 lg:pl-4 lg:pt-2 lg:pb-2">
       <div
         class="aspect-square bg-cover bg-center w-full h-auto"
-        style={`background-image: url(${
-          collection.coverImg.formats.large
-            ? collection.coverImg.formats.large.url
-            : collection.coverImg.url
-        })`}
+        x-data="imageHelper(collection.coverImg, 'large')"
+        x-bind="backgroundImage"
       >
       </div>
     </div>
@@ -147,11 +144,8 @@ export async function getStaticPaths() {
         >
           <div
             class="aspect-square h-10 grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all bg-cover bg-center"
-            style={`background-image: url(${
-              collection.artist.profilePhoto.formats.thumbnail
-                ? collection.artist.profilePhoto.formats.thumbnail.url
-                : collection.artist.profilePhoto.url
-            })`}
+            x-data="imageHelper(collection.artist.profilePhoto, 'thumbnail')"
+            x-bind="backgroundImage"
           >
           </div>
         </a>
@@ -224,8 +218,7 @@ export async function getStaticPaths() {
                   <div class="carousel-item w-full">
                     <Card
                       link={`/collections/${collection.slug}/tokens/\${token.slug}`}
-                      backgroundImage="${token.image.formats.small ? token.image.formats.small.url : token.image.url}"
-                      aspectRatio="${token.image.width} / ${token.image.height}"
+                      backgroundImage="imageHelper(token.image, 'small', true)"
                     />
                   </div>
                 </template>
