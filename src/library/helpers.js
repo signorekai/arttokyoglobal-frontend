@@ -29,7 +29,7 @@ import qs from "qs";
     }
   }
 
-  return url;
+  return url.slice(0, 5) !== 'https' ? `https://${url}` : url;
 };
 
 export const fetchFromAPI = async (url, query) => {

@@ -2,7 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 import Dropdown from "../../components/Dropdown.astro";
 import ProjectStatusTemplate from "../../components/ProjectStatus.client.astro";
-import { fetchFromAPI } from "../../library/helpers";
+import { fetchFromAPI, getLargestPossibleImage } from "../../library/helpers";
 
 const { artistSlug } = Astro.params;
 
@@ -38,7 +38,10 @@ export async function getStaticPaths() {
   <main>
     <div
       class="w-full aspect-video max-h-screen-2/3 bg-cover bg-center"
-      style={`background-image: url(${artist.coverImg.url})`}
+      style={`background-image: url(${getLargestPossibleImage(
+        artist.coverImg,
+        "large"
+      )})`}
     >
     </div>
     <div class="container container-grid">
@@ -65,8 +68,10 @@ export async function getStaticPaths() {
           class="fade-up--2 w-32 md:w-64 aspect-square overflow-hidden order-1 -mt-16 md:-mt-24 lg:mt-0 lg:order-2 lg:absolute right-0 bottom-0 rounded-xl"
         >
           <div
-            x-data="imageHelper(artist.profilePhoto, 'small')"
-            x-bind="backgroundImage"
+            style={`background-image: url(${getLargestPossibleImage(
+              artist.profilePhoto,
+              "small"
+            )})`}
             class="w-full h-full bg-cover bg-center"
             alt=""
           >
