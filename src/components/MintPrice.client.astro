@@ -1,19 +1,16 @@
 ---
 export interface Props {
-  startDate: number;
-  dynamicStart: boolean;
+  // startDate: number;
+  // dynamicStart: boolean;
   mintPrice: number;
   className?: string;
 }
-
 const { startDate, dynamicStart, mintPrice, className = "" } = Astro.props;
 ---
 
 <span
   class={`${className} pl-1`}
   x-data={`mintPriceWidget({
-    startDate: ${startDate},
-    dynamicStart: ${dynamicStart},
     mintPrice: ${mintPrice},
   })`}
   x-text="price"
@@ -22,13 +19,14 @@ const { startDate, dynamicStart, mintPrice, className = "" } = Astro.props;
 
 <script>
   import { getPrice } from "../library/client";
+  import { formatEther } from "ethers/lib/utils";
 
   document.addEventListener("alpine:init", () => {
     Alpine.data("mintPriceWidget", (props) => ({
       price: 0,
       props,
       init() {
-        this.price = getPrice(this.props) / 10 ** 18;
+        this.price = formatEther(getPrice(this.props));
       },
     }));
   });
