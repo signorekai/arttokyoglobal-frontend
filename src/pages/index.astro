@@ -1,5 +1,5 @@
 ---
-import { fetchFromAPI } from "../library/helpers";
+import { fetchFromAPI, getLargestPossibleImage } from "../library/helpers";
 import Layout from "../layouts/Layout.astro";
 import ethLogo from "../images/eth-logo.png";
 import ProjectStatus from "../components/ProjectStatus.astro";
@@ -94,7 +94,10 @@ const { data: collections } = await fetchFromAPI("/collections", {
               ? "w-full"
               : "h-full"
           } translate-y-12 card-animation--before`}
-          img={featuredCollections[0].tokens[0].image.url}
+          img={getLargestPossibleImage(
+            featuredCollections[0].tokens[0].image,
+            "medium"
+          )}
           aspectRatio={`${featuredCollections[0].tokens[0].image.width} / ${featuredCollections[0].tokens[0].image.height}`}
         />
       </div>
