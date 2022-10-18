@@ -3,7 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 import ProjectStatus from "../../components/ProjectStatus.astro";
 import Dropdown from "../../components/Dropdown.astro";
 import Card from "../../components/ClientCard.astro";
-import { fetchFromAPI } from "../../library/helpers";
+import { fetchFromAPI, getLargestPossibleImage } from "../../library/helpers";
 import ethLogo from "../../images/eth-logo.png";
 
 import MintPrice from "../../components/MintPrice.client.astro";
@@ -109,8 +109,10 @@ export async function getStaticPaths() {
     <div class="col-start-1 col-span-6 lg:col-end-6 lg:pl-4 lg:pt-2 lg:pb-2">
       <div
         class="aspect-square bg-cover bg-center w-full h-auto"
-        x-data="imageHelper(collection.coverImg, 'large')"
-        x-bind="backgroundImage"
+        style={`background-image: url(${getLargestPossibleImage(
+          collection.coverImg,
+          "large"
+        )})`}
       >
       </div>
     </div>
