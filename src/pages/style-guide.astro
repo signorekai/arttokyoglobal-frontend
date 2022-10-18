@@ -1,0 +1,93 @@
+---
+import Plain from "../layouts/Plain.astro";
+
+const content = `
+<h2>This is a Heading 1</h2>
+<p>It is highly recommended that you do not format your content with Microsoft Word. If you do need to, however, please paste the text in <strong>without formatting</strong>. You can do so with cmd+shift+v (Mac) or ctrl+shift+v (Windows). Alternatively, use the "Remove Formatting" button. Then style your headers with "Heading 1", "Heading 2", or "Heading 3".</p>
+<p>This is because when you paste "formatted" content in, it overwrites the styling that the site uses, and the resulting text can look very different. For example, the website uses Trade Gothic for its body text, and Microsoft Word defaults to using Arial.
+<p>Please try not to use the font sizing formatting <strong>unless absolutely needed</strong>. The font size of the site is responsive, and adjusts itself to the screen size. However, if you use the font sizing formatting option on the editor, it removes that capability. Be absolutely sure before you use it.</p>
+<h3>This is a Heading 2</h3>
+<p>These are paragraphs. Reiciendis voluptas, blanditiis eaque mollitia expedita accusantium iure porro rem maiores deserunt placeat nihil nemo sit molestias harum facere veniam quam voluptatem suscipit incidunt voluptatum! Quod nemo officiis hic adipisci.</p>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus dignissimos saepe culpa et. Eaque modi, in impedit optio eum illum asperiores nobis quaerat voluptate beatae voluptas dolores aperiam, deleniti corporis.</p>
+<p>Tenetur quae consequuntur iure dolorum odit ipsa nisi facilis maiores incidunt qui dolore, ex, praesentium obcaecati reiciendis eius quam animi aut quasi ab molestiae. Facilis quas asperiores rem perspiciatis adipisci.</p>
+<h4>This is a Heading 3</h4>
+<p>And the following is an bulleted list:</p>
+<ul>
+  <li>
+    <div>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nostrum, vero unde. Id nam veniam quasi, repudiandae atque iusto, voluptatem voluptate facere eos ipsa reiciendis! Illum sunt excepturi recusandae quos sit.</div>
+  </li>
+  <li>
+    <div>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis quae ea aspernatur eveniet harum, non fugiat omnis ratione consequuntur ipsam voluptatibus fuga animi, et placeat iure laboriosam dignissimos! Iusto, quae.</div>
+  </li>
+  <li>
+    <div>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ex nostrum eos quis ullam nemo ipsa, at illum vel nulla velit adipisci sapiente fuga eius facilis amet aspernatur praesentium recusandae dolorum?</div>
+  </li>
+  <li>
+    <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe officiis vero tenetur quisquam eius dolor vel perspiciatis? Dolorem aspernatur, cum consequatur reprehenderit non blanditiis eum at, perspiciatis incidunt aut expedita!</div>
+  </li>
+</ul>
+<p>And the following is an numbered list:</p>
+<ol>
+  <li>
+    <div>Lorem ipsum, dolor sit amet consectetur adipisicing elit. </div>
+  </li>
+  <li>
+    <div>Lorem ipsum, dolor sit amet consectetur adipisicing elit. </div>
+  </li>
+  <li>
+    <div>Lorem ipsum dolor, sit amet consectetur adipisicing elit. </div>
+  </li>
+  <li>
+    <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. </div>
+  </li>
+</ol>
+<blockquote>This is a blockquote from a wise man.</blockquote>
+<p>And this is a code block</p>
+<pre>
+<code class="language-html">
+&lt;h2&gt;This is a Heading 1&lt;/h2&gt;
+&lt;p&gt;It is highly recommended that you do not format your content with Microsoft Word. If you do need to, however, please paste the text in &lt;strong&gt;without formatting&lt;/strong&gt;. You can do so with cmd+shift+v (Mac) or ctrl+shift+v (Windows). Alternatively, use the &quot;Remove Formatting&quot; button. Then style your headers with &quot;Heading 1&quot;, &quot;Heading 2&quot;, or &quot;Heading 3&quot;.&lt;/p&gt;
+&lt;p&gt;This is because when you paste &quot;formatted&quot; content in, it overwrites the styling that the site uses, and the resulting text can look very different. For example, the website uses Trade Gothic for its body text, and Microsoft Word defaults to using Arial.
+&lt;p&gt;Please try not to use the font sizing formatting &lt;strong&gt;unless absolutely needed&lt;/strong&gt;. The font size of the site is responsive, and adjusts itself to the screen size. However, if you use the font sizing formatting option on the editor, it removes that capability. Be absolutely sure before you use it.&lt;/p&gt;
+&lt;h3&gt;This is a Heading 2&lt;/h3&gt;
+&lt;p&gt;These are paragraphs. Reiciendis voluptas, blanditiis eaque mollitia expedita accusantium iure porro rem maiores deserunt placeat nihil nemo sit molestias harum facere veniam quam voluptatem suscipit incidunt voluptatum! Quod nemo officiis hic adipisci.&lt;/p&gt;
+&lt;p&gt;Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus dignissimos saepe culpa et. Eaque modi, in impedit optio eum illum asperiores nobis quaerat voluptate beatae voluptas dolores aperiam, deleniti corporis.&lt;/p&gt;
+&lt;p&gt;Tenetur quae consequuntur iure dolorum odit ipsa nisi facilis maiores incidunt qui dolore, ex, praesentium obcaecati reiciendis eius quam animi aut quasi ab molestiae. Facilis quas asperiores rem perspiciatis adipisci.&lt;/p&gt;
+&lt;h4&gt;This is a Heading 3&lt;/h4&gt;
+&lt;p&gt;And the following is an bulleted list:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;div&gt;Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nostrum, vero unde. Id nam veniam quasi, repudiandae atque iusto, voluptatem voluptate facere eos ipsa reiciendis! Illum sunt excepturi recusandae quos sit.&lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;div&gt;Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis quae ea aspernatur eveniet harum, non fugiat omnis ratione consequuntur ipsam voluptatibus fuga animi, et placeat iure laboriosam dignissimos! Iusto, quae.&lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;div&gt;Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ex nostrum eos quis ullam nemo ipsa, at illum vel nulla velit adipisci sapiente fuga eius facilis amet aspernatur praesentium recusandae dolorum?&lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;div&gt;Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe officiis vero tenetur quisquam eius dolor vel perspiciatis? Dolorem aspernatur, cum consequatur reprehenderit non blanditiis eum at, perspiciatis incidunt aut expedita!&lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;And the following is an numbered list:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;div&gt;Lorem ipsum, dolor sit amet consectetur adipisicing elit. &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;div&gt;Lorem ipsum, dolor sit amet consectetur adipisicing elit. &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;div&gt;Lorem ipsum dolor, sit amet consectetur adipisicing elit. &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;div&gt;Lorem ipsum dolor sit amet consectetur adipisicing elit. &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;This is a blockquote from a wise man.&lt;/blockquote&gt;
+</code>
+</pre>
+`;
+---
+
+<Plain title="Style Guide" content={content} />
