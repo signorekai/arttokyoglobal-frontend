@@ -1,5 +1,6 @@
 ---
 export interface Props {
+  collectionId: string;
   cid: string;
   contractAddress: string;
   startDate: number;
@@ -56,6 +57,7 @@ const { className = "", ...props } = Astro.props;
         },
         resetButton() {
           // this.clearTimer = undefined;
+          console.log("reset button");
           this.success = false;
           this.message = "";
           if (typeof this.clearTimer !== "undefined") {
@@ -86,7 +88,6 @@ const { className = "", ...props } = Astro.props;
 
           try {
             this.loading = true;
-            console.log(contract);
 
             const tx = await contract.mint(this.mintAmount, {
               value: this.price.mul(this.mintAmount),
@@ -98,6 +99,8 @@ const { className = "", ...props } = Astro.props;
             this.message = `Minting success! View transaction here`;
             this.success = true;
             this.receipt = receipt;
+
+            fetch(`/api/collections/${this.props.collectionId}`);
 
             this.clearTimer = setTimeout(this.resetButton, this.timerDuration);
 
