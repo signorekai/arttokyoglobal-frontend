@@ -8,8 +8,6 @@ export async function get({params}) {
     body = await response.json();
   }
 
-  console.log(body);
-
   return new Response(JSON.stringify( body ), {
     status: response.status,
     headers: {

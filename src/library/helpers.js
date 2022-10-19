@@ -84,6 +84,6 @@ export const projectStatus = {
   },
   WhitelistOnly: {
     title: "Whitelist Only",
-    className: "bg-grey-mid/50 text-white",
+    className: "bg-black text-white",
   },
 }

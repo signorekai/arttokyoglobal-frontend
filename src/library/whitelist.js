@@ -1,9 +1,9 @@
 import { MerkleTree } from 'merkletreejs';
 import keccak256 from 'keccak256';
 
-export default new class Whitelist {
-  constructor(address) {
-    this.merkleTree = this.getMerkleTree(address); 
+export default class Whitelist {
+  constructor(addresses) {
+    this.merkleTree = this.getMerkleTree(addresses);
   }
 
   getMerkleTree(addresses) {
@@ -25,6 +25,6 @@ export default new class Whitelist {
   }
 
   contains(address) {
-    return this.getLeafIndex(Buffer.from(keccak256(address))) >= 0;
+    return this.getMerkleTree().getLeafIndex(Buffer.from(keccak256(address))) >= 0;
   }
 };

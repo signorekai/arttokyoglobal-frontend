@@ -11,6 +11,8 @@ export interface Props {
   className?: string;
   maxSupply: number;
   totalSupply: number;
+  whitelistMintEnabled: boolean;
+  whitelistedAddresses?: string[];
 }
 
 const { className = "", ...props } = Astro.props;
@@ -44,6 +46,10 @@ const { className = "", ...props } = Astro.props;
         mintAmount: 1,
         message: "",
         contract: undefined,
+        whitelistMintEnabled: props.whitelistMintEnabled,
+        isUserWhitelisted: false,
+        whitelistedAddresses: props.whitelistedAddresses || [],
+        whitelistProof: undefined,
         props,
         async init() {
           if (typeof window.ethereum !== "undefined") {
@@ -53,6 +59,24 @@ const { className = "", ...props } = Astro.props;
             }
 
             this.price = getPrice(this.props);
+
+            if (this.whitelistMintEnabled) {
+              const resp = await fetch(
+                `/api/whitelist/${this.$store.credentials.account}`,
+                {
+                  method: "POST",
+                  body: JSON.stringify({
+                    whitelistedAddresses: this.whitelistedAddresses,
+                  }),
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                }
+              );
+              const res = await resp.json();
+              this.isUserWhitelisted = res.isUserWhitelisted;
+              this.whitelistProof = res.whitelistProof;
+            }
           }
         },
         resetButton() {
@@ -65,8 +89,12 @@ const { className = "", ...props } = Astro.props;
             this.clearTimer = undefined;
           }
         },
-        async mintTokens() {
-          if (this.price === 0 || this.props.status !== "CurrentlyMinting") {
+        async mintTokens(whitelist = false) {
+          if (
+            this.price === 0 ||
+            (this.props.status !== "CurrentlyMinting" &&
+              this.props.status !== "WhitelistOnly")
+          ) {
             return false;
           }
           const browserProvider = await detectEthereumProvider();
@@ -80,19 +108,25 @@ const { className = "", ...props } = Astro.props;
             signer
           );
 
-          // if (await this.provider.getCode(this.props.contractAddress!) === '0x') {
-          //   this.setError('Could not find the contract, are you connected to the right chain?');
-
-          //   return;
-          // }
-
           try {
             this.loading = true;
+            let tx;
 
-            const tx = await contract.mint(this.mintAmount, {
-              value: this.price.mul(this.mintAmount),
-              gasLimit: this.gasLimit,
-            });
+            if (!whitelist) {
+              tx = await contract.mint(this.mintAmount, {
+                value: this.price.mul(this.mintAmount),
+                gasLimit: this.gasLimit,
+              });
+            } else {
+              tx = await contract.whitelistMint(
+                this.mintAmount,
+                this.whitelistProof,
+                {
+                  value: this.price.mul(this.mintAmount),
+                  gasLimit: this.gasLimit,
+                }
+              );
+            }
             const receipt = await tx.wait();
 
             this.loading = false;
@@ -120,9 +154,10 @@ const { className = "", ...props } = Astro.props;
             return {
               "btn--disabled":
                 this.price === 0 ||
-                this.account === false ||
-                this.props.status !== "CurrentlyMinting" ||
-                this.props.status === "MintingPaused",
+                this.$store.credentials.account === false ||
+                (this.props.status !== "CurrentlyMinting" &&
+                  this.props.status !== "WhitelistOnly") ||
+                (this.whitelistMintEnabled && this.isUserWhitelisted === false),
               "btn--loading": this.loading,
               "btn--message": this.message.length > 0 && this.error === true,
               "btn--success": this.message.length > 0 && this.success === true,
@@ -137,8 +172,13 @@ const { className = "", ...props } = Astro.props;
                 "_blank"
               );
               this.resetButton();
-            } else if (this.props.status === "CurrentlyMinting") {
-              this.mintTokens();
+            } else if (
+              this.props.status === "CurrentlyMinting" ||
+              (this.props.status === "WhitelistOnly" &&
+                this.whitelistMintEnabled &&
+                this.isUserWhitelisted)
+            ) {
+              this.mintTokens(this.props.status === "WhitelistOnly");
             }
           },
         },
