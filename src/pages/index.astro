@@ -24,7 +24,10 @@ const { data: settings } = await fetchFromAPI("/general-setting", {
 // only return minted tokens
 const featuredCollections = settings.collections.map((collection) => ({
   ...collection,
-  tokens: filter(collection.tokens, (token) => token.minted),
+  tokens: filter(
+    collection.tokens,
+    (token) => Number(token.tokenId) <= Number(collection.totalSupply)
+  ),
 }));
 
 const { data: collections } = await fetchFromAPI("/collections", {
@@ -135,7 +138,7 @@ const { data: collections } = await fetchFromAPI("/collections", {
           </h4>
           <div class="flex flex-row items-center">
             <h4 class="inline-block md:pl-5 font-normal">
-              <strong>{featuredCollections[0].tokens.length}</strong>
+              <strong>{featuredCollections[0].totalSupply}</strong>
               of <strong>{featuredCollections[0].totalTokens}</strong> minted
             </h4>
             <h4 class="inline-flex flex-row pl-3 justify-center items-center">
