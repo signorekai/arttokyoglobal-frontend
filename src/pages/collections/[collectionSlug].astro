@@ -11,7 +11,7 @@ import { ethereumTestnet as ethereumConfig } from "../../library/network-config"
 import MintPrice from "../../components/MintPrice.client.astro";
 import MintWidget from "../../components/MintWidget.client.astro";
 
-import { sortBy, merge, filter } from "lodash";
+import sortBy from "lodash/sortBy";
 const { collectionSlug } = Astro.params;
 
 const { data } = await fetchFromAPI("/collections", {
