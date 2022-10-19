@@ -68,8 +68,15 @@ export async function getStaticPaths() {
 ---
 
 <Layout title={collection.title}>
+  <h4
+    class="container mt-4 md:mt-8 px-4 opacity-60 hover:opacity-100 transition-opacity"
+  >
+    <a href="/collections"
+      ><i class="fas fa-caret-square-left"></i> Back to Collections</a
+    >
+  </h4>
   <div
-    class="container container-grid mt-4 md:mt-12 lg:mt-16 items-center fade-up"
+    class="container container-grid mt-4 items-center fade-up"
     x-data="fadeUp"
     x-bind="fadeUp"
   >
