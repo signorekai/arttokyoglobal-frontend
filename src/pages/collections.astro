@@ -9,7 +9,7 @@ import Dropdown from "../components/Dropdown.astro";
 
 import tokens from "../data/tokens";
 import type { Collection } from "../data/collections";
-import { fetchFromAPI } from "../library/helpers";
+import { fetchFromAPI, projectStatusFilters } from "../library/helpers";
 
 let { data: collections } = await fetchFromAPI("/collections", {
   populate: ["artist", "tokens", "coverImg", "artist.profilePhoto"],
@@ -109,20 +109,7 @@ const featuredCollections = settings.collections.map((collection) => ({
             label="Browse"
             id="filterBy"
             listenTo="allCollections"
-            selects={[
-              {
-                label: "Currently Minting",
-                filters: [["status", "CurrentlyMinting"]],
-              },
-              {
-                label: "Minting Completed",
-                filters: [["status", "FinishedMinting"]],
-              },
-              {
-                label: "Minting Paused",
-                filters: [["status", "MintingPaused"]],
-              },
-            ]}
+            selects={projectStatusFilters}
           />
         </div>
         <div class="content-wrapper">

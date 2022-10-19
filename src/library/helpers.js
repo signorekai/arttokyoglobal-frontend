@@ -42,6 +42,29 @@ export const fetchFromAPI = async (url, query) => {
   }));
 }
 
+export const projectStatusFilters = [
+  {
+    label: "Currently Minting",
+    filters: [["status", "CurrentlyMinting"]],
+  },
+  {
+    label: "Upcoming",
+    filters: [["status", "Upcoming"]],
+  },
+  {
+    label: "Whitelist Only",
+    filters: [["status", "WhitelistOnly"]],
+  },
+  {
+    label: "Minting Completed",
+    filters: [["status", "FinishedMinting"]],
+  },
+  {
+    label: "Minting Paused",
+    filters: [["status", "MintingPaused"]],
+  },
+]
+
 export const projectStatus = {
   CurrentlyMinting: {
     title: "Currently Minting",

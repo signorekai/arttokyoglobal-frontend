@@ -7,7 +7,7 @@ export interface Props {
   listenTo: string;
   selects: {
     label: string;
-    filters?: [string, string][];
+    filters?: string[][];
     sorting?: [string[], ["asc" | "desc"]];
   }[];
 }
