@@ -13,7 +13,14 @@ import { fetchFromAPI, projectStatusFilters } from "../library/helpers";
 
 let { data: collections } = await fetchFromAPI("/collections", {
   populate: ["artist", "tokens", "coverImg", "artist.profilePhoto"],
-  fields: ["title", "slug", "status", "totalTokens", "description"],
+  fields: [
+    "title",
+    "slug",
+    "status",
+    "totalTokens",
+    "description",
+    "totalSupply",
+  ],
 });
 
 const { data: settings } = await fetchFromAPI("/general-setting", {
@@ -29,13 +36,19 @@ const { data: settings } = await fetchFromAPI("/general-setting", {
 // remove tokens that are not minted
 collections = collections.map((collection) => ({
   ...collection,
-  tokens: filter(collection.tokens, (token) => token.minted === true),
+  tokens: filter(
+    collection.tokens,
+    (token) => Number(token.tokenId) <= Number(collection.totalSupply)
+  ),
 }));
 
 // only return minted tokens
 const featuredCollections = settings.collections.map((collection) => ({
   ...collection,
-  tokens: filter(collection.tokens, (token) => token.minted),
+  tokens: filter(
+    collection.tokens,
+    (token) => Number(token.tokenId) <= Number(collection.totalSupply)
+  ),
 }));
 ---
 
@@ -61,7 +74,7 @@ const featuredCollections = settings.collections.map((collection) => ({
             </h4>
             <div class="flex flex-row items-center">
               <h4 class="inline-block md:pl-5 font-normal">
-                <strong>{featuredCollections[0].tokens.length}</strong>
+                <strong>{featuredCollections[0].totalSupply}</strong>
                 of <strong>{featuredCollections[0].totalTokens}</strong> minted
               </h4>
               <h4 class="inline-flex flex-row pl-3 justify-center items-center">
@@ -163,7 +176,7 @@ const featuredCollections = settings.collections.map((collection) => ({
                             <h4 x-text="`By ${collection.artist.name}`"></h4>
                           </a>
                           <h4 class="font-normal">
-                            <strong x-text="collection.tokens.length"></strong>
+                            <strong x-text="collection.totalSupply"></strong>
                             of <strong x-text="collection.totalTokens"></strong>
                             minted
                           </h4>
