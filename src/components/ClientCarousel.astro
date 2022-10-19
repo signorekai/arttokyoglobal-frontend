@@ -58,6 +58,9 @@ const {
       <slot name="template" />
     </template>
   </div>
+  <div x-show="filtered.length === 0 && loading === false">
+    <slot name="no-results" />
+  </div>
 </div>
 <script>
   import Flickity from "flickity";
@@ -73,6 +76,7 @@ const {
       }
       return {
         active: 0,
+        loading: true,
         ...options,
         init() {
           document.addEventListener(this.listenTo, ({ detail }) => {
@@ -94,12 +98,18 @@ const {
           });
         },
         create() {
+          const that = this;
           this.$data.carousel = new Flickity(this.$refs.carousel, {
             ...this.carouselOptions,
             cellSelector: ".carousel-item",
             arrowShape:
               "M39.7407 50L62 18.0197L53.4492 12L27 50L53.4492 88L62 81.9803L39.7407 50Z",
             pageDots: false,
+            on: {
+              ready() {
+                that.loading = false;
+              },
+            },
           });
           this.$data.carousel.on("change", (i) => (this.active = i));
         },
