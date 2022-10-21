@@ -8,21 +8,22 @@ FEATURES:
   [] mint amount UI + `maxMintAmountPerTx`
   [] `revealed` ? `hiddenMetadataUri` : `uriPrefix`
   [] tippy for artists
-  ✔ /tokens/:token @done(22-10-02 02:30)
-  ✔ /faq @done(22-10-02 01:07)
-  ✔ /terms-of-service & /privacy-policy @done(22-10-02 01:07)
-  ✘ Dutch Auction indicator @cancelled(22-10-18 17:43)
-  ✘ Dutch Auction multipler @cancelled(22-10-18 17:43)
   
 FUTURE:
   [] wallet profile page for ATG minted tokens
 
 BUGS: 
   [] strapi CKeditor image uploading
-  ✔ Minting gas issue? @done(22-10-19 13:05)
 
 GENERAL:
   [] trello board for Carson
 
-TO RECEIVE:
-  [] contract function spec
+    
+Archive:
+  ✔ /tokens/:token @done(22-10-02 02:30) @project(FEATURES)
+  ✔ /faq @done(22-10-02 01:07) @project(FEATURES)
+  ✔ /terms-of-service & /privacy-policy @done(22-10-02 01:07) @project(FEATURES)
+  ✘ Dutch Auction indicator @cancelled(22-10-18 17:43) @project(FEATURES)
+  ✘ Dutch Auction multipler @cancelled(22-10-18 17:43) @project(FEATURES)
+  ✔ Minting gas issue? @done(22-10-19 13:05) @project(BUGS)
+  ✔ contract function spec @done(22-10-21 00:43) @project(TO RECEIVE) - https://docs.google.com/document/d/1CiwKBYA5wYz9fy_-DTmVtAcXHeF297DRaFUw9R4JEcc/edit?usp=sharing
