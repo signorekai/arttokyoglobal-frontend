@@ -2,10 +2,8 @@ FEATURES:
   [] lightbox for collection cover images and token
   [] support for multiple featured collection
   [] homepage animation
-  [] whitelist minting
   [] project description from contract
   [] unsticky dropdown headers
-  [] mint amount UI + `maxMintAmountPerTx`
   [] `revealed` ? `hiddenMetadataUri` : `uriPrefix`
   [] tippy for artists
   
@@ -18,8 +16,9 @@ BUGS:
 GENERAL:
   [] trello board for Carson
 
-    
 Archive:
+  ✔ whitelist minting @done(22-10-21 22:59) @project(FEATURES)
+  ✔ mint amount UI + `maxMintAmountPerTx` @done(22-10-21 22:59) @project(FEATURES)
   ✔ /tokens/:token @done(22-10-02 02:30) @project(FEATURES)
   ✔ /faq @done(22-10-02 01:07) @project(FEATURES)
   ✔ /terms-of-service & /privacy-policy @done(22-10-02 01:07) @project(FEATURES)
