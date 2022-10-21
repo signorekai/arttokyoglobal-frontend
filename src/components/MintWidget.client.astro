@@ -212,6 +212,9 @@ const { className = "", ...props } = Astro.props;
           }
         },
         decrementBtn: {
+          ["x-show"]() {
+            return this.whitelistMintEnabled === false;
+          },
           ["x-on:click"]() {
             if (this.mintAmount > 1) {
               this.mintAmount -= 1;
@@ -219,6 +222,9 @@ const { className = "", ...props } = Astro.props;
           },
         },
         incrementBtn: {
+          ["x-show"]() {
+            return this.whitelistMintEnabled === false;
+          },
           ["x-on:click"]() {
             if (this.mintAmount < this.maxMintAmount) {
               this.mintAmount += 1;
