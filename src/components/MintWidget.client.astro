@@ -77,24 +77,48 @@ const { className = "", ...props } = Astro.props;
             // console.log(this.gasLimit);
 
             if (this.whitelistMintEnabled) {
-              const resp = await fetch(
-                `/api/whitelist/${this.$store.credentials.account}`,
-                {
-                  method: "POST",
-                  body: JSON.stringify({
-                    whitelistedAddresses: this.whitelistedAddresses,
-                  }),
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                }
-              );
+              const alreadyClaimed = await this.checkIfClaimed(this.account);
+              if (alreadyClaimed) {
+                this.error = true;
+                this.message = "Already claimed token";
+                return false;
+              }
+
+              const resp = await fetch(`/api/whitelist/${this.account}`, {
+                method: "POST",
+                body: JSON.stringify({
+                  whitelistedAddresses: this.whitelistedAddresses,
+                }),
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              });
               const res = await resp.json();
               this.gasLimit = this.gasLimit * 10;
               this.isUserWhitelisted = res.isUserWhitelisted;
               this.whitelistProof = res.whitelistProof;
             }
           }
+        },
+        async getContract() {
+          const browserProvider = await detectEthereumProvider();
+          const provider = new ethers.providers.Web3Provider(browserProvider);
+
+          const signer = provider.getSigner();
+
+          const contract = new ethers.Contract(
+            this.props.contractAddress,
+            JSON.parse(this.props.ABI),
+            signer
+          );
+
+          return contract;
+        },
+        async checkIfClaimed(address) {
+          const contract = await this.getContract();
+
+          const alreadyClaimed = await contract.whitelistClaimed(address);
+          return alreadyClaimed;
         },
         resetButton() {
           // this.clearTimer = undefined;
