@@ -6,6 +6,7 @@ FEATURES:
   [] unsticky dropdown headers
   [] `revealed` ? `hiddenMetadataUri` : `uriPrefix`
   [] tippy for artists
+  [] support URLs for dropdown filters
   
 FUTURE:
   [] wallet profile page for ATG minted tokens
