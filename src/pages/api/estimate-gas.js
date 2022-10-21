@@ -41,7 +41,7 @@ export async function post({request}) {
         to: owner,
         from: wallet,
         value,
-        date: "0xa0712d68",
+        data: "0xa0712d68",
       })
 
       return new Response(JSON.stringify({

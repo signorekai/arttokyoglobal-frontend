@@ -59,6 +59,22 @@ const { className = "", ...props } = Astro.props;
             }
 
             this.price = getPrice(this.props);
+            // const gasPriceResponse = await fetch(`/api/estimate-gas`, {
+            //   method: "POST",
+            //   body: JSON.stringify({
+            //     contractAddress: this.props.contractAddress,
+            //     wallet: this.account,
+            //     value: this.props.mintPrice,
+            //     ABI: this.props.ABI,
+            //   }),
+            //   headers: {
+            //     "Content-Type": "application/json",
+            //   },
+            // });
+
+            // const { cost, success } = await gasPriceResponse.json();
+            // this.gasLimit = cost;
+            // console.log(this.gasLimit);
 
             if (this.whitelistMintEnabled) {
               const resp = await fetch(
@@ -74,6 +90,7 @@ const { className = "", ...props } = Astro.props;
                 }
               );
               const res = await resp.json();
+              this.gasLimit = this.gasLimit * 10;
               this.isUserWhitelisted = res.isUserWhitelisted;
               this.whitelistProof = res.whitelistProof;
             }
@@ -118,6 +135,9 @@ const { className = "", ...props } = Astro.props;
                 gasLimit: this.gasLimit,
               });
             } else {
+              if (typeof this.whitelistProof === "undefined") {
+                throw new Error("No whitelist proof");
+              }
               tx = await contract.whitelistMint(
                 this.mintAmount,
                 this.whitelistProof,
@@ -136,7 +156,10 @@ const { className = "", ...props } = Astro.props;
 
             fetch(`/api/collections/${this.props.collectionId}`);
 
-            this.clearTimer = setTimeout(this.resetButton, this.timerDuration);
+            this.clearTimer = setTimeout(
+              this.resetButton.bind(this),
+              this.timerDuration
+            );
 
             // @todo ping server to refresh token
             // this.refreshContractState();
