@@ -69,6 +69,11 @@
     @apply justify-center items-center px-4 py-2;
   }
 
+  .btn--secondary {
+    @apply justify-center items-center bg-transparent hover:bg-transparent text-black hover:text-black/50;
+    @apply shadow-none;
+  }
+
   .btn--success {
     @apply hover:bg-red hover:text-white;
   }
