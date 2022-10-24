@@ -366,3 +366,7 @@
 body {
   @apply bg-grey-light antialiased;
 }
+
+.flickity-page-dot.flickity-page-dot {
+  @apply h-2 rounded-none w-12 mx-0;
+}
