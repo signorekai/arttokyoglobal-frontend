@@ -1,6 +1,6 @@
 ---
 export interface Props {
-  data: object[];
+  data: object[] | string;
   filters?: {
     [key: string]: {
       field: string;
@@ -15,6 +15,7 @@ export interface Props {
   cellAlign?: "left" | "center" | "right";
   activeCellWidth?: string;
   buttonPosition?: "inside" | "outside";
+  autoPlay?: boolean;
 }
 
 import "flickity/dist/flickity.min.css";
@@ -29,13 +30,14 @@ const {
   prevNextButtons = true,
   activeCellWidth = "75%",
   buttonPosition = "inside",
+  autoPlay = false,
 } = Astro.props;
 ---
 
 <div
   x-cloak
   x-data={`clientCarousel({
-    data: ${JSON.stringify(data)},
+    data: ${typeof data === "string" ? data : JSON.stringify(data)},
     listenTo: "${listenTo}",
     defaultFilter: ${JSON.stringify(defaultFilter)},
     carouselOptions: {
@@ -43,6 +45,7 @@ const {
       wrapAround: ${wrapAround},
       prevNextButtons: ${prevNextButtons},
       groupCells: "${activeCellWidth}",
+      autoPlay: ${autoPlay},
     }
   })`}
   @alpine:initialized.document="create()"

@@ -6,6 +6,7 @@ export interface Props {
   cellAlign?: "left" | "center" | "right";
   activeCellWidth?: string;
   buttonPosition?: "inside" | "outside";
+  autoPlay?: boolean;
 }
 
 import "flickity/dist/flickity.min.css";
@@ -17,6 +18,7 @@ const {
   prevNextButtons = true,
   activeCellWidth = "75%",
   buttonPosition = "inside",
+  autoPlay = false,
 } = Astro.props;
 ---
 
@@ -32,6 +34,7 @@ const {
       prevNextButtons: ${prevNextButtons},
       groupCells: "${activeCellWidth}",
       buttonPosition: "${buttonPosition}",
+      autoPlay: ${autoPlay},
     })`}
   >
     <div
@@ -53,6 +56,7 @@ const {
       active: 0,
       opts,
       init() {
+        console.log(59);
         var carousel = new Flickity(this.$refs.carousel, {
           ...this.opts,
           arrowShape:
