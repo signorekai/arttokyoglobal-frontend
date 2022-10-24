@@ -133,7 +133,7 @@
     @apply flex flex-col lg:flex-row
   }
 
-  .carousel-item {
+  .carousel-item, .token {
     @apply my-3 p-3 hover:lg:p-0 transition-spacing relative;
   }
 
@@ -170,12 +170,12 @@
 
   .carousel {
     .flickity-slider {
-      @apply flex items-center;
+      @apply flex ;
     }
 
-    .flickity-cell.is-selected {
+    /* .flickity-cell.is-selected {
       @apply p-0 md:p-3 hover:p-0;
-    }
+    } */
 
     .flickity-cell:not(.is-selected) {
       @apply opacity-40;
