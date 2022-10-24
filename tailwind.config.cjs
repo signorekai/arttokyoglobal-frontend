@@ -74,7 +74,7 @@ module.exports = {
 				'2xl': ['clamp(1.3rem, 5vw, 1.5rem)', { lineHeight: '1'}],
 				'3xl': ['clamp(1.5rem, 5vw, 1.8rem)', { lineHeight: '1'}],
 				'4xl': ['clamp(1.8rem, 5vw, 2.25rem)', { lineHeight: '1'}],
-				'5xl': ['clamp(2rem, 6vw, 3rem)', { lineHeight: '0.9'}]
+				'5xl': ['clamp(2rem, 5vw, 3rem)', { lineHeight: '0.9'}]
 			},
 			fontFamily: {
         "roc-grotesk": ['roc-grotesk-wide', ...defaultTheme.fontFamily.sans],

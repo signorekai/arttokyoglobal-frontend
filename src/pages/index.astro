@@ -139,10 +139,10 @@ const { data: collections } = await fetchFromAPI("/collections", {
       >
         {
           featuredCollections.map((featuredCollection) => (
-            <div class="w-full featured-collection">
-              <div class="px-10 pb-0 md:pb-4 lg:pb-10">
+            <div class="w-full featured-collection pb-8">
+              <div class="px-4 md:px-10 pb-0 md:pb-4 lg:pb-10">
                 <a href={`/collections/${featuredCollections[0].slug}`}>
-                  <h1 class="text-center md:text-right text-white mt-2">
+                  <h1 class="text-center md:text-right text-white mt-2 break-words">
                     {featuredCollection.title}
                   </h1>
                 </a>
@@ -174,13 +174,15 @@ const { data: collections } = await fetchFromAPI("/collections", {
                   cellSelector: '.token',
                   pageDots: false,
                   groupCells: '80%',
+                  on: {
+                    ready: function() { console.log(this) }
+                  }
                 })"
-                class="max-h-[500px]"
                 x-ref="carousel"
               >
                 {featuredCollection.tokens.map((token) => (
                   <a
-                    class="token w-2/3 lg:w-1/4 inline-block"
+                    class="token w-2/3 md:w-1/3 lg:w-1/4 inline-block"
                     href={`/collections/${featuredCollection.slug}/tokens/${token.slug}`}
                   >
                     <div
@@ -249,8 +251,21 @@ const { data: collections } = await fetchFromAPI("/collections", {
     Alpine.data("featuredCollectionCarousel", (opts) => ({
       active: 0,
       opts,
+      carousel: undefined,
       init() {
-        var carousel = new Flickity(this.$refs.carousel, {
+        if (!!this.opts.on === false) {
+          this.opts.on = {
+            change: (i) => {
+              this.active = i;
+            },
+          };
+        } else {
+          this.opts.on.change = (i) => {
+            this.active = i;
+          };
+        }
+
+        this.carousel = new Flickity(this.$refs.carousel, {
           cellSelector: ".featured-collection",
           cellAlign: "center",
           wrapAround: true,
@@ -261,7 +276,10 @@ const { data: collections } = await fetchFromAPI("/collections", {
           prevNextButtons: false,
           ...this.opts,
         });
-        carousel.on("change", (i) => (this.active = i));
+
+        setTimeout(() => {
+          this.carousel.resize();
+        }, 100);
       },
     }));
   });

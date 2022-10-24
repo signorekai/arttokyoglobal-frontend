@@ -169,7 +169,7 @@
 
   .carousel {
     .flickity-slider {
-      @apply flex ;
+      @apply flex flex-row ;
     }
 
     /* .flickity-cell.is-selected {
