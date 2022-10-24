@@ -95,7 +95,7 @@ const { data: collections } = await fetchFromAPI("/collections", {
           x-intersect.once="show = true"
           x-bind:class="show && 'card-animation--enter'"
           title={featuredCollections[0].tokens[0].title}
-          className={`max-w-full lg:max-h-screen-2/3 ${
+          className={`max-w-full w-full lg:max-h-screen-2/3 ${
             featuredCollections[0].tokens[0].image.width >
             featuredCollections[0].tokens[0].image.height
               ? "w-full"
@@ -124,48 +124,81 @@ const { data: collections } = await fetchFromAPI("/collections", {
       </div>
     </section>
     <section class="w-full bg-grey-darker text-white snap-start">
-      <div class="px-10 pt-10 pb-0 md:pb-4 lg:pb-10">
-        <h5 class="alt text-center md:text-right">Featured collection</h5>
-        <a href={`/collections/${featuredCollections[0].slug}`}>
-          <h1 class="text-center md:text-right text-white mt-2">
-            {featuredCollections[0].title}
-          </h1>
-        </a>
-        <div
-          class="flex flex-col md:flex-row gap-y-0.5 items-center md:justify-end mt-1"
-        >
-          <ProjectStatus status={featuredCollections[0].status} />
-          <h4 class="inline-block md:pl-5 pt-1 md:pt-0">
-            By <a href={`/artists/${featuredCollections[0].artist.slug}`}
-              >{featuredCollections[0].artist.name}
-            </a>
-          </h4>
-          <div class="flex flex-row items-center">
-            <h4 class="inline-block md:pl-5 font-normal">
-              <strong>{featuredCollections[0].totalSupply}</strong>
-              of <strong>{featuredCollections[0].totalTokens}</strong> minted
-            </h4>
-            <h4 class="inline-flex flex-row pl-3 justify-center items-center">
-              <img src={ethLogo} width="20" alt="" />
-              <span class="pl-1"
-                >{featuredCollections[0].mintPrice / 10 ** 18}
-              </span>
-            </h4>
-          </div>
-        </div>
-      </div>
-      <Carousel
-        className="pb-10 lg:pb-20"
-        data={featuredCollections[0].tokens}
-        activeCellWidth="80%"
+      <h5 class="alt text-center md:text-right pt-10 px-10">
+        Featured collection
+      </h5>
+      <div
+        x-data="featuredCollectionCarousel({
+        draggable: false,
+        cellAlign: 'center',
+        prevNextButtons: true,
+        autoPlay: false,
+      })"
+        class="carousel"
+        x-ref="carousel"
       >
-        <div slot="template" class="carousel-item w-2/3 lg:w-1/4">
-          <Card
-            link={`/collections/${featuredCollections[0].slug}/tokens/\${item.slug}`}
-            backgroundImage="imageHelper(item.image, 'medium', true)"
-          />
-        </div>
-      </Carousel>
+        {
+          featuredCollections.map((featuredCollection) => (
+            <div class="w-full featured-collection">
+              <div class="px-10 pb-0 md:pb-4 lg:pb-10">
+                <a href={`/collections/${featuredCollections[0].slug}`}>
+                  <h1 class="text-center md:text-right text-white mt-2">
+                    {featuredCollection.title}
+                  </h1>
+                </a>
+                <div class="flex flex-col md:flex-row gap-y-0.5 items-center md:justify-end mt-1">
+                  <ProjectStatus status={featuredCollection.status} />
+                  <h4 class="inline-block md:pl-5 pt-1 md:pt-0">
+                    By{" "}
+                    <a href={`/artists/${featuredCollection.artist.slug}`}>
+                      {featuredCollection.artist.name}
+                    </a>
+                  </h4>
+                  <div class="flex flex-row items-center">
+                    <h4 class="inline-block md:pl-5 font-normal">
+                      <strong>{featuredCollection.totalSupply}</strong>
+                      of <strong>{featuredCollection.totalTokens}</strong>{" "}
+                      minted
+                    </h4>
+                    <h4 class="inline-flex flex-row pl-3 justify-center items-center">
+                      <img src={ethLogo} width="20" alt="" />
+                      <span class="pl-1">
+                        {featuredCollection.mintPrice / 10 ** 18}
+                      </span>
+                    </h4>
+                  </div>
+                </div>
+              </div>
+              <div
+                x-data="featuredCollectionCarousel({
+                  cellSelector: '.token',
+                  pageDots: false,
+                  groupCells: '80%',
+                })"
+                class="max-h-[500px]"
+                x-ref="carousel"
+              >
+                {featuredCollection.tokens.map((token) => (
+                  <a
+                    class="token w-2/3 lg:w-1/4 inline-block"
+                    href={`/collections/${featuredCollection.slug}/tokens/${token.slug}`}
+                  >
+                    <div
+                      class="rounded-4xl border-6 border-white bg-cover bg-center shadow-card"
+                      style={`background-image: url(${getLargestPossibleImage(
+                        token.image,
+                        "medium"
+                      )}); aspect-ratio: ${token.image.width} / ${
+                        token.image.height
+                      }`}
+                    />
+                  </a>
+                ))}
+              </div>
+            </div>
+          ))
+        }
+      </div>
     </section>
     <section class="relative m-0 md:mt-16 has-bg has-bg--large">
       <div class="container">
@@ -209,6 +242,27 @@ const { data: collections } = await fetchFromAPI("/collections", {
 <script>
   import Alpine from "alpinejs";
   import intersect from "@alpinejs/intersect";
+  import Flickity from "flickity";
 
   Alpine.plugin(intersect);
+  document.addEventListener("alpine:init", () => {
+    Alpine.data("featuredCollectionCarousel", (opts) => ({
+      active: 0,
+      opts,
+      init() {
+        var carousel = new Flickity(this.$refs.carousel, {
+          cellSelector: ".featured-collection",
+          cellAlign: "center",
+          wrapAround: true,
+          autoPlay: 5000,
+          arrowShape:
+            "M39.7407 50L62 18.0197L53.4492 12L27 50L53.4492 88L62 81.9803L39.7407 50Z",
+          pageDots: true,
+          prevNextButtons: false,
+          ...this.opts,
+        });
+        carousel.on("change", (i) => (this.active = i));
+      },
+    }));
+  });
 </script>
