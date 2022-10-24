@@ -1,7 +1,7 @@
 import qs from "qs";
 
 /**
- * @typedef {'large'|'medium'|'small'|'thumbnail'} imageSizes
+ * @typedef {'large'|'medium'|'small'|'thumbnail'|'original'} imageSizes
  */
 /**
  *
