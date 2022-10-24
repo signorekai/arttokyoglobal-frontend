@@ -1,12 +1,12 @@
 FEATURES:
-  [] lightbox for collection cover images and token
+  ✔ lightbox for collection cover images and token @done(22-10-24 16:17)
   [] support for multiple featured collection
   [] homepage animation
   [] project description from contract
   [] unsticky dropdown headers
   [] `revealed` ? `hiddenMetadataUri` : `uriPrefix`
-  [] tippy for artists
   [] support URLs for dropdown filters
+  [] tippy for artists
   
 FUTURE:
   [] wallet profile page for ATG minted tokens
