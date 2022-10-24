@@ -1,7 +1,6 @@
 FEATURES:
   [] homepage animation
   [] project description from contract
-  [] unsticky dropdown headers
   [] `revealed` ? `hiddenMetadataUri` : `uriPrefix`
   [] support URLs for dropdown filters
   [] tippy for artists
@@ -16,6 +15,7 @@ GENERAL:
   [] trello board for Carson
 
 Archive:
+  ✔ unsticky dropdown headers @done(22-10-24 18:32) @project(FEATURES)
   ✔ lightbox for collection cover images and token @done(22-10-24 16:17) @project(FEATURES)
   ✔ support for multiple featured collection @done(22-10-24 18:28) @project(FEATURES)
   ✔ whitelist minting @done(22-10-21 22:59) @project(FEATURES)
