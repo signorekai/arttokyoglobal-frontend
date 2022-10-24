@@ -2,7 +2,7 @@
 export interface Props {
   // startDate: number;
   // dynamicStart: boolean;
-  mintPrice: number;
+  mintPrice: number | string;
   className?: string;
 }
 const { startDate, dynamicStart, mintPrice, className = "" } = Astro.props;
