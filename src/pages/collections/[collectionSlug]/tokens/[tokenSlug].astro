@@ -7,7 +7,8 @@ import {
   fetchFromAPI,
   getLargestPossibleImage,
 } from "../../../../library/helpers";
-import filter from "lodash/filter";
+
+import "@fancyapps/ui/dist/fancybox.css";
 
 const { collectionSlug, tokenSlug } = Astro.params;
 
@@ -56,17 +57,19 @@ export async function getStaticPaths() {
 
 <Layout title={`${tokenSlug} of ${collection.title}`}>
   <div class="container">
-    <div
-      class="py-4 md:py-6 max-h-[80vh] w-full px-4 mx-auto flex flex-col items-center text-center justify-center"
-    >
-      <img
-        src={getLargestPossibleImage(token.image, "large")}
-        class="lg:h-full"
-        style={`aspect-ratio: ${token.image.width} / ${token.image.height}`}
-        alt=""
-      />
-      <h5 class="mt-4">{token.title}</h5>
-    </div>
+    <a data-fancybox href={token.image.url} class="">
+      <div
+        class="py-4 md:py-6 max-h-[80vh] w-full px-4 mx-auto flex flex-col items-center text-center justify-center"
+      >
+        <img
+          src={getLargestPossibleImage(token.image, "large")}
+          class="lg:h-full"
+          style={`aspect-ratio: ${token.image.width} / ${token.image.height}`}
+          alt=""
+        />
+        <h5 class="mt-4">{token.title}</h5>
+      </div>
+    </a>
   </div>
   <div class="container flex flex-col lg:flex-row px-4">
     <div
@@ -134,3 +137,10 @@ export async function getStaticPaths() {
     </div>
   </div>
 </Layout>
+
+<script>
+  import { Fancybox } from "@fancyapps/ui";
+  Fancybox.bind("[data-fancybox]", {
+    // Your options go here
+  });
+</script>
