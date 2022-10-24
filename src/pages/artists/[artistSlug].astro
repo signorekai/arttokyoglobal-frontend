@@ -69,7 +69,10 @@ export async function getStaticPaths() {
           x-bind="fadeUp"
           class="fade-up--2 w-32 md:w-64 aspect-square overflow-hidden order-1 -mt-16 md:-mt-24 lg:mt-0 lg:order-2 lg:absolute right-0 bottom-0 rounded-xl"
         >
-          <a href={artist.profilePhoto.url} data-fancybox>
+          <a
+            href={getLargestPossibleImage(artist.profilePhoto, "original")}
+            data-fancybox
+          >
             <div
               style={`background-image: url(${getLargestPossibleImage(
                 artist.profilePhoto,

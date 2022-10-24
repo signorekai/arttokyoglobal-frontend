@@ -85,7 +85,10 @@ export async function getStaticPaths() {
     x-bind="fadeUp"
   >
     <div class="col-start-1 col-span-6 lg:col-end-6 lg:pl-4 lg:pt-2 lg:pb-2">
-      <a href={collection.coverImg.url} data-fancybox>
+      <a
+        href={getLargestPossibleImage(collection.coverImg, "original")}
+        data-fancybox
+      >
         <div
           class="aspect-square bg-cover bg-center w-full h-auto"
           style={`background-image: url(${getLargestPossibleImage(
