@@ -122,7 +122,13 @@ const featuredCollections = settings.collections.map((collection) => ({
             label="Browse"
             id="filterBy"
             listenTo="allCollections"
-            selects={projectStatusFilters}
+            selects={[
+              {
+                label: "All Collections",
+                filters: [],
+              },
+              ...projectStatusFilters,
+            ]}
           />
         </div>
         <div class="content-wrapper">
