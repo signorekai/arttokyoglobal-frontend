@@ -1,18 +1,19 @@
-FEATURES:
+FRONTEND:
   [] homepage animation
   [] project description from contract
-  [] `revealed` ? `hiddenMetadataUri` : `uriPrefix`
   [] support URLs for dropdown filters
   [] tippy for artists
+  [] Favicon
   
-FUTURE:
-  [] wallet profile page for ATG minted tokens
-
-BUGS: 
-  [] strapi CKeditor image uploading
+CMS:
+  [] add button to delete current tokens and refetch
 
 GENERAL:
   [] trello board for Carson
+    
+FUTURE:
+  [] wallet profile page for ATG minted tokens
+  [] `revealed` ? `hiddenMetadataUri` : `uriPrefix`
 
 Archive:
   ✔ Whitelist Mint ignores paused @done(22-10-25 17:32) @project(FEATURES)
