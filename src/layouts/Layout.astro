@@ -263,6 +263,7 @@ import "../styles/fontawesome.css";
 
   import { imageHelper } from "../library/client";
   import { projectStatus } from "../library/helpers";
+  import { marquee } from "../library/marquee";
 
   Alpine.plugin(intersect);
   Alpine.plugin(persist);
@@ -425,6 +426,7 @@ import "../styles/fontawesome.css";
     });
 
     Alpine.data("imageHelper", imageHelper);
+    Alpine.data("marquee", marquee);
 
     Alpine.data("connectWallet", function () {
       return {

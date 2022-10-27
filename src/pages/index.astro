@@ -11,7 +11,6 @@ import Token from "../components/Token.astro";
 import Dropdown from "../components/Dropdown.astro";
 import CollectionTemplate from "../components/ClientCollection.astro";
 import Carousel from "../components/ClientCarousel.astro";
-import Card from "../components/ClientCard.astro";
 
 import orderBy from "lodash/orderBy";
 
@@ -34,6 +33,11 @@ const featuredCollections = settings.collections.map((collection) => {
     ),
   };
 });
+
+const featuredTokens = [].concat.apply(
+  [],
+  featuredCollections.map((collection) => collection.tokens)
+);
 
 const { data: collections } = await fetchFromAPI("/collections", {
   populate: ["artist.name", "artist.slug", "coverImg"],
@@ -85,30 +89,23 @@ const { data: collections } = await fetchFromAPI("/collections", {
     </defs>
   </svg>
   <main class="relative z-10">
-    <div class="w-full relative">
+    <div
+      class="w-full overflow-hidden relative h-full marquee"
+      x-data={`marquee(${JSON.stringify(featuredTokens)})`}
+    >
+      <div x-ref="container"></div>
       <section
-        class="container container-grid lg:max-h-screen-9/10 py-8 lg:py-20"
+        class="container container-grid lg:max-h-screen-9/10 py-8 lg:py-20 pointer-events-none"
       >
         <div
           class="lg:col-start-2 col-span-4 lg:col-span-5 flex justify-center items-center"
         >
-          <Token
-            x-data="{ show: false }"
-            x-intersect.once="show = true"
-            x-bind:class="show && 'card-animation--enter'"
-            title={featuredCollections[0].tokens[0].title}
-            className={`max-w-full w-full lg:max-h-screen-2/3 ${
-              featuredCollections[0].tokens[0].image.width >
-              featuredCollections[0].tokens[0].image.height
-                ? "w-full"
-                : "h-full"
-            } translate-y-12 card-animation--before`}
-            img={getLargestPossibleImage(
-              featuredCollections[0].tokens[0].image,
-              "medium"
-            )}
-            aspectRatio={`${featuredCollections[0].tokens[0].image.width} / ${featuredCollections[0].tokens[0].image.height}`}
-          />
+          <div
+            x-ref="token"
+            x-bind="tokenHolder"
+            class="translate-y-4 w-full aspect-square bg-white/25 rounded-4xl border-6 border-white bg-cover bg-center shadow-card transition-all"
+          >
+          </div>
         </div>
         <div
           class="col-span-4 lg:col-start-7 lg:col-end-12 flex flex-col justify-center items-center px-2 py-6 lg:px-0"
@@ -122,7 +119,7 @@ const { data: collections } = await fetchFromAPI("/collections", {
           </p>
           <a
             href="/artists"
-            class="btn btn--black btn--standard md:self-end my-3"
+            class="btn btn--black btn--standard md:self-end my-3 pointer-events-auto"
             ><h4>See our artists</h4>
           </a>
         </div>

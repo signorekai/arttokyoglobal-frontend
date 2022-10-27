@@ -37,6 +37,18 @@ module.exports = {
 			}
 		},
 		extend: {
+			keyframes: {
+				"marquee-left": {
+					'0%': {'transform': 'translateX(0)'},
+					'50%':{ 'transform': 'translateX(-50vw)' },
+					'100%':{ 'transform': 'translateX(0)' },
+				},
+				"marquee-right": {
+					'0%': {'transform': 'translateX(0)'},
+					'50%':{ 'transform': 'translateX(50vw)' },
+					'100%':{ 'transform': 'translateX(0)' },
+				}
+			},
 			lineHeight: {
 				'11': '2.5rem'
 			},

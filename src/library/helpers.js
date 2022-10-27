@@ -1,5 +1,11 @@
 import qs from "qs";
 
+export function generateElements(html) {
+  const template = document.createElement('template');
+  template.innerHTML = html.trim();
+  return template.content.children;
+}
+
 /**
  * @typedef {'large'|'medium'|'small'|'thumbnail'|'original'} imageSizes
  */
