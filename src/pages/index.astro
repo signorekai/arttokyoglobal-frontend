@@ -14,6 +14,7 @@ import Carousel from "../components/ClientCarousel.astro";
 import Card from "../components/ClientCard.astro";
 
 import filter from "lodash/filter";
+import orderBy from "lodash/orderBy";
 
 const { data: settings } = await fetchFromAPI("/general-setting", {
   populate: [
@@ -25,14 +26,15 @@ const { data: settings } = await fetchFromAPI("/general-setting", {
   ],
 });
 
-// only return minted tokens
-const featuredCollections = settings.collections.map((collection) => ({
-  ...collection,
-  tokens: filter(
-    collection.tokens,
-    (token) => Number(token.tokenId) <= Number(collection.totalSupply)
-  ),
-}));
+const featuredCollections = settings.collections.map((collection) => {
+  const tokens = orderBy(collection.tokens, (token) =>
+    Number(token.tokenId)
+  ).slice(0, collection.totalSupply);
+  return {
+    ...collection,
+    tokens,
+  };
+});
 
 const { data: collections } = await fetchFromAPI("/collections", {
   populate: ["artist.name", "artist.slug", "coverImg"],
@@ -84,45 +86,49 @@ const { data: collections } = await fetchFromAPI("/collections", {
     </defs>
   </svg>
   <main class="relative z-10">
-    <section
-      class="container container-grid lg:max-h-screen-9/10 py-8 lg:py-20"
-    >
-      <div
-        class="lg:col-start-2 col-span-4 lg:col-span-5 flex justify-center items-center"
+    <div class="w-full relative">
+      <section
+        class="container container-grid lg:max-h-screen-9/10 py-8 lg:py-20"
       >
-        <Token
-          x-data="{ show: false }"
-          x-intersect.once="show = true"
-          x-bind:class="show && 'card-animation--enter'"
-          title={featuredCollections[0].tokens[0].title}
-          className={`max-w-full w-full lg:max-h-screen-2/3 ${
-            featuredCollections[0].tokens[0].image.width >
-            featuredCollections[0].tokens[0].image.height
-              ? "w-full"
-              : "h-full"
-          } translate-y-12 card-animation--before`}
-          img={getLargestPossibleImage(
-            featuredCollections[0].tokens[0].image,
-            "medium"
-          )}
-          aspectRatio={`${featuredCollections[0].tokens[0].image.width} / ${featuredCollections[0].tokens[0].image.height}`}
-        />
-      </div>
-      <div
-        class="col-span-4 lg:col-start-7 lg:col-end-12 flex flex-col justify-center items-center px-2 py-6 lg:px-0"
-      >
-        <h1 class="text-center md:text-right mb-1">Collect Digital Art</h1>
-        <p
-          class="font-trade-gothic text-body tracking-wider text-center md:text-right"
+        <div
+          class="lg:col-start-2 col-span-4 lg:col-span-5 flex justify-center items-center"
         >
-          from more than 2,000 of our talented artists from Singapore and other
-          ASEAN countries
-        </p>
-        <a href="/artists" class="btn btn--black btn--standard md:self-end my-3"
-          ><h4>See our artists</h4>
-        </a>
-      </div>
-    </section>
+          <Token
+            x-data="{ show: false }"
+            x-intersect.once="show = true"
+            x-bind:class="show && 'card-animation--enter'"
+            title={featuredCollections[0].tokens[0].title}
+            className={`max-w-full w-full lg:max-h-screen-2/3 ${
+              featuredCollections[0].tokens[0].image.width >
+              featuredCollections[0].tokens[0].image.height
+                ? "w-full"
+                : "h-full"
+            } translate-y-12 card-animation--before`}
+            img={getLargestPossibleImage(
+              featuredCollections[0].tokens[0].image,
+              "medium"
+            )}
+            aspectRatio={`${featuredCollections[0].tokens[0].image.width} / ${featuredCollections[0].tokens[0].image.height}`}
+          />
+        </div>
+        <div
+          class="col-span-4 lg:col-start-7 lg:col-end-12 flex flex-col justify-center items-center px-2 py-6 lg:px-0"
+        >
+          <h1 class="text-center md:text-right mb-1">Collect Digital Art</h1>
+          <p
+            class="font-trade-gothic text-body tracking-wider text-center md:text-right"
+          >
+            from more than 2,000 of our talented artists from Singapore and
+            other ASEAN countries
+          </p>
+          <a
+            href="/artists"
+            class="btn btn--black btn--standard md:self-end my-3"
+            ><h4>See our artists</h4>
+          </a>
+        </div>
+      </section>
+    </div>
     <section class="w-full bg-grey-darker text-white snap-start">
       <h5 class="alt text-center md:text-right pt-10 px-10">
         Featured collection
