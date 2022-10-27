@@ -57,11 +57,7 @@ export async function getStaticPaths() {
 
 <Layout title={`${tokenSlug} of ${collection.title}`}>
   <div class="container">
-    <a
-      data-fancybox
-      href={getLargestPossibleImage(token.image, "original")}
-      class=""
-    >
+    <a data-fancybox href={getLargestPossibleImage(token.image, "original")}>
       <div
         class="py-4 md:py-6 max-h-[80vh] w-full px-4 mx-auto flex flex-col items-center text-center justify-center"
       >
