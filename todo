@@ -1,5 +1,4 @@
 FRONTEND:
-  [] homepage animation
   [] project description from contract
   [] support URLs for dropdown filters
   [] tippy for artists
@@ -16,6 +15,7 @@ FUTURE:
   [] `revealed` ? `hiddenMetadataUri` : `uriPrefix`
 
 Archive:
+  ✔ homepage animation @done(22-10-28 01:31) @project(FRONTEND)
   ✔ Whitelist Mint ignores paused @done(22-10-25 17:32) @project(FEATURES)
   ✔ "All" filter for /collections @done(22-10-25 17:08) @project(FEATURES)
   ✔ unsticky dropdown headers @done(22-10-24 18:32) @project(FEATURES)
