@@ -118,19 +118,29 @@ import "../styles/fontawesome.css";
             ></path>
           </svg>
         </button>
-        <!-- <div x-data="connectWallet">
+        <div
+          x-data="connectWallet"
+          class="w-full p-16 pt-24 flex flex-row justify-center items-center"
+        >
           <button
             x-bind="connectButton"
+            x-on:click="$store.credentials.signIn()"
             class="btn btn--standard connect-button--all"
-            ><h4 x-text="$store.error ? $store.error : 'Connect Wallet'"></h4>
+          >
+            <h4>Connect Wallet</h4>
+          </button>
+          <button
+            x-bind="errorMsg"
+            class="hidden btn btn--standard btn--disabled"
+          >
+            <h4 x-text="$store.credentials.error"></h4>
           </button>
           <div
-            class="font-trade-gothic text-base font-bold hidden md:flex"
+            class="font-roc-grotesk uppercase -mb-1 text-base font-bold flex"
             x-bind="userInfo"
-            @click="$store.credentials.signIn()"
           >
           </div>
-        </div> -->
+        </div>
         <div class="menu-wrapper mt-32">
           <ul class="gap-y-2 flex flex-col items-end">
             <li class="menu-item">
@@ -329,6 +339,8 @@ import "../styles/fontawesome.css";
       async init() {
         if (typeof window.ethereum !== "undefined") {
           const browserProvider = await detectEthereumProvider();
+
+          console.log(343, browserProvider);
 
           if (browserProvider.isMetaMask) {
             const provider = new ethers.providers.Web3Provider(browserProvider);
