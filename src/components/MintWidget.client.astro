@@ -70,22 +70,6 @@ const { className = "", ...props } = Astro.props;
 
             this.price = getPrice(this.props);
             this.checkMaxMintAmount();
-            // const gasPriceResponse = await fetch(`/api/estimate-gas`, {
-            //   method: "POST",
-            //   body: JSON.stringify({
-            //     contractAddress: this.props.contractAddress,
-            //     wallet: this.account,
-            //     value: this.props.mintPrice,
-            //     ABI: this.props.ABI,
-            //   }),
-            //   headers: {
-            //     "Content-Type": "application/json",
-            //   },
-            // });
-
-            // const { cost, success } = await gasPriceResponse.json();
-            // this.gasLimit = cost;
-            // console.log(this.gasLimit);
 
             if (this.whitelistMintEnabled) {
               const alreadyClaimed = await this.checkIfClaimed(this.account);
@@ -212,9 +196,10 @@ const { className = "", ...props } = Astro.props;
           }
         },
         decrementBtn: {
-          // ["x-show"]() {
-          //   return this.whitelistMintEnabled === false;
-          // },
+          ["x-show"]() {
+            return this.props.totalSupply < this.props.totalTokens;
+            // return this.whitelistMintEnabled === false;
+          },
           ["x-on:click"]() {
             if (this.mintAmount > 1) {
               this.mintAmount -= 1;
@@ -222,9 +207,10 @@ const { className = "", ...props } = Astro.props;
           },
         },
         incrementBtn: {
-          // ["x-show"]() {
-          //   return this.whitelistMintEnabled === false;
-          // },
+          ["x-show"]() {
+            return this.props.totalSupply < this.props.totalTokens;
+            // return this.whitelistMintEnabled === false;
+          },
           ["x-on:click"]() {
             if (this.mintAmount < this.maxMintAmount) {
               this.mintAmount += 1;
@@ -239,7 +225,9 @@ const { className = "", ...props } = Astro.props;
                 this.$store.credentials.account === false ||
                 (this.props.status !== "CurrentlyMinting" &&
                   this.props.status !== "WhitelistOnly") ||
-                (this.whitelistMintEnabled && this.isUserWhitelisted === false),
+                (this.whitelistMintEnabled &&
+                  this.isUserWhitelisted === false) ||
+                this.props.totalSupply === this.props.totalTokens,
               "btn--loading": this.loading,
               "btn--message": this.message.length > 0 && this.error === true,
               "btn--success": this.message.length > 0 && this.success === true,
