@@ -15,7 +15,7 @@ import qs from "qs";
   maxSize,
   minSize = 'thumbnail',
 ) => {
-  const arrayOfSizes = ['large', 'medium', 'small', 'thumbnail'];
+  const arrayOfSizes = ['large', 'medium', 'small', 'thumbnail', 'original'];
   const starting = arrayOfSizes.indexOf(maxSize);
   const ending = arrayOfSizes.indexOf(minSize);
 
