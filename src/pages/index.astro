@@ -13,7 +13,6 @@ import CollectionTemplate from "../components/ClientCollection.astro";
 import Carousel from "../components/ClientCarousel.astro";
 import Card from "../components/ClientCard.astro";
 
-import filter from "lodash/filter";
 import orderBy from "lodash/orderBy";
 
 const { data: settings } = await fetchFromAPI("/general-setting", {
@@ -27,12 +26,12 @@ const { data: settings } = await fetchFromAPI("/general-setting", {
 });
 
 const featuredCollections = settings.collections.map((collection) => {
-  const tokens = orderBy(collection.tokens, (token) =>
-    Number(token.tokenId)
-  ).slice(0, collection.totalSupply);
   return {
     ...collection,
-    tokens,
+    tokens: orderBy(collection.tokens, (token) => Number(token.tokenId)).slice(
+      0,
+      collection.totalSupply
+    ),
   };
 });
 

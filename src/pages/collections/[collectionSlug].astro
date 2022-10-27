@@ -14,6 +14,7 @@ import MintWidget from "../../components/MintWidget.client.astro";
 import "@fancyapps/ui/dist/fancybox.css";
 
 import sortBy from "lodash/sortBy";
+import orderBy from "lodash/orderBy";
 const { collectionSlug } = Astro.params;
 
 const { data } = await fetchFromAPI("/collections", {
@@ -48,16 +49,18 @@ const { data } = await fetchFromAPI("/collections", {
 });
 let collection = data[0];
 
-const tokens = [];
-const sortedTokens = sortBy(collection.tokens, [
-  (token) => Number(token.tokenId),
-]);
+// const tokens = [];
+// const sortedTokens = sortBy(collection.tokens, [
+//   (token) => Number(token.tokenId),
+// ]);
 
-for (var x = 0; x < collection.totalSupply; x++) {
-  tokens.push(sortedTokens[x]);
-}
+// for (var x = 0; x < collection.totalSupply; x++) {
+//   tokens.push(sortedTokens[x]);
+// }
 
-collection.tokens = tokens;
+collection.tokens = orderBy(collection.tokens, (token) =>
+  Number(token.tokenId)
+).slice(0, collection.totalSupply);
 
 export async function getStaticPaths() {
   const { data: collections } = await fetchFromAPI("/collections", {

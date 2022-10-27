@@ -1,5 +1,6 @@
 ---
 import filter from "lodash/filter";
+import orderBy from "lodash/orderBy";
 import Layout from "../layouts/Layout.astro";
 import ethLogo from "../images/eth-logo.png";
 import Carousel from "../components/ClientCarousel.astro";
@@ -12,7 +13,7 @@ import type { Collection } from "../data/collections";
 import { fetchFromAPI, projectStatusFilters } from "../library/helpers";
 
 let { data: collections } = await fetchFromAPI("/collections", {
-  populate: ["artist", "tokens", "coverImg", "artist.profilePhoto"],
+  populate: ["artist", "coverImg", "artist.profilePhoto"],
   fields: [
     "title",
     "slug",
@@ -34,20 +35,21 @@ const { data: settings } = await fetchFromAPI("/general-setting", {
 });
 
 // remove tokens that are not minted
-collections = collections.map((collection) => ({
-  ...collection,
-  tokens: filter(
-    collection.tokens,
-    (token) => Number(token.tokenId) <= Number(collection.totalSupply)
-  ),
-}));
+// collections = collections.map((collection) => ({
+//   ...collection,
+//   tokens: orderBy(collection.tokens, (token) => Number(token.tokenId)).slice(
+//     0,
+//     collection.totalSupply
+//   ),
+// }));
 
 // only return minted tokens
 const featuredCollections = settings.collections.map((collection) => ({
   ...collection,
-  tokens: filter(
-    collection.tokens,
-    (token) => Number(token.tokenId) <= Number(collection.totalSupply)
+  ...collection,
+  tokens: orderBy(collection.tokens, (token) => Number(token.tokenId)).slice(
+    0,
+    collection.totalSupply
   ),
 }));
 ---
