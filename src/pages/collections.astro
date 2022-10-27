@@ -8,8 +8,6 @@ import Card from "../components/ClientCard.astro";
 import ProjectStatus from "../components/ProjectStatus.astro";
 import Dropdown from "../components/Dropdown.astro";
 
-import tokens from "../data/tokens";
-import type { Collection } from "../data/collections";
 import { fetchFromAPI, projectStatusFilters } from "../library/helpers";
 
 let { data: collections } = await fetchFromAPI("/collections", {
@@ -34,18 +32,8 @@ const { data: settings } = await fetchFromAPI("/general-setting", {
   ],
 });
 
-// remove tokens that are not minted
-// collections = collections.map((collection) => ({
-//   ...collection,
-//   tokens: orderBy(collection.tokens, (token) => Number(token.tokenId)).slice(
-//     0,
-//     collection.totalSupply
-//   ),
-// }));
-
 // only return minted tokens
 const featuredCollections = settings.collections.map((collection) => ({
-  ...collection,
   ...collection,
   tokens: orderBy(collection.tokens, (token) => Number(token.tokenId)).slice(
     0,
