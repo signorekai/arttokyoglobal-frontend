@@ -1,20 +1,21 @@
 FRONTEND:
-  [] project description from contract
-  [] support URLs for dropdown filters
-  [] tippy for artists
   [] Favicon
   
 CMS:
+  [] project description from contract
   [] add button to delete current tokens and refetch
+  [] edit splash text on CMS
 
 GENERAL:
   [] trello board for Carson
     
 FUTURE:
   [] wallet profile page for ATG minted tokens
+  [] tippy for artists
   [] `revealed` ? `hiddenMetadataUri` : `uriPrefix`
 
 Archive:
+  ✘ support URLs for dropdown filters @cancelled(22-10-28 15:50) @project(FRONTEND)
   ✔ homepage animation @done(22-10-28 01:31) @project(FRONTEND)
   ✔ Whitelist Mint ignores paused @done(22-10-25 17:32) @project(FEATURES)
   ✔ "All" filter for /collections @done(22-10-25 17:08) @project(FEATURES)
