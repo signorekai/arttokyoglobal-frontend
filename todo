@@ -1,17 +1,12 @@
-FRONTEND:
-  ✔ Favicon @done(22-10-30 18:50)
-  
-CMS:
-  ✔ project description from contract @done(22-10-30 18:57)
-  [] edit splash text on CMS
-
-    
 FUTURE:
   [] wallet profile page for ATG minted tokens
   [] tippy for artists
   [] `revealed` ? `hiddenMetadataUri` : `uriPrefix`
 
 Archive:
+  ✔ Favicon @done(22-10-30 18:50) @project(FRONTEND)
+  ✔ project description from contract @done(22-10-30 18:57) @project(CMS)
+  ✔ edit splash text on CMS @done(22-10-30 19:09) @project(CMS)
   ✔ add button to delete current tokens and refetch @done(22-10-30 18:44) @project(CMS)
   ✘ trello board for Carson @cancelled(22-10-30 18:44) @project(GENERAL)
   ✘ support URLs for dropdown filters @cancelled(22-10-28 15:50) @project(FRONTEND)
