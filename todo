@@ -1,13 +1,10 @@
 FRONTEND:
-  [] Favicon
+  ✔ Favicon @done(22-10-30 18:50)
   
 CMS:
-  [] project description from contract
-  [] add button to delete current tokens and refetch
+  ✔ project description from contract @done(22-10-30 18:57)
   [] edit splash text on CMS
 
-GENERAL:
-  [] trello board for Carson
     
 FUTURE:
   [] wallet profile page for ATG minted tokens
@@ -15,6 +12,8 @@ FUTURE:
   [] `revealed` ? `hiddenMetadataUri` : `uriPrefix`
 
 Archive:
+  ✔ add button to delete current tokens and refetch @done(22-10-30 18:44) @project(CMS)
+  ✘ trello board for Carson @cancelled(22-10-30 18:44) @project(GENERAL)
   ✘ support URLs for dropdown filters @cancelled(22-10-28 15:50) @project(FRONTEND)
   ✔ homepage animation @done(22-10-28 01:31) @project(FRONTEND)
   ✔ Whitelist Mint ignores paused @done(22-10-25 17:32) @project(FEATURES)
