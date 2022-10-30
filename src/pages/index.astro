@@ -13,6 +13,7 @@ import CollectionTemplate from "../components/ClientCollection.astro";
 import Carousel from "../components/ClientCarousel.astro";
 
 import orderBy from "lodash/orderBy";
+import { set } from "lodash";
 
 const { data: settings } = await fetchFromAPI("/general-setting", {
   populate: [
@@ -110,17 +111,18 @@ const { data: collections } = await fetchFromAPI("/collections", {
         <div
           class="col-span-4 lg:col-start-7 lg:col-end-12 flex flex-col justify-center items-center px-2 py-6 lg:px-0"
         >
-          <h1 class="text-center md:text-right mb-1">Collect Digital Art</h1>
+          <h1 class="text-center md:text-right mb-1">
+            {settings.splashHeader}
+          </h1>
           <p
             class="font-trade-gothic text-body tracking-wider text-center md:text-right"
           >
-            from more than 2,000 of our talented artists from Singapore and
-            other ASEAN countries
+            {settings.splashBody}
           </p>
           <a
-            href="/artists"
+            href={settings.splashButtonUri || "/artists"}
             class="btn btn--black btn--standard md:self-end my-3 pointer-events-auto"
-            ><h4>See our artists</h4>
+            ><h4>{settings.splashButtonText || "See our artists"}</h4>
           </a>
         </div>
       </section>
