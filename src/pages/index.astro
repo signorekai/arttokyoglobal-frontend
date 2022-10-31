@@ -251,43 +251,7 @@ const { data: collections } = await fetchFromAPI("/collections", {
 <script>
   import Alpine from "alpinejs";
   import intersect from "@alpinejs/intersect";
-  import Flickity from "flickity";
 
   Alpine.plugin(intersect);
-  document.addEventListener("alpine:init", () => {
-    Alpine.data("featuredCollectionCarousel", (opts) => ({
-      active: 0,
-      opts,
-      carousel: undefined,
-      init() {
-        if (!!this.opts.on === false) {
-          this.opts.on = {
-            change: (i) => {
-              this.active = i;
-            },
-          };
-        } else {
-          this.opts.on.change = (i) => {
-            this.active = i;
-          };
-        }
-
-        this.carousel = new Flickity(this.$refs.carousel, {
-          cellSelector: ".featured-collection",
-          cellAlign: "center",
-          wrapAround: true,
-          autoPlay: 5000,
-          arrowShape:
-            "M39.7407 50L62 18.0197L53.4492 12L27 50L53.4492 88L62 81.9803L39.7407 50Z",
-          pageDots: true,
-          prevNextButtons: false,
-          ...this.opts,
-        });
-
-        setTimeout(() => {
-          this.carousel.resize();
-        }, 100);
-      },
-    }));
-  });
+  document.addEventListener("alpine:init", () => {});
 </script>

@@ -297,6 +297,8 @@ import "../styles/fontawesome.css";
   import { isJwtExpired } from "jwt-check-expiration";
   import { ethereumTestnet as ethereumConfig } from "../library/network-config";
 
+  import Flickity from "flickity";
+
   import { ethers, BigNumber } from "ethers";
   import detectEthereumProvider from "@metamask/detect-provider";
   import _filter from "lodash/filter";
@@ -580,5 +582,40 @@ import "../styles/fontawesome.css";
     Alpine.data("projectStatus", (status) => {
       return projectStatus[status];
     });
+
+    Alpine.data("featuredCollectionCarousel", (opts) => ({
+      active: 0,
+      opts,
+      carousel: undefined,
+      init() {
+        if (!!this.opts.on === false) {
+          this.opts.on = {
+            change: (i) => {
+              this.active = i;
+            },
+          };
+        } else {
+          this.opts.on.change = (i) => {
+            this.active = i;
+          };
+        }
+
+        this.carousel = new Flickity(this.$refs.carousel, {
+          cellSelector: ".featured-collection",
+          cellAlign: "center",
+          wrapAround: true,
+          autoPlay: 5000,
+          arrowShape:
+            "M39.7407 50L62 18.0197L53.4492 12L27 50L53.4492 88L62 81.9803L39.7407 50Z",
+          pageDots: true,
+          prevNextButtons: false,
+          ...this.opts,
+        });
+
+        setTimeout(() => {
+          this.carousel.resize();
+        }, 100);
+      },
+    }));
   });
 </script>
