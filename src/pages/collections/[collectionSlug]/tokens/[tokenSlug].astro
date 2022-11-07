@@ -125,9 +125,13 @@ export async function getStaticPaths() {
             {
               token.tokenAttributes.map((attribute) => (
                 <tr>
-                  <td>{attribute.trait_type}</td>
+                  <td>{attribute.trait_type || attribute.type}</td>
                   <td>{attribute.value}</td>
-                  <td>{attribute.count * 100}%</td>
+                  <td>
+                    {attribute.pop
+                      ? `${Math.floor(attribute.pop * 100)}%`
+                      : "UNKNOWN"}
+                  </td>
                 </tr>
               ))
             }
