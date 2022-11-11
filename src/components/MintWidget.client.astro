@@ -18,6 +18,10 @@ export interface Props {
 const { className = "", ...props } = Astro.props;
 ---
 
+<script define:vars={{ props }}>
+  console.log(22, props);
+</script>
+
 <div
   x-data={`mintWidget(${JSON.stringify(props)})`}
   class="ml-4 flex flex-row items-center"
@@ -197,7 +201,7 @@ const { className = "", ...props } = Astro.props;
         },
         decrementBtn: {
           ["x-show"]() {
-            return this.props.totalSupply < this.props.totalTokens;
+            return this.props.totalSupply < this.props.maxSupply;
             // return this.whitelistMintEnabled === false;
           },
           ["x-on:click"]() {
@@ -208,11 +212,15 @@ const { className = "", ...props } = Astro.props;
         },
         incrementBtn: {
           ["x-show"]() {
-            return this.props.totalSupply < this.props.totalTokens;
+            return this.props.totalSupply < this.props.maxSupply;
             // return this.whitelistMintEnabled === false;
           },
           ["x-on:click"]() {
-            if (this.mintAmount < this.maxMintAmount) {
+            if (
+              this.mintAmount < this.maxMintAmount &&
+              this.mintAmount + this.props.totalSupply + 1 <
+                this.props.maxSupply
+            ) {
               this.mintAmount += 1;
             }
           },
