@@ -90,94 +90,121 @@ const { data: collections } = await fetchFromAPI("/collections", {
     </defs>
   </svg>
   <main class="relative z-10">
-    <div
-      class="w-full overflow-hidden relative h-full marquee"
-      x-data={`marquee(${JSON.stringify(featuredTokens)})`}
-    >
-      <div x-ref="container"></div>
-      <section
-        class="container container-grid lg:max-h-screen-9/10 py-8 lg:py-20 pointer-events-none"
-      >
+    {
+      featuredTokens.length > 0 ? (
         <div
-          class="lg:col-start-2 col-span-4 lg:col-span-5 flex justify-center items-center"
+          class="w-full overflow-hidden relative h-full marquee"
+          x-data={`marquee(${JSON.stringify(featuredTokens)})`}
         >
+          <div x-ref="container" />
+          <section class="container container-grid lg:max-h-screen-9/10 py-8 lg:py-20 pointer-events-none">
+            <div class="lg:col-start-2 col-span-4 lg:col-span-5 flex justify-center items-center">
+              <div
+                x-ref="token"
+                x-bind="tokenHolder"
+                class="mx-2 mb:mx-0 mb-8 md:mb-0 translate-y-4 w-full aspect-square bg-white/25 rounded-4xl border-6 border-white bg-cover bg-center shadow-card transition-all"
+              />
+            </div>
+            <div class="col-span-4 lg:col-start-7 lg:col-end-12 flex flex-col justify-center items-center px-2 py-6 lg:px-0">
+              <h1 class="text-center md:text-right mb-1">
+                {settings.splashHeader || "Collect Digital Art"}
+              </h1>
+              <p class="font-trade-gothic text-body tracking-wider text-center md:text-right">
+                {settings.splashBody ||
+                  "from more than 2,000 of our talented artists from Singapore and other ASEAN countries "}
+              </p>
+              <a
+                href={settings.splashButtonUri || "/artists"}
+                class="btn btn--black btn--standard md:self-end my-3 pointer-events-auto"
+              >
+                <h4>{settings.splashButtonText || "See our artists"}</h4>
+              </a>
+            </div>
+          </section>
+        </div>
+      ) : (
+        <div class="w-full overflow-hidden relative h-full marquee">
+          <div x-ref="container" />
+          <section class="container container-grid lg:max-h-screen-9/10 py-8 lg:py-20 pointer-events-none">
+            <div class="lg:col-start-2 col-span-4 lg:col-span-5 flex justify-center items-center">
+              <div
+                style={`background-image: url(${getLargestPossibleImage(
+                  collections[0].coverImg,
+                  "medium"
+                )})`}
+                class="mx-2 mb:mx-0 mb-8 md:mb-0 translate-y-4 w-full aspect-square bg-white/25 rounded-4xl border-6 border-white bg-cover bg-center shadow-card transition-all"
+              />
+            </div>
+            <div class="col-span-4 lg:col-start-7 lg:col-end-12 flex flex-col justify-center items-center px-2 py-6 lg:px-0">
+              <h1 class="text-center md:text-right mb-1">
+                {settings.splashHeader || "Collect Digital Art"}
+              </h1>
+              <p class="font-trade-gothic text-body tracking-wider text-center md:text-right">
+                {settings.splashBody ||
+                  "from more than 2,000 of our talented artists from Singapore and other ASEAN countries "}
+              </p>
+              <a
+                href={settings.splashButtonUri || "/artists"}
+                class="btn btn--black btn--standard md:self-end my-3 pointer-events-auto"
+              >
+                <h4>{settings.splashButtonText || "See our artists"}</h4>
+              </a>
+            </div>
+          </section>
+        </div>
+      )
+    }
+    {
+      featuredCollections.length > 0 && (
+        <section class="w-full bg-grey-darker text-white snap-start">
+          <h5 class="alt text-center md:text-right pt-10 px-10">
+            Featured collection
+          </h5>
           <div
-            x-ref="token"
-            x-bind="tokenHolder"
-            class="mx-2 mb:mx-0 mb-8 md:mb-0 translate-y-4 w-full aspect-square bg-white/25 rounded-4xl border-6 border-white bg-cover bg-center shadow-card transition-all"
-          >
-          </div>
-        </div>
-        <div
-          class="col-span-4 lg:col-start-7 lg:col-end-12 flex flex-col justify-center items-center px-2 py-6 lg:px-0"
-        >
-          <h1 class="text-center md:text-right mb-1">
-            {settings.splashHeader || "Collect Digital Art"}
-          </h1>
-          <p
-            class="font-trade-gothic text-body tracking-wider text-center md:text-right"
-          >
-            {
-              settings.splashBody ||
-                "from more than 2,000 of our talented artists from Singapore and other ASEAN countries "
-            }
-          </p>
-          <a
-            href={settings.splashButtonUri || "/artists"}
-            class="btn btn--black btn--standard md:self-end my-3 pointer-events-auto"
-            ><h4>{settings.splashButtonText || "See our artists"}</h4>
-          </a>
-        </div>
-      </section>
-    </div>
-    <section class="w-full bg-grey-darker text-white snap-start">
-      <h5 class="alt text-center md:text-right pt-10 px-10">
-        Featured collection
-      </h5>
-      <div
-        x-data="featuredCollectionCarousel({
+            x-data="featuredCollectionCarousel({
         draggable: false,
         cellAlign: 'center',
         prevNextButtons: true,
         autoPlay: false,
       })"
-        class="carousel"
-        x-ref="carousel"
-      >
-        {
-          featuredCollections.map((featuredCollection) => (
-            <div class="w-full featured-collection pb-8">
-              <div class="px-4 md:px-10 pb-0 md:pb-4 lg:pb-10">
-                <a href={`/collections/${featuredCollection.slug}`}>
-                  <h1 class="text-center md:text-right text-white mt-2 break-words">
-                    {featuredCollection.title}
-                  </h1>
-                </a>
-                <div class="flex flex-col md:flex-row gap-y-0.5 items-center md:justify-end mt-1">
-                  <ProjectStatus status={featuredCollection.status} />
-                  <h4 class="inline-block md:pl-5 pt-1 md:pt-0">
-                    By{" "}
-                    <a href={`/artists/${featuredCollection.artist.slug}`}>
-                      {featuredCollection.artist.name}
-                    </a>
-                  </h4>
-                  <div class="flex flex-row items-center">
-                    <h4 class="inline-block md:pl-5 font-normal">
-                      <strong>{featuredCollection.totalSupply}</strong>
-                      of <strong>{featuredCollection.totalTokens}</strong>{" "}
-                      minted
+            class="carousel"
+            x-ref="carousel"
+          >
+            {featuredCollections.map((featuredCollection) => (
+              <div class="w-full featured-collection pb-8">
+                <div class="px-4 md:px-10 pb-0 md:pb-4 lg:pb-10">
+                  <a href={`/collections/${featuredCollection.slug}`}>
+                    <h1 class="text-center md:text-right text-white mt-2 break-words">
+                      {featuredCollection.title}
+                    </h1>
+                  </a>
+                  <div class="flex flex-col md:flex-row gap-y-0.5 items-center md:justify-end mt-1">
+                    <ProjectStatus status={featuredCollection.status} />
+                    <h4 class="inline-block md:pl-5 pt-1 md:pt-0">
+                      By{" "}
+                      <a href={`/artists/${featuredCollection.artist.slug}`}>
+                        {featuredCollection.artist.name}
+                      </a>
                     </h4>
-                    <h4 class="inline-flex flex-row pl-3 justify-center items-center">
-                      <img src={ethLogo} width="20" alt="" />
-                      <span class="pl-1">
-                        {featuredCollection.mintPrice / 10 ** 18}
-                      </span>
-                    </h4>
+                    <div class="flex flex-row items-center">
+                      <h4 class="inline-block md:pl-5 font-normal">
+                        <strong>{featuredCollection.totalSupply}</strong>
+                        of <strong>
+                          {featuredCollection.totalTokens}
+                        </strong>{" "}
+                        minted
+                      </h4>
+                      <h4 class="inline-flex flex-row pl-3 justify-center items-center">
+                        <img src={ethLogo} width="20" alt="" />
+                        <span class="pl-1">
+                          {featuredCollection.mintPrice / 10 ** 18}
+                        </span>
+                      </h4>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div
-                x-data="featuredCollectionCarousel({
+                <div
+                  x-data="featuredCollectionCarousel({
                   cellSelector: '.token',
                   pageDots: false,
                   groupCells: '80%',
@@ -185,30 +212,31 @@ const { data: collections } = await fetchFromAPI("/collections", {
                     ready: function() { console.log(this) }
                   }
                 })"
-                x-ref="carousel"
-              >
-                {featuredCollection.tokens.map((token) => (
-                  <a
-                    class="token w-2/3 md:w-1/3 lg:w-1/4 inline-block"
-                    href={`/collections/${featuredCollection.slug}/tokens/${token.slug}`}
-                  >
-                    <div
-                      class="rounded-4xl border-6 border-white bg-cover bg-center shadow-card"
-                      style={`background-image: url(${getLargestPossibleImage(
-                        token.image,
-                        "medium"
-                      )}); aspect-ratio: ${token.image.width} / ${
-                        token.image.height
-                      }`}
-                    />
-                  </a>
-                ))}
+                  x-ref="carousel"
+                >
+                  {featuredCollection.tokens.map((token) => (
+                    <a
+                      class="token w-2/3 md:w-1/3 lg:w-1/4 inline-block"
+                      href={`/collections/${featuredCollection.slug}/tokens/${token.slug}`}
+                    >
+                      <div
+                        class="rounded-4xl border-6 border-white bg-cover bg-center shadow-card"
+                        style={`background-image: url(${getLargestPossibleImage(
+                          token.image,
+                          "medium"
+                        )}); aspect-ratio: ${token.image.width} / ${
+                          token.image.height
+                        }`}
+                      />
+                    </a>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))
-        }
-      </div>
-    </section>
+            ))}
+          </div>
+        </section>
+      )
+    }
     <section class="relative m-0 md:mt-16 has-bg has-bg--large">
       <div class="container">
         <div
