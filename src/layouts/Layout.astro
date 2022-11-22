@@ -206,8 +206,12 @@ import "../styles/fontawesome.css";
         </div>
         <div class="mx-10 mb-4">
           <div class="social-wrapper">
-            <a href="https://discord.gg/arttokyoglobal" target="_blank"><i class="fab fa-discord"></i></a>
-            <a href="https://twitter.com/ArtTokyoGlobal" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="https://discord.gg/arttokyoglobal" target="_blank"
+              ><i class="fab fa-discord"></i>
+            </a>
+            <a href="https://twitter.com/ArtTokyoGlobal" target="_blank"
+              ><i class="fab fa-twitter"></i>
+            </a>
           </div>
         </div>
       </div>
@@ -297,7 +301,7 @@ import "../styles/fontawesome.css";
   import intersect from "@alpinejs/intersect";
   import persist from "@alpinejs/persist";
   import { isJwtExpired } from "jwt-check-expiration";
-  import { ethereumTestnet as ethereumConfig } from "../library/network-config";
+  import { ethereumMainnet as ethereumConfig } from "../library/network-config";
 
   import Flickity from "flickity";
 
@@ -429,9 +433,9 @@ import "../styles/fontawesome.css";
 
               this.getWallet();
             } else {
+              this.clearCredentials();
               this.loading = false;
               this.error = `Wrong network. Please connect to ${ethereumConfig.name}`;
-              this.account = false;
             }
           } else {
             this.clearCredentials();
