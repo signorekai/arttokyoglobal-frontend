@@ -210,6 +210,10 @@
 @layer utilities {
   .collection-description {
     @apply text-body font-trade-gothic text-black/75;
+
+    p {
+      @apply last:pb-0;
+    }
   }
 
   .card-animation--before { 
