@@ -1,10 +1,10 @@
 import { BigNumber } from "ethers";
 import { getLargestPossibleImage } from "./helpers";
 
-export const getPrice = ({
+export const getPrice = (
   mintPrice,
-}) => {
-  const bigMintPrice = BigNumber.from(mintPrice);
+) => {
+  const bigMintPrice = BigNumber.from(`${mintPrice}`);
   let price = bigMintPrice;
   return price
 }

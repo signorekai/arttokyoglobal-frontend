@@ -26,7 +26,8 @@ const { startDate, dynamicStart, mintPrice, className = "" } = Astro.props;
       price: 0,
       props,
       init() {
-        this.price = formatEther(getPrice(this.props));
+        this.price = formatEther(getPrice(this.props.mintPrice));
+        // this.price = formatEther(getPrice(this.props.mintPrice));
       },
     }));
   });

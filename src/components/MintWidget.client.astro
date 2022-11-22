@@ -72,7 +72,7 @@ const { className = "", ...props } = Astro.props;
               return false;
             }
 
-            this.price = getPrice(this.props);
+            this.price = getPrice(this.props.mintPrice);
             this.checkMaxMintAmount();
 
             if (this.whitelistMintEnabled) {
