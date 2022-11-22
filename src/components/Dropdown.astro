@@ -104,6 +104,7 @@ const {
       currentlySelected: "",
       init() {
         document.addEventListener(`${listenTo}:init`, () => {
+          console.log(this.$data.selects[0], listenTo, 107);
           this.$dispatch(id, {
             filters: this.$data.selects[0].filters,
             sorting: this.$data.selects[0].sorting,

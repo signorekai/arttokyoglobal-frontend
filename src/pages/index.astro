@@ -13,7 +13,9 @@ import CollectionTemplate from "../components/ClientCollection.astro";
 import Carousel from "../components/ClientCarousel.astro";
 
 import orderBy from "lodash/orderBy";
-import { set } from "lodash";
+import sortBy from "lodash/sortBy";
+import findIndex from "lodash/findIndex";
+import { find } from "lodash";
 
 const { data: settings } = await fetchFromAPI("/general-setting", {
   populate: [
@@ -44,6 +46,15 @@ const { data: collections } = await fetchFromAPI("/collections", {
   populate: ["artist.name", "artist.slug", "coverImg"],
   fields: ["status", "title", "slug", "mintPrice"],
 });
+
+const firstStatusIndex = findIndex(
+  projectStatusFilters,
+  (o) => o.filters[0][1] === collections[0].status
+);
+
+const xx = projectStatusFilters[firstStatusIndex];
+projectStatusFilters.splice(firstStatusIndex, 1);
+projectStatusFilters.splice(0, 0, xx);
 ---
 
 <Layout title="Home">
@@ -256,7 +267,7 @@ const { data: collections } = await fetchFromAPI("/collections", {
         </div>
         <Carousel
           listenTo="filterBy"
-          defaultFilter={["status", "CurrentlyMinting"]}
+          defaultFilter={["status", projectStatusFilters[0].filters[0][1]]}
           data={collections}
           buttonPosition={"outside"}
           className="carousel--btn-flush lg:pt-2 md:px-8 lg:px-0"
