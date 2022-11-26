@@ -26,23 +26,37 @@ let { data: collections } = await fetchFromAPI("/collections", {
 });
 
 const { data: settings } = await fetchFromAPI("/general-setting", {
-  populate: [
-    "collections",
-    "collections.artist",
-    "collections.tokens",
-    "collections.tokens.slug",
-    "collections.tokens.image",
-  ],
+  populate: ["collections", "collections.artist"],
 });
 
 // only return minted tokens
-const featuredCollections = settings.collections.map((collection) => ({
-  ...collection,
-  tokens: orderBy(collection.tokens, (token) => Number(token.tokenId)).slice(
-    0,
-    collection.totalSupply
-  ),
-}));
+const featuredCollectionsPromises = settings.collections.map(
+  async (collection) => {
+    const { data: tokenData } = await fetchFromAPI("/tokens", {
+      sort: ["tokenId"],
+      filters: {
+        collection: {
+          slug: collection.slug,
+        },
+      },
+      populate: ["image"],
+      fields: ["title", "slug"],
+      pagination: {
+        pageSize: 12,
+      },
+    });
+
+    collection.tokens = tokenData;
+    return {
+      ...collection,
+      tokens: orderBy(collection.tokens, (token) =>
+        Number(token.tokenId)
+      ).slice(0, collection.totalSupply),
+    };
+  }
+);
+
+const featuredCollections = await Promise.all(featuredCollectionsPromises);
 ---
 
 <Layout title="Collections">

@@ -20,27 +20,40 @@ import findIndex from "lodash/findIndex";
 import { find } from "lodash";
 
 const { data: settings } = await fetchFromAPI("/general-setting", {
-  populate: [
-    "collections",
-    "collections.artist",
-    "collections.tokens",
-    "collections.tokens.slug",
-    "collections.tokens.image",
-  ],
+  populate: ["collections", "collections.artist"],
 });
 
-const featuredCollections = settings.collections.map((collection) => {
-  return {
-    ...collection,
-    whitelistedAddress: masterWhitelist.hasOwnProperty(collection.slug)
-      ? masterWhitelist[collection.slug]
-      : [],
-    tokens: orderBy(collection.tokens, (token) => Number(token.tokenId)).slice(
-      0,
-      collection.totalSupply
-    ),
-  };
-});
+const featuredCollectionsPromises = settings.collections.map(
+  async (collection) => {
+    const { data: tokenData } = await fetchFromAPI("/tokens", {
+      sort: ["tokenId"],
+      filters: {
+        collection: {
+          slug: collection.slug,
+        },
+      },
+      populate: ["image"],
+      fields: ["title", "slug"],
+      pagination: {
+        pageSize: 12,
+      },
+    });
+
+    collection.tokens = tokenData;
+
+    return {
+      ...collection,
+      whitelistedAddress: masterWhitelist.hasOwnProperty(collection.slug)
+        ? masterWhitelist[collection.slug]
+        : [],
+      tokens: orderBy(collection.tokens, (token) =>
+        Number(token.tokenId)
+      ).slice(0, collection.totalSupply),
+    };
+  }
+);
+
+const featuredCollections = await Promise.all(featuredCollectionsPromises);
 
 const featuredTokens = [].concat.apply(
   [],
