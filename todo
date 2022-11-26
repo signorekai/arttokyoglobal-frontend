@@ -1,6 +1,7 @@
 FUTURE:
   [] wallet profile page for ATG minted tokens
   [] infinite scroll for tokens at /collections/:slug
+  [] opensea link
   [] tippy for artists
   [] `revealed` ? `hiddenMetadataUri` : `uriPrefix`
 

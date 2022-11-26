@@ -150,6 +150,7 @@ collection.tokens = orderBy(collection.tokens, (token) =>
         </h4>
         <MintWidget
           collectionId={collection.id}
+          collectionSlug={collection.slug}
           cid={collection.CID}
           contractAddress={collection.contractAddress}
           maxSupply={collection.totalTokens}
@@ -160,7 +161,6 @@ collection.tokens = orderBy(collection.tokens, (token) =>
           mintPrice={collection.mintPrice}
           startDate={collection.startDate}
           whitelistMintEnabled={collection.whitelistMintEnabled}
-          whitelistedAddresses={collection.whitelistedAddresses || []}
         />
       </div>
       <h6 class="mt-4">

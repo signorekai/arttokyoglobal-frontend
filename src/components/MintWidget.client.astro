@@ -1,6 +1,7 @@
 ---
 export interface Props {
   collectionId: string;
+  collectionSlug: string;
   cid: string;
   contractAddress: string;
   startDate: number;
@@ -12,7 +13,6 @@ export interface Props {
   maxSupply: number;
   totalSupply: number;
   whitelistMintEnabled: boolean;
-  whitelistedAddresses?: string[];
 }
 
 const { className = "", ...props } = Astro.props;
@@ -62,7 +62,6 @@ const { className = "", ...props } = Astro.props;
         contract: undefined,
         whitelistMintEnabled: props.whitelistMintEnabled,
         isUserWhitelisted: false,
-        whitelistedAddresses: props.whitelistedAddresses || [],
         whitelistProof: undefined,
         props,
         async init() {
@@ -86,7 +85,7 @@ const { className = "", ...props } = Astro.props;
               const resp = await fetch(`/api/whitelist/${this.account}`, {
                 method: "POST",
                 body: JSON.stringify({
-                  whitelistedAddresses: this.whitelistedAddresses,
+                  slug: this.props.collectionSlug,
                 }),
                 headers: {
                   "Content-Type": "application/json",
