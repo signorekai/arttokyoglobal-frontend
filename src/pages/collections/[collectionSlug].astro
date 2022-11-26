@@ -17,6 +17,8 @@ import sortBy from "lodash/sortBy";
 import orderBy from "lodash/orderBy";
 const { collectionSlug } = Astro.params;
 
+import whitelist from "../../whitelists/shield-age.json";
+
 const { data } = await fetchFromAPI("/collections", {
   sort: ["tokens.tokenId"],
   filters: {
@@ -44,10 +46,12 @@ const { data } = await fetchFromAPI("/collections", {
     "totalSupply",
     "contractAddress",
     "whitelistMintEnabled",
-    "whitelistedAddresses",
   ],
 });
 let collection = data[0];
+if (collection.slug === "shield-age") {
+  collection.whitelistedAddresses = whitelist;
+}
 
 // const tokens = [];
 // const sortedTokens = sortBy(collection.tokens, [
