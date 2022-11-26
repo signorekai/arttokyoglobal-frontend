@@ -1,11 +1,10 @@
 import { defineConfig } from 'astro/config';
 import alpine from "@astrojs/alpinejs";
 import tailwind from "@astrojs/tailwind";
-import vercel from "@astrojs/vercel/serverless";
 import nesting from 'tailwindcss/nesting';
 import mdx from "@astrojs/mdx";
 
-import netlify from "@astrojs/netlify/functions";
+import netlify from "@astrojs/netlify/edge-functions";
 
 // https://astro.build/config
 export default defineConfig({
