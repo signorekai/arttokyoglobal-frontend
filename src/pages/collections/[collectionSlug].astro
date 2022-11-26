@@ -24,13 +24,7 @@ const { data } = await fetchFromAPI("/collections", {
   filters: {
     slug: collectionSlug,
   },
-  populate: [
-    "artist",
-    "tokens",
-    "tokens.image",
-    "coverImg",
-    "artist.profilePhoto",
-  ],
+  populate: ["artist", "coverImg", "artist.profilePhoto"],
   fields: [
     "CID",
     "ABI",
