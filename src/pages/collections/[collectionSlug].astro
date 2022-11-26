@@ -61,17 +61,6 @@ let collection = data[0];
 collection.tokens = orderBy(collection.tokens, (token) =>
   Number(token.tokenId)
 ).slice(0, collection.totalSupply);
-
-export async function getStaticPaths() {
-  const { data: collections } = await fetchFromAPI("/collections", {
-    fields: ["slug"],
-  });
-
-  const collectionSlugs = collections.map((collection) => ({
-    params: { collectionSlug: collection.slug },
-  }));
-  return collectionSlugs;
-}
 ---
 
 <Layout title={collection.title}>
