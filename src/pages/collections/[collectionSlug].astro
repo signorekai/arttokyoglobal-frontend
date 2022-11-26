@@ -54,7 +54,7 @@ const { data: tokenData } = await fetchFromAPI("/tokens", {
   populate: ["image"],
   fields: ["title", "slug"],
   pagination: {
-    pageSize: 30,
+    pageSize: 9,
   },
 });
 collection.tokens = tokenData;
