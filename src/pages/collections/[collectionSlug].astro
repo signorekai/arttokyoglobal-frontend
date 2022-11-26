@@ -44,6 +44,21 @@ const { data } = await fetchFromAPI("/collections", {
 });
 let collection = data[0];
 
+const { data: tokenData } = await fetchFromAPI("/tokens", {
+  sort: ["tokenId"],
+  filters: {
+    collection: {
+      slug: collectionSlug,
+    },
+  },
+  populate: ["image"],
+  fields: ["title", "slug"],
+  pagination: {
+    pageSize: 30,
+  },
+});
+collection.tokens = tokenData;
+
 if (masterWhitelist.hasOwnProperty(collection.slug)) {
   collection.whitelistedAddresses = masterWhitelist[collection.slug];
 }
