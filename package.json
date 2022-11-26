@@ -16,6 +16,7 @@
     "@alpinejs/persist": "^3.10.4",
     "@astrojs/alpinejs": "^0.1.2",
     "@astrojs/mdx": "^0.11.3",
+    "@astrojs/netlify": "^1.2.1",
     "@astrojs/tailwind": "^2.0.1",
     "@astrojs/vercel": "^2.0.1",
     "@fancyapps/ui": "^4.0.31",
