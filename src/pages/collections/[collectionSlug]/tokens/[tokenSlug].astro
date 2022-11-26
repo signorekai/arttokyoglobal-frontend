@@ -12,22 +12,24 @@ import "@fancyapps/ui/dist/fancybox.css";
 
 const { collectionSlug, tokenSlug } = Astro.params;
 
-const { data: tokens } = await fetchFromAPI("/tokens", {
-  filters: {
-    slug: tokenSlug,
-    collection: {
-      slug: collectionSlug,
+const { data: tokens } = await fetchFromAPI(
+  "/tokens",
+  {
+    filters: {
+      slug: tokenSlug,
+      collection: {
+        slug: collectionSlug,
+      },
     },
+    populate: [
+      "image",
+      "collection.artist",
+      "collection.coverImage",
+      "collection.artist.profilePhoto",
+    ],
   },
-  populate: [
-    "image",
-    "collection",
-    "collection.tokens",
-    "collection.artist",
-    "collection.coverImage",
-    "collection.artist.profilePhoto",
-  ],
-});
+  true
+);
 
 // @todo return 404 if token not minted
 
@@ -63,7 +65,7 @@ export async function getStaticPaths() {
       >
         <img
           src={getLargestPossibleImage(token.image, "large")}
-          class="lg:h-full"
+          class="lg:h-full lg:max-h-[80vh]"
           style={`aspect-ratio: ${token.image.width} / ${token.image.height}`}
           alt=""
         />
