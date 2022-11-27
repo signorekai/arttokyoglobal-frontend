@@ -60,55 +60,10 @@ const featuredTokens = [].concat.apply(
   featuredCollections.map((collection) => collection.tokens)
 );
 
-const { data: collections } = {
-  data: [
-    {
-      id: 22,
-      status: "WhitelistOnly",
-      title: "SHiELD:AGE",
-      slug: "shield-age",
-      mintPrice: 59000000000000000,
-      artist: {
-        id: 1,
-        name: "Cotoh Tsumi",
-        slug: "cotoh-tsumi",
-        bio: "<p>Japanese Artist</p><p>Well-known for creating the key visuals for Japanese music<br>unit “YOASOBI”.</p><p>&nbsp;</p><p>&nbsp;</p>",
-        description:
-          "<p>Based on an awareness that there is no boundary between illustrations (especially digital works) and contemporary<br>artworks in the first place, Cotoh has succeeded in producing contemporary artworks with unique interpretation of<br>mass-consumed illustrations and their printing techniques. Cotoh’s works include silkscreen, giclee prints, ukiyo-e<br>woodblock prints, and hand paintings, all of which are unique (except for ukiyo-e woodblock prints). By deliberately<br>limiting artwork creation to using techniques based on mass consumption, Cotoh seeks to bring a breath of fresh<br>air to the Japanese context in which these artworks have been generally evaluated as commercial products.<br>With no particularity in style in terms of design or method of output, Cotoh’s work is constantly being updated. A<br>contemporary artist who continues to challenge an approach that is distinctly different from the artists who depict<br>urban female characters of today.<br><br>Solo Exhibitions<br>2021<br>Enlightenment for easy printing (MEDEL GALLERY SHU / Tokyo)<br>Cotoh Tsumi Art Exhibition (AI PLAZA 1F Gallery / Shanghai)<br>ANALOG (GALLERY JO YANA / Marseille)<br>Sneaker GIRL (atmos propeller street / Tokyo)<br>q (Anicoremix Gallery / Tokyo)<br>COLOR GIRL vol.2 – mediocrity complex (Fukuoka PARCO / Fukuoka)<br>GIRLS FACE (hotel koe tokyo / Tokyo)</p><p>&nbsp;</p><p>&nbsp;2020<br>Pop and Flutter (rough cafe / Saga)<br>COLOR GIRL (Nagoya PARCO / Nagoya)<br>Color-washed (Galerie LE MONDE / Tokyo)<br>Camera only (Orlaya Camera / Tokyo)</p>",
-        createdAt: "2022-10-04T07:45:59.623Z",
-        updatedAt: "2022-11-26T06:06:52.171Z",
-        publishedAt: "2022-11-22T07:14:38.395Z",
-      },
-      coverImg: {
-        id: 1466,
-        name: "SHiELD_AGE_GIF.gif",
-        alternativeText: "SHiELD_AGE_GIF.gif",
-        caption: "SHiELD_AGE_GIF.gif",
-        width: 1080,
-        height: 1080,
-        formats: null,
-        hash: "S_Hi_ELD_AGE_GIF_05367454ea",
-        ext: ".gif",
-        mime: "image/gif",
-        size: 16857.97,
-        url: "https://cdn.arttokyoglobal.io/S_Hi_ELD_AGE_GIF_05367454ea.gif",
-        previewUrl: null,
-        provider: "aws-s3",
-        provider_metadata: null,
-        createdAt: "2022-11-25T18:30:04.853Z",
-        updatedAt: "2022-11-25T18:30:04.853Z",
-      },
-    },
-  ],
-  meta: {
-    pagination: {
-      page: 1,
-      pageSize: 25,
-      pageCount: 1,
-      total: 1,
-    },
-  },
-};
+const { data: collections } = await fetchFromAPI("/collections", {
+  populate: ["artist.name", "artist.slug", "coverImg"],
+  fields: ["status", "title", "slug", "mintPrice"],
+});
 
 const firstStatusIndex = findIndex(
   projectStatusFilters,
