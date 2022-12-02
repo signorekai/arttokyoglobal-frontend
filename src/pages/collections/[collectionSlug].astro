@@ -52,20 +52,23 @@ if (collection.showTokens === null) {
   collection.showTokens = false;
 }
 
-const { data: tokenData } = await fetchFromAPI("/tokens", {
-  sort: ["tokenId"],
-  filters: {
-    collection: {
-      slug: collectionSlug,
+if (collection.showTokens) {
+  const { data: tokenData } = await fetchFromAPI("/tokens", {
+    sort: ["tokenId"],
+    filters: {
+      collection: {
+        slug: collectionSlug,
+      },
     },
-  },
-  populate: ["image"],
-  fields: ["title", "slug"],
-  pagination: {
-    pageSize: 9,
-  },
-});
-collection.tokens = tokenData;
+    populate: ["image"],
+    fields: ["title", "slug"],
+    pagination: {
+      pageSize: 9,
+      page,
+    },
+  });
+  collection.tokens = tokenData;
+}
 
 if (masterWhitelist.hasOwnProperty(collection.slug)) {
   collection.whitelistedAddresses = masterWhitelist[collection.slug];
