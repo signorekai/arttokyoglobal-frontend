@@ -1,9 +1,15 @@
+TODO:
+  [] 404
+  [] opensea link
+
 FUTURE:
   [] wallet profile page for ATG minted tokens
   [] infinite scroll for tokens at /collections/:slug
-  [] opensea link
+  [] mp4 support
   [] tippy for artists
-  [] `revealed` ? `hiddenMetadataUri` : `uriPrefix`
+
+INFO:
+  - `revealed` ? `hiddenMetadataUri` : `uriPrefix`
 
 Archive:
   ✔ Favicon @done(22-10-30 18:50) @project(FRONTEND)
