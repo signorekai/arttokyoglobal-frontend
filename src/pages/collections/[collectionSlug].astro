@@ -22,6 +22,8 @@ let page = Number.isFinite(Number(urlSearchParams.get("page")))
   ? Number(urlSearchParams.get("page"))
   : 1;
 
+if (page === 0) page = 1;
+
 const { data } = await fetchFromAPI("/collections", {
   filters: {
     slug: collectionSlug,
@@ -85,6 +87,7 @@ if (collection.showTokens) {
 
   collection.tokens = tokenData;
   collection.tokenMeta = meta;
+  console.log(88, meta);
 
   const previousParams = new URLSearchParams(url.split("?")[1]);
   previousParams.set(
@@ -264,6 +267,9 @@ if (masterWhitelist.hasOwnProperty(collection.slug)) {
                       };`}
                       class="rounded-4xl border-6 border-white bg-cover bg-center shadow-card"
                     />
+                    <h4 class="text-center mt-3 text-black">
+                      #{token.tokenId}
+                    </h4>
                   </a>
                 </div>
               ))}
@@ -271,17 +277,48 @@ if (masterWhitelist.hasOwnProperty(collection.slug)) {
           </div>
           <div class="w-full flex flex-row justify-between px-6 mt-3">
             {collection.tokenMeta.pagination.page > 1 ? (
-              <h3>
-                <a href={collection.pagination.previous}>Previous</a>
-              </h3>
+              <h4>
+                <a href={collection.pagination.previous}>
+                  <i class="mr-1 fa fa-arrow-left" />
+                  Previous
+                </a>
+              </h4>
             ) : (
               <div />
             )}
+            <div>
+              <h4 class="inline">View Tokens:</h4>
+              <select class="bg-transparent pr-5 font-futura-pt font-extrabold text-base tracking-wider ">
+                {page !== 1 && (
+                  <option value={page}>
+                    {page * 9} - {page * 9 + 9}
+                  </option>
+                )}
+                {[...Array(collection.tokenMeta.pagination.pageCount)].map(
+                  (x, i) => (
+                    <>
+                      {i > 0 && (
+                        <option
+                          x-data={`pageJump(${i})`}
+                          x-bind="link"
+                          value={i}
+                        >
+                          {i * 9} - {i * 9 + 9}
+                        </option>
+                      )}
+                    </>
+                  )
+                )}
+              </select>
+            </div>
             {collection.tokenMeta.pagination.page <
               collection.tokenMeta.pagination.pageCount && (
-              <h3>
-                <a href={collection.pagination.next}>Next</a>
-              </h3>
+              <h4>
+                <a href={collection.pagination.next}>
+                  Next
+                  <i class="ml-1 fa fa-arrow-right" />
+                </a>
+              </h4>
             )}
           </div>
         </div>
@@ -333,4 +370,20 @@ if (masterWhitelist.hasOwnProperty(collection.slug)) {
   });
 
   Alpine.plugin(intersect);
+
+  document.addEventListener("alpine:init", () => {
+    Alpine.data("pageJump", (page) => ({
+      page,
+      link: {
+        ["@click"]() {
+          const params = new URLSearchParams(window.location.search);
+          params.set("page", page);
+
+          window.location = `${window.location.origin}${
+            window.location.pathname
+          }?${params.toString()}#tokens`;
+        },
+      },
+    }));
+  });
 </script>
