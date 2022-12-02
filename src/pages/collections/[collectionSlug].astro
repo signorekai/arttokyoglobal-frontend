@@ -42,6 +42,10 @@ const { data } = await fetchFromAPI("/collections", {
     "showTokens",
   ],
 });
+if (data.length === 0) {
+  return Astro.redirect("/404");
+}
+
 let collection = data[0];
 
 if (collection.showTokens === null) {
