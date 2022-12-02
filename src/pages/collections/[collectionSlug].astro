@@ -87,7 +87,6 @@ if (collection.showTokens) {
 
   collection.tokens = tokenData;
   collection.tokenMeta = meta;
-  console.log(88, meta);
 
   const previousParams = new URLSearchParams(url.split("?")[1]);
   previousParams.set(
@@ -276,34 +275,36 @@ if (masterWhitelist.hasOwnProperty(collection.slug)) {
             </div>
           </div>
           <div class="w-full flex flex-row justify-between px-6 mt-3">
-            {collection.tokenMeta.pagination.page > 1 ? (
-              <h4>
-                <a href={collection.pagination.previous}>
-                  <i class="mr-1 fa fa-arrow-left" />
-                  Previous
-                </a>
-              </h4>
-            ) : (
-              <div />
-            )}
+            <h4
+              class={
+                collection.tokenMeta.pagination.page === 1 &&
+                "opacity-0 pointer-events-none"
+              }
+            >
+              <a href={collection.pagination.previous}>
+                <i class="mr-1 fa fa-arrow-left" />
+                Previous
+              </a>
+            </h4>
             <div>
               <h4 class="inline">View Tokens:</h4>
-              <select class="bg-transparent pr-5 font-futura-pt font-extrabold text-base tracking-wider ">
+              <select class="text-center bg-transparent pr-5 font-futura-pt font-extrabold text-base tracking-wider ">
                 {page !== 1 && (
                   <option value={page}>
-                    {page * 9} - {page * 9 + 9}
+                    {page * 9 - 8} - {page * 9}
                   </option>
                 )}
-                {[...Array(collection.tokenMeta.pagination.pageCount)].map(
+                {[...Array(collection.tokenMeta.pagination.pageCount + 1)].map(
                   (x, i) => (
                     <>
                       {i > 0 && (
                         <option
+                          class="text-center"
                           x-data={`pageJump(${i})`}
                           x-bind="link"
                           value={i}
                         >
-                          {i * 9} - {i * 9 + 9}
+                          {i * 9 - 8} - {i * 9}
                         </option>
                       )}
                     </>
@@ -311,15 +312,18 @@ if (masterWhitelist.hasOwnProperty(collection.slug)) {
                 )}
               </select>
             </div>
-            {collection.tokenMeta.pagination.page <
-              collection.tokenMeta.pagination.pageCount && (
-              <h4>
-                <a href={collection.pagination.next}>
-                  Next
-                  <i class="ml-1 fa fa-arrow-right" />
-                </a>
-              </h4>
-            )}
+            <h4
+              class={
+                collection.tokenMeta.pagination.page ===
+                  collection.tokenMeta.pagination.pageCount &&
+                "opacity-0 pointer-events-none"
+              }
+            >
+              <a href={collection.pagination.next}>
+                Next
+                <i class="ml-1 fa fa-arrow-right" />
+              </a>
+            </h4>
           </div>
         </div>
       </section>
