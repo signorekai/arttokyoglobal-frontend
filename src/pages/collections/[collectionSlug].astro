@@ -20,7 +20,6 @@ const { collectionSlug } = Astro.params;
 import masterWhitelist from "../../whitelist.json";
 
 const { data } = await fetchFromAPI("/collections", {
-  sort: ["tokens.tokenId"],
   filters: {
     slug: collectionSlug,
   },
@@ -40,9 +39,14 @@ const { data } = await fetchFromAPI("/collections", {
     "totalSupply",
     "contractAddress",
     "whitelistMintEnabled",
+    "showTokens",
   ],
 });
 let collection = data[0];
+
+if (collection.showTokens === null) {
+  collection.showTokens = false;
+}
 
 const { data: tokenData } = await fetchFromAPI("/tokens", {
   sort: ["tokenId"],
@@ -178,7 +182,7 @@ collection.tokens = orderBy(collection.tokens, (token) =>
     </div>
   </div>
   {
-    collection.tokens.length > 0 && (
+    collection.tokens.length > 0 && collection.showTokens === true && (
       <section
         x-data="fadeUp"
         x-bind="fadeUp"
@@ -230,12 +234,33 @@ collection.tokens = orderBy(collection.tokens, (token) =>
   }
 
   {
+    collection.showTokens === false && (
+      <div class="container px-4">
+        <div class="rounded-4xl bg-peach px-4 md:px-8 py-8 mt-8 text-right">
+          <h4 class="block text-center leading-tight">
+            Currently hidden. <br />
+            Check our{" "}
+            <a
+              href="https://discord.gg/arttokyoglobal"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Discord
+            </a>{" "}
+            to see when the tokens will be revealed!
+          </h4>
+        </div>
+      </div>
+    )
+  }
+
+  {
     collection.tokens.length === 0 && (
       <div class="container px-4">
         <div class="rounded-4xl bg-peach px-4 md:px-8 py-8 mt-8 text-right">
-          <h2 class="block text-center">
+          <h4 class="block text-center leading-tight">
             None minted yet. You could be the first!
-          </h2>
+          </h4>
         </div>
       </div>
     )
