@@ -286,9 +286,12 @@ if (masterWhitelist.hasOwnProperty(collection.slug)) {
                 Previous
               </a>
             </h4>
-            <div>
+            <div x-data={`pageJump(${page})`}>
               <h4 class="inline">View Tokens:</h4>
-              <select class="text-center bg-transparent pr-5 font-futura-pt font-extrabold text-base tracking-wider ">
+              <select
+                x-model="page"
+                class="text-center bg-transparent pr-5 font-futura-pt font-extrabold text-base tracking-wider "
+              >
                 {page !== 1 && (
                   <option value={page}>
                     {page * 9 - 8} - {page * 9}
@@ -298,12 +301,7 @@ if (masterWhitelist.hasOwnProperty(collection.slug)) {
                   (x, i) => (
                     <>
                       {i > 0 && (
-                        <option
-                          class="text-center"
-                          x-data={`pageJump(${i})`}
-                          x-bind="link"
-                          value={i}
-                        >
+                        <option class="text-center" value={i}>
                           {i * 9 - 8} - {i * 9}
                         </option>
                       )}
@@ -378,15 +376,14 @@ if (masterWhitelist.hasOwnProperty(collection.slug)) {
   document.addEventListener("alpine:init", () => {
     Alpine.data("pageJump", (page) => ({
       page,
-      link: {
-        ["@click"]() {
+      init() {
+        this.$watch("page", (value) => {
           const params = new URLSearchParams(window.location.search);
-          params.set("page", page);
-
+          params.set("page", value);
           window.location = `${window.location.origin}${
             window.location.pathname
           }?${params.toString()}#tokens`;
-        },
+        });
       },
     }));
   });
