@@ -270,6 +270,7 @@
   }
 
   .content-wrapper {
+    @apply scroll-pt-16 md:scroll-pt-24;
     a {
       @apply text-red hover:text-red/75 transition-all;
     }

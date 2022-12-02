@@ -1,8 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import ProjectStatus from "../../components/ProjectStatus.astro";
-import Dropdown from "../../components/Dropdown.astro";
-import Card from "../../components/ClientCard.astro";
+import Dropdown from "../../components/LinksDropdown.astro";
 import { fetchFromAPI, getLargestPossibleImage } from "../../library/helpers";
 import ethLogo from "../../images/eth-logo.png";
 
@@ -13,11 +12,15 @@ import MintWidget from "../../components/MintWidget.client.astro";
 
 import "@fancyapps/ui/dist/fancybox.css";
 
-import sortBy from "lodash/sortBy";
-import orderBy from "lodash/orderBy";
 const { collectionSlug } = Astro.params;
 
 import masterWhitelist from "../../whitelist.json";
+
+const { url } = Astro.request;
+const urlSearchParams = new URLSearchParams(url.split("?")[1]);
+let page = Number.isFinite(Number(urlSearchParams.get("page")))
+  ? Number(urlSearchParams.get("page"))
+  : 1;
 
 const { data } = await fetchFromAPI("/collections", {
   filters: {
@@ -42,6 +45,7 @@ const { data } = await fetchFromAPI("/collections", {
     "showTokens",
   ],
 });
+
 if (data.length === 0) {
   return Astro.redirect("/404");
 }
@@ -52,40 +56,76 @@ if (collection.showTokens === null) {
   collection.showTokens = false;
 }
 
+let sorting = "tokenId:asc";
+
 if (collection.showTokens) {
-  const { data: tokenData } = await fetchFromAPI("/tokens", {
-    sort: ["tokenId"],
+  let sortParam = urlSearchParams.get("sort");
+  const allowedSorting = ["tokenId"];
+
+  if (
+    sortParam !== null &&
+    allowedSorting.indexOf(sortParam.split(":")[0]) > -1
+  ) {
+    sorting = sortParam;
+  }
+
+  const { data: tokenData, meta } = await fetchFromAPI("/tokens", {
+    sort: [sorting],
     filters: {
       collection: {
         slug: collectionSlug,
       },
     },
     populate: ["image"],
-    fields: ["title", "slug"],
+    fields: ["title", "slug", "tokenId"],
     pagination: {
       pageSize: 9,
       page,
     },
   });
+
   collection.tokens = tokenData;
+  collection.tokenMeta = meta;
+
+  const previousParams = new URLSearchParams(url.split("?")[1]);
+  previousParams.set(
+    "page",
+    meta.pagination.page - 1 > 0 ? String(meta.pagination.page - 1) : "1"
+  );
+
+  const nextParams = new URLSearchParams(url.split("?")[1]);
+  nextParams.set(
+    "page",
+    meta.pagination.page < meta.pagination.pageCount
+      ? meta.pagination.page + 1
+      : meta.pagination.pageCount
+  );
+
+  collection.pagination = {
+    previous: `${url.split("?")[0]}?${previousParams.toString()}#tokens`,
+    next: `${url.split("?")[0]}?${nextParams.toString()}#tokens`,
+  };
 }
+
+let sortingOptions = [
+  {
+    label: "ID (Ascending)",
+    sorting: "tokenId:asc",
+  },
+  {
+    label: "ID (Descending)",
+    sorting: "tokenId:desc",
+  },
+];
+
+const defaultOption = sortingOptions.filter((o) => o.sorting === sorting);
+const remainingOptions = sortingOptions.filter((o) => o.sorting !== sorting);
+
+sortingOptions = [...defaultOption, ...remainingOptions];
 
 if (masterWhitelist.hasOwnProperty(collection.slug)) {
   collection.whitelistedAddresses = masterWhitelist[collection.slug];
 }
-
-// const tokens = [];
-// const sortedTokens = sortBy(collection.tokens, [
-//   (token) => Number(token.tokenId),
-// ]);
-
-// for (var x = 0; x < collection.totalSupply; x++) {
-//   tokens.push(sortedTokens[x]);
-// }
-
-collection.tokens = orderBy(collection.tokens, (token) =>
-  Number(token.tokenId)
-).slice(0, collection.totalSupply);
 ---
 
 <Layout title={collection.title}>
@@ -194,6 +234,7 @@ collection.tokens = orderBy(collection.tokens, (token) =>
         x-data="fadeUp"
         x-bind="fadeUp"
         class="relative m-0 md:mt-4 lg:mt-12 p-4 lg:p-0 fade-up"
+        id="tokens"
       >
         <div class="container bg-peach rounded-4xl px-6 py-4 md:px-11 md:py-8">
           <div class="dropdown-wrapper z-40">
@@ -203,37 +244,46 @@ collection.tokens = orderBy(collection.tokens, (token) =>
                 label="Sort By"
                 listenTo="allCollections"
                 id="sortBy"
-                selects={[
-                  { label: "A-Z", sorting: [["title"], ["asc"]] },
-                  { label: "Z-A", sorting: [["title"], ["desc"]] },
-                ]}
+                options={sortingOptions}
               />
             </div>
             <h3 class="pt-2">Tokens</h3>
           </div>
           <div class="content-wrapper">
-            <div
-              x-data={`filterables({
-            id: "allCollections",
-            listenTo: ["sortBy"],
-            data: ${JSON.stringify(collection.tokens)},
-          })`}
-            >
-              <div
-                class="transition-opacity grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-8 lg:gap-y-4"
-                x-ref="container"
-                x-bind="container"
-              >
-                <template x-for="token in filtered" x-bind:key="token.title">
-                  <div class="carousel-item w-full">
-                    <Card
-                      link={`/collections/${collection.slug}/tokens/\${token.slug}`}
-                      backgroundImage="imageHelper(token.image, 'small', true)"
+            <div class="transition-opacity grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-8 lg:gap-y-4">
+              {collection.tokens.map((token) => (
+                <div class="carousel-item w-full">
+                  <a
+                    href={`/collections/${collection.slug}/tokens/${token.slug}`}
+                  >
+                    <div
+                      style={`background-image: url(${getLargestPossibleImage(
+                        token.image,
+                        "small"
+                      )}); aspect-ratio: ${token.image.width} / ${
+                        token.image.height
+                      };`}
+                      class="rounded-4xl border-6 border-white bg-cover bg-center shadow-card"
                     />
-                  </div>
-                </template>
-              </div>
+                  </a>
+                </div>
+              ))}
             </div>
+          </div>
+          <div class="w-full flex flex-row justify-between px-6 mt-3">
+            {collection.tokenMeta.pagination.page > 1 ? (
+              <h3>
+                <a href={collection.pagination.previous}>Previous</a>
+              </h3>
+            ) : (
+              <div />
+            )}
+            {collection.tokenMeta.pagination.page <
+              collection.tokenMeta.pagination.pageCount && (
+              <h3>
+                <a href={collection.pagination.next}>Next</a>
+              </h3>
+            )}
           </div>
         </div>
       </section>
@@ -262,7 +312,7 @@ collection.tokens = orderBy(collection.tokens, (token) =>
   }
 
   {
-    collection.tokens.length === 0 && (
+    collection.tokens.length === 0 && collection.showTokens && (
       <div class="container px-4">
         <div class="rounded-4xl bg-peach px-4 md:px-8 py-8 mt-8 text-right">
           <h4 class="block text-center leading-tight">

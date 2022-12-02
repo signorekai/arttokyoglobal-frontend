@@ -2,6 +2,7 @@
 export interface Props {
   backgroundImage: string;
   link: string;
+  title?: string;
 }
 
 const { aspectRatio, backgroundImage, link = "", ...props } = Astro.props;

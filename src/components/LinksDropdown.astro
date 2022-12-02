@@ -1,0 +1,121 @@
+---
+export interface Props {
+  className?: string;
+  label: string;
+  id: string;
+  align?: "right" | "left";
+  listenTo: string;
+  options: {
+    label: string;
+    sorting: string;
+  }[];
+}
+
+const {
+  id,
+  className = "",
+  label,
+  options,
+  align = "right",
+  listenTo,
+} = Astro.props;
+---
+
+<div
+  x-cloak
+  class={`relative z-50 md:pt-2 max-h-8 md:w-auto md:max-h-max ${className}`}
+  x-data={`linksDropdown(${JSON.stringify(options)})`}
+>
+  <span
+    class="hidden md:inline font-trade-gothic font-normal text-sm leading-4 tracking-xl uppercase"
+  >
+    {label}
+  </span>
+  <button
+    class="button group"
+    x-bind:class="open && 'opacity-20'"
+    x-on:click="open = !open"
+  >
+    <h5 class="ml-2 leading-none inline-block" x-text="currentlySelected"></h5>
+    <svg
+      class="inline-block group-hover:scale-y-80 group-hover:scale-x-125 transition-transform"
+      x-bind:class="open && 'rotate-180'"
+      width="17"
+      height="9"
+      viewBox="0 0 17 9"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M1 1L8.5 7L16 1" class="stroke-current stroke-2"></path>
+    </svg>
+  </button>
+  <div
+    x-show="open"
+    x-transition:enter="transition-all ease-out duration-200 delay-100"
+    x-transition:enter-start="opacity-0 -translate-y-12"
+    x-transition:enter-end="opacity-100 translate-y-0"
+    x-transition:leave="transition-all ease-in duration-200"
+    x-transition:leave-start="opacity-100 translate-y-00"
+    x-transition:leave-end="opacity-0 -translate-y-12 "
+    x-on:click.outside="open = false"
+    class={`select ${align === "right" ? "-right-4" : "-left-4"}`}
+  >
+    {
+      options.map((option) => (
+        <a
+          class="option first:mt-2"
+          x-data={`{sorting: "${option.sorting}"}`}
+          x-bind="link"
+        >
+          {option.label}
+        </a>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .select {
+    @apply w-max;
+    @apply absolute top-[120%];
+    @apply ml-3 rounded-3xl bg-white shadow-btn inline-flex flex-col z-40;
+  }
+
+  .option {
+    @apply w-max;
+    @apply [&:nth-child(2)]:border-0;
+    @apply font-roc-grotesk text-sm uppercase tracking-widest font-bold text-black/25;
+    @apply py-2 px-5 w-full text-right border-t-grey-light;
+    @apply hover:text-black;
+    @apply [&:nth-child(2)]:pt-4 last:pb-4;
+
+    & + .option {
+      @apply border-t-1;
+    }
+  }
+
+  .button {
+    @apply hover:opacity-75 transition-opacity;
+    block-size: auto;
+  }
+</style>
+
+<script define:vars={{ listenTo, id }}>
+  document.addEventListener("alpine:init", () => {
+    Alpine.data("linksDropdown", (options) => ({
+      open: false,
+      currentlySelected: options[0].label,
+      options,
+      link: {
+        [":href"]() {
+          const params = new URLSearchParams(window.location.search);
+          params.set("sort", `${this.sorting}`);
+
+          return `${window.location.origin}${
+            window.location.pathname
+          }?${params.toString()}#tokens`;
+        },
+      },
+    }));
+  });
+</script>
