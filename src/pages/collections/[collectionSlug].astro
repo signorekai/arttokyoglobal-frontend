@@ -283,11 +283,11 @@ if (masterWhitelist.hasOwnProperty(collection.slug)) {
             >
               <a href={collection.pagination.previous}>
                 <i class="mr-1 fa fa-arrow-left" />
-                Previous
+                Prev<span class="hidden md:inline">ious</span>
               </a>
             </h4>
             <div x-data={`pageJump(${page})`}>
-              <h4 class="inline">View Tokens:</h4>
+              <h4 class="hidden md:inline">View Tokens:</h4>
               <select
                 x-model="page"
                 class="text-center bg-transparent pr-5 font-futura-pt font-extrabold text-base tracking-wider "
