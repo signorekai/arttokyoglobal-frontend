@@ -121,22 +121,23 @@ const featuredCollections = await Promise.all(featuredCollectionsPromises);
                 })"
                   x-ref="carousel"
                 >
-                  {featuredCollection.tokens.map((token) => (
-                    <a
-                      class="token w-2/3 md:w-1/3 lg:w-1/4 inline-block"
-                      href={`/collections/${featuredCollection.slug}/tokens/${token.slug}`}
-                    >
-                      <div
-                        class="rounded-4xl border-6 border-white bg-cover bg-center shadow-card"
-                        style={`background-image: url(${getLargestPossibleImage(
-                          token.image,
-                          "medium"
-                        )}); aspect-ratio: ${token.image.width} / ${
-                          token.image.height
-                        }`}
-                      />
-                    </a>
-                  ))}
+                  {featuredCollection.showTokens &&
+                    featuredCollection.tokens.map((token) => (
+                      <a
+                        class="token w-2/3 md:w-1/3 lg:w-1/4 inline-block"
+                        href={`/collections/${featuredCollection.slug}/tokens/${token.slug}`}
+                      >
+                        <div
+                          class="rounded-4xl border-6 border-white bg-cover bg-center shadow-card"
+                          style={`background-image: url(${getLargestPossibleImage(
+                            token.image,
+                            "medium"
+                          )}); aspect-ratio: ${token.image.width} / ${
+                            token.image.height
+                          }`}
+                        />
+                      </a>
+                    ))}
                 </div>
               </div>
             ))}
