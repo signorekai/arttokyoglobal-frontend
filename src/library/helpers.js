@@ -38,7 +38,7 @@ export function generateElements(html) {
   return url.slice(0, 5) !== 'https' ? `https://${url}` : url;
 };
 
-export const fetchFromAPI = async (url, query, debug=false) => {
+export const fetchFromAPI = async (url, query, debug=false, headers = {}) => {
   if (debug) {
     console.log(`${import.meta.env.API_URL}${url}?${qs.stringify(query)}`)
   }
@@ -46,6 +46,7 @@ export const fetchFromAPI = async (url, query, debug=false) => {
   return fetch(`${import.meta.env.API_URL}${url}?${qs.stringify(query)}`, {
     headers: {
       Authorization: `Bearer ${import.meta.env.API_TOKEN}`,
+      ...headers,
     },
   }).then(r => r.json()).catch(() => ({
     success: false,

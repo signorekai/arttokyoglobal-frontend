@@ -28,33 +28,49 @@ const { data: tokens } = await fetchFromAPI(
       "collection.artist.profilePhoto",
     ],
   },
-  true
+  false,
+  {
+    "Strapi-Transformer-Ignore": true,
+  }
 );
-
-// @todo return 404 if token not minted
-
-const token = tokens[0];
-const { collection } = token;
-const { artist } = collection;
-
-export async function getStaticPaths() {
-  const { data } = await fetchFromAPI("/tokens", {
-    filters: {
-      minted: true,
-    },
-    fields: ["slug"],
-    populate: ["collection"],
-  });
-
-  const collectionSlugsWithTokenSlugs = data.map((token) => ({
-    params: {
-      collectionSlug: token.collection.slug,
-      tokenSlug: token.slug,
-    },
-  }));
-
-  return collectionSlugsWithTokenSlugs;
+if (tokens.length === 0) {
+  return Astro.redirect("/404");
 }
+
+const token = tokens[0].attributes;
+token.id = tokens[0].id;
+token.image = {
+  id: token.image.data.id,
+  ...token.image.data.attributes,
+};
+token.rank = token.cachedData.rarity.rank;
+
+const { attributes: collection } = token.collection.data;
+const { attributes: artist } = collection.artist.data;
+
+artist.profilePhoto = {
+  id: artist.profilePhoto.data.id,
+  ...artist.profilePhoto.data.attributes,
+};
+
+// export async function getStaticPaths() {
+//   const { data } = await fetchFromAPI("/tokens", {
+//     filters: {
+//       minted: true,
+//     },
+//     fields: ["slug"],
+//     populate: ["collection"],
+//   });
+
+//   const collectionSlugsWithTokenSlugs = data.map((token) => ({
+//     params: {
+//       collectionSlug: token.collection.slug,
+//       tokenSlug: token.slug,
+//     },
+//   }));
+
+//   return collectionSlugsWithTokenSlugs;
+// }
 ---
 
 <Layout title={`${tokenSlug} of ${collection.title}`}>
@@ -69,7 +85,12 @@ export async function getStaticPaths() {
           style={`aspect-ratio: ${token.image.width} / ${token.image.height}`}
           alt=""
         />
-        <h5 class="mt-4 normal-case">{token.title}</h5>
+        <h5 class="mt-4 normal-case">
+          {token.title}
+        </h5>
+        <h6 class="uppercase">
+          Rank: {token.rank} / {collection.totalSupply}
+        </h6>
       </div>
     </a>
   </div>
@@ -99,7 +120,7 @@ export async function getStaticPaths() {
           <a href={`/artists/${artist.slug}`}>
             <div
               class="bg-cover bg-center aspect-square h-10 ml-3 mb-1 rounded-lg grayscale group-hover:grayscale-0 transition-all"
-              style={`background-image: url(${collection.artist.profilePhoto.formats.thumbnail.url})`}
+              style={`background-image: url(${artist.profilePhoto.formats.thumbnail.url})`}
             >
             </div>
           </a>
@@ -121,6 +142,7 @@ export async function getStaticPaths() {
               <th><h5>Feature</h5></th>
               <th><h5>Value</h5></th>
               <th><h5>% | Rarity</h5></th>
+              <th><h5>Score</h5></th>
             </tr>
           </thead>
           <tbody class="text-center font-trade-gothic text-sm">
@@ -131,9 +153,10 @@ export async function getStaticPaths() {
                   <td>{attribute.value}</td>
                   <td>
                     {attribute.pop
-                      ? `${Math.floor(attribute.pop * 100)}%`
+                      ? `${(attribute.pop * 100).toFixed(2)}%`
                       : "UNKNOWN"}
                   </td>
+                  <td>{attribute.score.toFixed(2)}</td>
                 </tr>
               ))
             }
