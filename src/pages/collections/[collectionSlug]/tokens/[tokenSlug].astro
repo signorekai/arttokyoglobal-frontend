@@ -81,7 +81,7 @@ artist.profilePhoto = {
       >
         <img
           src={getLargestPossibleImage(token.image, "large")}
-          class="lg:h-full lg:max-h-[80vh]"
+          class="lg:h-full lg:max-h-[calc(80vh_-_6rem)]"
           style={`aspect-ratio: ${token.image.width} / ${token.image.height}`}
           alt=""
         />
