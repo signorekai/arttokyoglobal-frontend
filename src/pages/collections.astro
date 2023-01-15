@@ -24,6 +24,7 @@ let { data: collections } = await fetchFromAPI("/collections", {
     "totalSupply",
     "supplyFunction",
     "reserveCount",
+    "reserveSupply",
   ],
 });
 
@@ -96,15 +97,20 @@ const featuredCollections = await Promise.all(featuredCollectionsPromises);
                       </a>
                     </h4>
                     <div class="flex flex-row items-center">
+                      {featuredCollection.reserveSupply > 0 && (
+                        <h4 class="inline-block md:pl-5 font-normal">
+                          <strong>{featuredCollection.reserveCount}</strong>
+                          of <strong>
+                            {featuredCollection.reserveSupply}
+                          </strong>{" "}
+                          reserved
+                        </h4>
+                      )}
                       <h4 class="inline-block md:pl-5 font-normal">
-                        <strong>
-                          {
-                            featuredCollection[
-                              featuredCollection.supplyFunction
-                            ]
-                          }
-                        </strong>
-                        of <strong>{featuredCollection.totalTokens}</strong>{" "}
+                        <strong>{featuredCollection.totalSupply}</strong>
+                        of <strong>
+                          {featuredCollection.totalTokens}
+                        </strong>{" "}
                         minted
                       </h4>
                       <h4 class="inline-flex flex-row pl-3 justify-center items-center">
@@ -232,6 +238,14 @@ const featuredCollections = await Promise.all(featuredCollectionsPromises);
                           <a :href="`/artists/${collection.artist.slug}`">
                             <h4 x-text="`By ${collection.artist.name}`"></h4>
                           </a>
+                          <template x-if="collection.reserveSupply > 0">
+                            <h4 class="font-normal">
+                              <strong x-text="collection.reserveCount"></strong>
+                              of <strong x-text="collection.reserveSupply"
+                              ></strong>
+                              reserved
+                            </h4>
+                          </template>
                           <h4 class="font-normal">
                             <strong x-text="collection.totalSupply"></strong>
                             of <strong x-text="collection.totalTokens"></strong>
@@ -240,12 +254,12 @@ const featuredCollections = await Promise.all(featuredCollectionsPromises);
                         </div>
                         <a
                           :href="`/artists/${collection.artist.slug}`"
-                          class="block overflow-hidden rounded-xl h-10 w-10 ml-3"
+                          class="block overflow-hidden rounded-xl h-16 w-16 ml-3"
                         >
                           <div
                             x-data="imageHelper(collection.artist.profilePhoto, 'thumbnail')"
                             x-bind="backgroundImage"
-                            class="aspect-square h-10 bg-cover bg-center grayscale group-hover:grayscale-0 transition-all"
+                            class="aspect-square h-16 bg-cover bg-center grayscale group-hover:grayscale-0 transition-all"
                           >
                           </div>
                         </a>

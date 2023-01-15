@@ -48,6 +48,7 @@ const { data } = await fetchFromAPI("/collections", {
     "supplyFunction",
     "reserveCount",
     "whitelistMintFunction",
+    "reserveSupply",
   ],
 });
 
@@ -185,13 +186,21 @@ const ethereumConfig =
             <strong>{collection[collection.supplyFunction]}</strong>
             of <strong>{collection.totalTokens}</strong> minted
           </h4>
+          {
+            collection.reserveSupply > 0 && (
+              <h4 class="block md:pl-5 font-normal">
+                <strong>{collection.reserveCount}</strong>
+                of <strong>{collection.reserveSupply}</strong> reserved
+              </h4>
+            )
+          }
         </div>
         <a
           href={`/artists/${collection.artist.slug}`}
           class="block overflow-hidden ml-3 rounded-xl"
         >
           <div
-            class="aspect-square h-10 grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all bg-cover bg-center"
+            class="aspect-square h-16 grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all bg-cover bg-center"
             style={`background-image: url(${getLargestPossibleImage(
               collection.artist.profilePhoto,
               "thumbnail"
