@@ -246,6 +246,8 @@ const { className = "", ...props } = Astro.props;
                 this.$store.credentials.account === false ||
                 (this.props.status !== "CurrentlyMinting" &&
                   this.props.status !== "WhitelistOnly") ||
+                (this.props.status === "WhitelistOnly" &&
+                  this.whitelistMintEnabled === false) ||
                 (this.whitelistMintEnabled &&
                   this.isUserWhitelisted === false) ||
                 this.props.totalSupply === this.props.totalTokens,
