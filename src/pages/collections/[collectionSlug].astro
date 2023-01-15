@@ -45,6 +45,8 @@ const { data } = await fetchFromAPI("/collections", {
     "contractAddress",
     "whitelistMintEnabled",
     "showTokens",
+    "supplyFunction",
+    "reserveCount",
     "whitelistMintFunction",
   ],
 });
@@ -133,6 +135,10 @@ const ethereumConfig =
     : ethereumTestnet;
 ---
 
+<script define:vars={{ collection }}>
+  console.log(collection);
+</script>
+
 <Layout title={collection.title}>
   <h4
     class="container mt-4 md:mt-8 px-4 opacity-60 hover:opacity-100 transition-opacity"
@@ -176,7 +182,7 @@ const ethereumConfig =
             </a>
           </h4>
           <h4 class="block md:pl-5 font-normal">
-            <strong>{collection.totalSupply}</strong>
+            <strong>{collection[collection.supplyFunction]}</strong>
             of <strong>{collection.totalTokens}</strong> minted
           </h4>
         </div>
@@ -210,7 +216,7 @@ const ethereumConfig =
           cid={collection.CID}
           contractAddress={collection.contractAddress}
           maxSupply={collection.totalTokens}
-          totalSupply={collection.totalSupply}
+          totalSupply={collection[collection.supplyFunction]}
           status={collection.status}
           ABI={JSON.stringify(collection.ABI)}
           dynamicStart={collection.dynamicStart}

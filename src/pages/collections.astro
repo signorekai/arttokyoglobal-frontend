@@ -22,6 +22,8 @@ let { data: collections } = await fetchFromAPI("/collections", {
     "totalTokens",
     "description",
     "totalSupply",
+    "supplyFunction",
+    "reserveCount",
   ],
 });
 
@@ -95,10 +97,14 @@ const featuredCollections = await Promise.all(featuredCollectionsPromises);
                     </h4>
                     <div class="flex flex-row items-center">
                       <h4 class="inline-block md:pl-5 font-normal">
-                        <strong>{featuredCollection.totalSupply}</strong>
-                        of <strong>
-                          {featuredCollection.totalTokens}
-                        </strong>{" "}
+                        <strong>
+                          {
+                            featuredCollection[
+                              featuredCollection.supplyFunction
+                            ]
+                          }
+                        </strong>
+                        of <strong>{featuredCollection.totalTokens}</strong>{" "}
                         minted
                       </h4>
                       <h4 class="inline-flex flex-row pl-3 justify-center items-center">
