@@ -119,7 +119,11 @@ const { className = "", ...props } = Astro.props;
         async checkIfClaimed(address) {
           const contract = await this.getContract();
 
-          const alreadyClaimed = await contract.whitelistClaimed(address);
+          const alreadyClaimed =
+            this.whitelistMintFunction === "whitelistMint"
+              ? await contract.whitelistClaimed(address)
+              : await contract.comWhitelistClaimed(address);
+
           return alreadyClaimed;
         },
         resetButton() {
