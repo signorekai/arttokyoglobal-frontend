@@ -5,7 +5,7 @@ import Dropdown from "../../components/LinksDropdown.astro";
 import { fetchFromAPI, getLargestPossibleImage } from "../../library/helpers";
 import ethLogo from "../../images/eth-logo.png";
 
-import { ethereumMainnet as ethereumConfig } from "../../library/network-config";
+import { ethereumTestnet, ethereumMainnet } from "../../library/network-config";
 
 import MintPrice from "../../components/MintPrice.client.astro";
 import MintWidget from "../../components/MintWidget.client.astro";
@@ -125,6 +125,11 @@ sortingOptions = [...defaultOption, ...remainingOptions];
 if (masterWhitelist.hasOwnProperty(collection.slug)) {
   collection.whitelistedAddresses = masterWhitelist[collection.slug];
 }
+
+const ethereumConfig =
+  import.meta.env.PUBLIC_ETH_NETWORK === "eth-mainnet"
+    ? ethereumMainnet
+    : ethereumTestnet;
 ---
 
 <Layout title={collection.title}>

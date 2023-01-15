@@ -301,7 +301,12 @@ import "../styles/fontawesome.css";
   import intersect from "@alpinejs/intersect";
   import persist from "@alpinejs/persist";
   import { isJwtExpired } from "jwt-check-expiration";
-  import { ethereumTestnet as ethereumConfig } from "../library/network-config";
+  import { ethereumTestnet, ethereumMainnet } from "../library/network-config";
+
+  const ethereumConfig =
+    import.meta.env.PUBLIC_ETH_NETWORK === "eth-mainnet"
+      ? ethereumMainnet
+      : ethereumTestnet;
 
   import Flickity from "flickity";
 

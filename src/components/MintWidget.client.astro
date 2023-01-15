@@ -39,7 +39,12 @@ const { className = "", ...props } = Astro.props;
 
 <script>
   import { getPrice } from "../library/client";
-  import { ethereumMainnet as ethereumConfig } from "../library/network-config";
+  import { ethereumTestnet, ethereumMainnet } from "../library/network-config";
+
+  const ethereumConfig =
+    import.meta.env.PUBLIC_ETH_NETWORK === "eth-mainnet"
+      ? ethereumMainnet
+      : ethereumTestnet;
 
   import { ethers, BigNumber } from "ethers";
   import detectEthereumProvider from "@metamask/detect-provider";
