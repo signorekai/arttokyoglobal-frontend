@@ -154,7 +154,14 @@ export async function getStaticPaths() {
                 >
                   <h1 class="mt-4" x-text="collection.title"></h1>
                 </a>
-                <h4 class="font-normal mt-1">
+                <template x-if="collection.reserveSupply > 0">
+                  <h4 class="font-normal mt-0">
+                    <strong x-text="collection.reserveCount"></strong>
+                    of <strong x-text="collection.reserveSupply"></strong>
+                    reserved
+                  </h4>
+                </template>
+                <h4 class="font-normal mt-0">
                   <strong x-text="collection.totalSupply"></strong>
                   of <strong x-text="collection.totalTokens"></strong>
                   minted
