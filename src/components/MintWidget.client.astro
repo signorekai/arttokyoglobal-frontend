@@ -88,6 +88,7 @@ const { className = "", ...props } = Astro.props;
               const resp = await fetch(`/api/whitelist/${this.account}`, {
                 method: "POST",
                 body: JSON.stringify({
+                  id: this.props.collectionId,
                   slug: this.props.collectionSlug,
                 }),
                 headers: {
