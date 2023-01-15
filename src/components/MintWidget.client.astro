@@ -13,14 +13,11 @@ export interface Props {
   maxSupply: number;
   totalSupply: number;
   whitelistMintEnabled: boolean;
+  whitelistMintFunction: string;
 }
 
 const { className = "", ...props } = Astro.props;
 ---
-
-<script define:vars={{ props }}>
-  console.log(22, props);
-</script>
 
 <div
   x-data={`mintWidget(${JSON.stringify(props)})`}
@@ -66,6 +63,7 @@ const { className = "", ...props } = Astro.props;
         message: "",
         contract: undefined,
         whitelistMintEnabled: props.whitelistMintEnabled,
+        whitelistMintFunction: props.whitelistMintFunction,
         isUserWhitelisted: false,
         whitelistProof: undefined,
         props,
@@ -173,7 +171,8 @@ const { className = "", ...props } = Astro.props;
               if (typeof this.whitelistProof === "undefined") {
                 throw new Error("No whitelist proof");
               }
-              tx = await contract.whitelistMint(
+
+              tx = await contract[this.props.whitelistMintFunction](
                 this.mintAmount,
                 this.whitelistProof,
                 {

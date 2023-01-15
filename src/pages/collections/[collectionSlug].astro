@@ -45,6 +45,7 @@ const { data } = await fetchFromAPI("/collections", {
     "contractAddress",
     "whitelistMintEnabled",
     "showTokens",
+    "whitelistMintFunction",
   ],
 });
 
@@ -216,6 +217,7 @@ const ethereumConfig =
           mintPrice={collection.mintPrice}
           startDate={collection.startDate}
           whitelistMintEnabled={collection.whitelistMintEnabled}
+          whitelistMintFunction={collection.whitelistMintFunction}
         />
       </div>
       <h6 class="mt-4">
