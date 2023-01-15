@@ -200,7 +200,10 @@ const { className = "", ...props } = Astro.props;
         },
         decrementBtn: {
           ["x-show"]() {
-            return this.props.totalSupply < this.props.maxSupply;
+            return (
+              this.props.totalSupply < this.props.maxSupply &&
+              this.props.maxMintAmountPerTx > 1
+            );
             // return this.whitelistMintEnabled === false;
           },
           ["x-on:click"]() {
@@ -211,7 +214,10 @@ const { className = "", ...props } = Astro.props;
         },
         incrementBtn: {
           ["x-show"]() {
-            return this.props.totalSupply < this.props.maxSupply;
+            return (
+              this.props.totalSupply < this.props.maxSupply &&
+              this.props.maxMintAmountPerTx > 1
+            );
             // return this.whitelistMintEnabled === false;
           },
           ["x-on:click"]() {
