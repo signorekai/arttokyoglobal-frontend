@@ -51,7 +51,7 @@ const { className = "", ...props } = Astro.props;
       return {
         clearTimer: undefined,
         timerDuration: 4000,
-        gasLimit: 100000,
+        gasLimit: 150000,
         receipt: undefined,
         loading: false,
         error: false,
@@ -96,7 +96,6 @@ const { className = "", ...props } = Astro.props;
                 },
               });
               const res = await resp.json();
-              this.gasLimit = this.gasLimit * 10;
               this.isUserWhitelisted = res.isUserWhitelisted;
               this.whitelistProof = res.whitelistProof;
             }
