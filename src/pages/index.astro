@@ -20,7 +20,7 @@ import findIndex from "lodash/findIndex";
 import { find } from "lodash";
 
 const { data: settings } = await fetchFromAPI("/general-setting", {
-  populate: ["collections", "collections.artist"],
+  populate: ["collections", "collections.artist", "splashImage"],
 });
 
 const featuredCollectionsPromises = settings.collections.map(
@@ -123,7 +123,10 @@ projectStatusFilters.splice(0, 0, xx);
       featuredTokens.length > 0 ? (
         <div
           class="w-full overflow-hidden relative h-full marquee"
-          x-data={`marquee(${JSON.stringify(featuredTokens)})`}
+          x-data={`marquee(${JSON.stringify({
+            tokens: featuredTokens,
+            defaultImage: settings.splashImage,
+          })})`}
         >
           <div x-ref="container" />
           <section class="container container-grid lg:max-h-screen-9/10 py-8 lg:py-20 pointer-events-none">
@@ -217,12 +220,10 @@ projectStatusFilters.splice(0, 0, xx);
                     </h4>
                     <div class="flex flex-row items-center">
                       <h4 class="inline-block md:pl-5 font-normal">
-                        <strong>
-                          {
-                            featuredCollection.totalSupply
-                          }
-                        </strong>
-                        of <strong>{featuredCollection.totalTokens}</strong>{" "}
+                        <strong>{featuredCollection.totalSupply}</strong>
+                        of <strong>
+                          {featuredCollection.totalTokens}
+                        </strong>{" "}
                         minted
                       </h4>
                       <h4 class="inline-flex flex-row pl-3 justify-center items-center">

@@ -1,15 +1,23 @@
 import { generateElements, getLargestPossibleImage } from "./helpers";
 
-export function marquee(allTokens, totalAmount = 30) {
+export function marquee({tokens, totalAmount = 30, defaultImage = null}) {
   return {
-    allTokens,
-    totalAmount: totalAmount < allTokens.length ? totalAmount : allTokens.length,
+    allTokens: tokens,
+    totalAmount: totalAmount < tokens.length ? totalAmount : tokens.length,
     selectedTokens: [],
     selectedToken: undefined,
     init() {
+      console.log(10, tokens, defaultImage);
       for (var x = 0; x < totalAmount; x++) {
         const random = Math.floor(Math.random() * this.allTokens.length)
-        const token = allTokens[random];
+        const token = this.allTokens[random];
+
+        if (defaultImage !== null) {
+          this.selectedTokens.push({
+            image: defaultImage
+          });
+        }
+
         this.selectedTokens.push(token);
         const left = Math.floor(Math.random() * 100);
         const elem = `<div class="${left <= 50 ? 'animate-[marquee-right_50s_linear]' : 'animate-[marquee-left_50s_linear]' } cursor-pointer hover:opacity-40 transition-opacity absolute shadow-card bg-white opacity-20 rounded-xl" style="animation-duration: ${Math.random() * 300 + 100}s; left: ${left}%; top: ${Math.floor(Math.random()*100)}%; width: ${Math.ceil(Math.random() * 2) + 2}rem; aspect-ratio: 4 / 3"></div>`;
