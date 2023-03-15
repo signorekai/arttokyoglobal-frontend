@@ -280,16 +280,8 @@ projectStatusFilters.splice(0, 0, xx);
             class="btn btn--black btn--standard inline-flex"
             ><h4>View all collections</h4>
           </a>
-          <Dropdown
-            label="Browse"
-            id="filterBy"
-            listenTo="allCollections"
-            selects={projectStatusFilters}
-          />
         </div>
         <Carousel
-          listenTo="filterBy"
-          defaultFilter={["status", projectStatusFilters[0].filters[0][1]]}
           data={collections}
           buttonPosition={"outside"}
           className="carousel--btn-flush lg:pt-2 md:px-8 lg:px-0"
